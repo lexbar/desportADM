@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: /Users/lexbar/Web/symfony/app/config/routing_dev.yml
+    resource: /Users/lexbar/Web/desportADM/app/config/routing_dev.yml
