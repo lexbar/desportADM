@@ -1,5 +1,4 @@
-/app/config/parameters.yml
-/app/cache/*
-/app/logs/*
-*~
-*.DS_Store
+app/config/parameters.yml
+app/cache/prod/*
+app/cache/dev/*
+app/logs/*
