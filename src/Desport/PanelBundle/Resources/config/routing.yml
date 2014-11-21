@@ -1,0 +1,3 @@
+desport_panel_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: DesportPanelBundle:Default:index }
