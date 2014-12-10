@@ -1,5 +1,5 @@
-
 <?php
+namespace Desport\PanelBundle\Services;
 
 /**
  * Socket communication class.

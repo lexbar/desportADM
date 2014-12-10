@@ -4,8 +4,6 @@ namespace Desport\PanelBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
-include('httpsocket.php'); 
-
 class InstallService
 {
     private $container;
