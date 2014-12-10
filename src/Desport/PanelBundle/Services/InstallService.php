@@ -1,15 +1,19 @@
 <?php
 
-namespace Desport\PanelBundle\Controller;
+namespace Desport\PanelBundle\Services;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 include('httpsocket.php'); 
 
-class InstallController extends Controller
+class InstallService
 {
+    private $container;
+    
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
     public function createSubdomain($name, $bandwidth, $quota)
     {
 	    $username = $this->container->getParameter('directadmin_username'); 
@@ -105,11 +109,11 @@ class InstallController extends Controller
     	
     	shell_exec("mkdir $root/app/cache $root/app/logs $root/app/cache/prod $root/app/cache/dev $root/app/cache/prod/images $root/app/cache/prod/files $root/app/cache/prod/images/maps $root/web/uploads $root/web/uploads/files $root/web/uploads/avatars $root/web/uploads/routes"); //create required directories
     	
+    	shell_exec("chmod -R 775 $root/app/cache/ $root/app/logs/ $root/web/uploads/ $root/app/config/web_parameters.yml");
+    	
     	shell_exec("cp $root/app/config/parameters.yml.dist $root/app/config/parameters.yml"); //create parameters default file
     	
     	shell_exec("ln -s $root/web $root/public_html"); //sym link for public_html
-    	
-    	// TODO: Fill parameters.yml and check if installation is ok
     	
     	return true;
     	

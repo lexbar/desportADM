@@ -1,6 +1,7 @@
 parameters:
-    desport.install.class: Desport\PanelBundle\Controller\InstallController
+    desport.install.class: Desport\PanelBundle\Services\InstallService
  
 services:
     desport.install:
         class: "%desport.install.class%"
+        arguments: ['@service_container']
