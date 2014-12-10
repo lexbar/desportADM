@@ -116,15 +116,70 @@ class InstallController extends Controller
         //in background $command = 'nohup '.$com.' > /dev/null 2>>/tmp/test & echo $!';
     }
     
-    public function load($name)
+    public function fillParameters($name, $parameters_input)
     {
-        $$domain = $this->container->getParameter('directadmin_domain'); 
+        $domain = $this->container->getParameter('directadmin_domain'); 
+        $daroot = $this->container->getParameter('directadmin_root'); 
+        
+        $root = $daroot.'/'.$name.'.'.$domain;
+        
+        $config_location = $root . '/config/parameters.yml';
+        $config_dist_location = $root . '/config/parameters.yml.dist';
+        
+        $yaml = new Parser();
+        
+        if(!file_exists($config_dist_location))
+        {
+            return false;
+        }
+        else 
+        {
+            try
+            {
+                $parameters = $yaml->parse(file_get_contents($config_dist_location));
+            } 
+            catch (Exception $e)
+            {
+                return false;
+            }   
+        }
+        
+        //Combine current parameters with input parameters
+        array_replace_recursive($parameters, $parameters_input);
+        
+        $dumper = new Dumper();
+        try
+        {
+            $yaml = $dumper->dump($parameters, 4);
+            
+            file_put_contents($config_location, $yaml);
+            
+            return true;
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
+    }
+    
+    public function loadDatabase($name)
+    {
+        $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
         $root = $daroot.'/'.$name.'.'.$domain;
         
         shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
 	
-        // Call to inner method to insert in database required first data
+        $result = shell_exec("php $root/app/console colecta:install"); //install
+        
+        if($result == 'DONE')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
