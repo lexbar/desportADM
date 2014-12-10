@@ -42,19 +42,35 @@ class DefaultController extends Controller
         switch($this->get('request')->query->get('f'))
         {
             case '1':
-                    $install->createSubdomain($name, $bandwidth, $quota);
+                    if(! $install->createSubdomain($name, $bandwidth, $quota))
+                    {
+                        throw new NotFoundHttpException();
+                    }
+                    
             break;
             case '2':
-                    $install->createDatabase($name, $password);
+                    if(! $install->createDatabase($name, $password))
+                    {
+                        throw new NotFoundHttpException();
+                    }
             break;
             case '3':
-                    $install->cloneRepository($name);
+                    if(! $install->cloneRepository($name))
+                    {
+                        throw new NotFoundHttpException();
+                    }
             break;
             case '4':
-                    $install->fillParameters($name, $parameters);
+                    if(! $install->fillParameters($name, $parameters))
+                    {
+                        throw new NotFoundHttpException();
+                    }
             break;
             case '5':
-                    $install->loadDatabase($name);
+                    if(! $install->loadDatabase($name))
+                    {
+                        throw new NotFoundHttpException();
+                    }
             break;
         }
         
