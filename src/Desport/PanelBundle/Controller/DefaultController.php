@@ -32,7 +32,7 @@ class DefaultController extends Controller
                                     array(
                                         'remember_me'=>
                                         array(
-                                            'key' => rand(0, getrandmax()) . rand(0, getrandmax());
+                                            'key' => rand(0, getrandmax()) . rand(0, getrandmax())
                                         )
                                     )
                                 )
