@@ -23,8 +23,6 @@ class DefaultController extends Controller
                                 'database_user' => $name,
                                 'database_password' => $password
                                 // ... 
-                                )
-                                
                             ),
                             'security'=>
                             array(
@@ -39,7 +37,7 @@ class DefaultController extends Controller
                                     )
                                 )
                             )
-        ;
+        );
         
         switch($this->get('request')->query->get('f'))
         {
