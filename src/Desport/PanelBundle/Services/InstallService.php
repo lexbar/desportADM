@@ -3,6 +3,8 @@
 namespace Desport\PanelBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Dumper;
 
 class InstallService
 {
