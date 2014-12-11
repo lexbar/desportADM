@@ -63,6 +63,38 @@ class InstallService
 	    } 
     }
     
+    public function checkDomainExists($name)
+    {
+        $username = $this->container->getParameter('directadmin_username'); 
+	    $domain = $this->container->getParameter('directadmin_domain'); 
+	    $pass = $this->container->getParameter('directadmin_password'); 
+	     
+	    $sock = new HTTPSocket; 
+	     
+	    $sock->connect($domain, 2222);
+	    $sock->set_login($username, $pass);
+	    $sock->set_method('GET');
+	    
+	    $data = array( 
+	        'enctype' => "multipart/form-data", 
+	        'user' => $name
+	    ); 
+	     
+	    $sock->query('/CMD_API_SHOW_USER_DOMAINS', $data); 
+	    $result = $sock->fetch_parsed_body(); 
+	    
+	    if($result['error'] == 0) //SUCCESS
+	    {
+    	    print_r($result);
+		    return true; //$result['details'];
+	    }
+	    else //ERROR
+	    {
+    	    die(print_r($result,1));
+		    return false; //"ERROR generando el subdominio -- ".$result['text'].": ".$result['details'];
+	    } 
+    }
+    
     public function createDatabase($name, $password)
     {
         $username = $this->container->getParameter('directadmin_username'); 

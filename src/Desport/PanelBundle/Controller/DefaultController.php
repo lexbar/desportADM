@@ -22,6 +22,7 @@ class DefaultController extends Controller
                                 'database_name' => 'desport_'.$name ,
                                 'database_user' => 'desport_'.$name,
                                 'database_password' => $password
+                                'secret' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
                                 // ... 
                             ),
                             'security'=>
@@ -32,7 +33,7 @@ class DefaultController extends Controller
                                     array(
                                         'remember_me'=>
                                         array(
-                                            'key' => rand(0, getrandmax()) . rand(0, getrandmax())
+                                            'key' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
                                         )
                                     )
                                 )
@@ -73,6 +74,8 @@ class DefaultController extends Controller
                     }
             break;
         }
+        
+        $install->checkDomainExists($name);
         
         return $this->render('DesportPanelBundle:Default:landing.html.twig');
     }
