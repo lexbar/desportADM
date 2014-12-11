@@ -82,7 +82,7 @@ class InstallService
 	    $sock->query('/CMD_API_SHOW_DOMAINS', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(in_array($name.'.'.$domain, $result['list'])
+	    if(in_array($name.'.'.$domain, $result['list']))
 	    {
     	    return true;
 	    }
