@@ -15,7 +15,7 @@ class DefaultController extends Controller
         $name = 'test';
         $bandwidth = 0;
         $quota = 1000;
-        $password = md5(time() . rand());
+        $password = 'DE' . md5(time() . rand());
         $parameters = array(
                             'parameters'=>
                             array(
