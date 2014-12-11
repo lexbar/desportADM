@@ -20,7 +20,7 @@ class DefaultController extends Controller
                             'parameters'=>
                             array(
                                 'database_name' => 'desport_'.$name ,
-                                'database_user' => $name,
+                                'database_user' => 'desport_'.$name,
                                 'database_password' => $password
                                 // ... 
                             ),
