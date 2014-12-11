@@ -184,7 +184,7 @@ class InstallService
         
         $root = $daroot.'/'.$name.'.'.$domain;
         
-        shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
+        echo shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
 	
         $result = shell_exec("php $root/app/console colecta:install"); //install
         
@@ -194,6 +194,7 @@ class InstallService
         }
         else
         {
+            print_r($result);
             return false;
         }
     }
