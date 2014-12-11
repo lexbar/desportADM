@@ -21,7 +21,7 @@ class DefaultController extends Controller
                             array(
                                 'database_name' => 'desport_'.$name ,
                                 'database_user' => 'desport_'.$name,
-                                'database_password' => $password
+                                'database_password' => $password,
                                 'secret' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
                                 // ... 
                             ),
