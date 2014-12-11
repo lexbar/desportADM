@@ -136,6 +136,8 @@ class InstallService
         
         $yaml = new Parser();
         
+        echo $config_dist_location . "<br>";
+        
         if(!file_exists($config_dist_location))
         {
             return false;
@@ -148,14 +150,18 @@ class InstallService
             } 
             catch (Exception $e)
             {
+                echo("EXCEPTION");
                 return false;
             }   
         }
         
         //Combine current parameters with input parameters
-        array_replace_recursive($parameters, $parameters_input);
+        $parameters = array_replace_recursive($parameters, $parameters_input);
+        
+        echo(print_r($parameters));
         
         $dumper = new Dumper();
+        
         try
         {
             $yaml = $dumper->dump($parameters, 4);
@@ -166,6 +172,7 @@ class InstallService
         }
         catch (Exception $e)
         {
+            echo("EXCEPTION");
             return false;
         }
     }
