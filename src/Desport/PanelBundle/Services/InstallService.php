@@ -76,7 +76,7 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data", 
 	        'action' => 'create', 
-	        'name' => 'desport_'.$name, 
+	        'name' => $name, 
 	        'user' => $name,
 	        'passwd' => $password,
 	        'passwd2' => $password 
