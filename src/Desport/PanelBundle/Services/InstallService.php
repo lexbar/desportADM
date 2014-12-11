@@ -91,7 +91,9 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    die(print_r($result,1));
+    	    echo (print_r($result,1));
+    	    echo "<br>";
+    	    echo ($data);
 		    return false; //"ERROR generando la base de datos -- ".$result['text'].": ".$result['details'];
 	    } 
     }
