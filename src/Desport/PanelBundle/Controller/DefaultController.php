@@ -10,81 +10,55 @@ class DefaultController extends Controller
 {
     public function landingAction()
     {
-        $install = $this->get("desport.install");
         
-        $name = 'test';
-        $bandwidth = 0;
-        $quota = 1000;
-        $password = 'DE' . md5(time() . rand());
-        $parameters = array(
-                            'parameters'=>
-                            array(
-                                'database_name' => 'desport_'.$name ,
-                                'database_user' => 'desport_'.$name,
-                                'database_password' => $password,
-                                'secret' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
-                                // ... 
-                            ),
-                            'security'=>
-                            array(
-                                'firewalls'=>
+        $newdomain = $this->get('request')->query->get('newdomain');
+        
+        if($newdomain)
+        {
+            $install = $this->get("desport.install");
+        
+            $name = $newdomain;
+            $bandwidth = 0;
+            $quota = 1000;
+            $password = 'DE' . md5(time() . rand());
+            $parameters = array(
+                                'parameters'=>
                                 array(
-                                    'main'=>
+                                    'database_name' => 'desport_'.$name ,
+                                    'database_user' => 'desport_'.$name,
+                                    'database_password' => $password,
+                                    'secret' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
+                                    // ... 
+                                ),
+                                'security'=>
+                                array(
+                                    'firewalls'=>
                                     array(
-                                        'remember_me'=>
+                                        'main'=>
                                         array(
-                                            'key' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
+                                            'remember_me'=>
+                                            array(
+                                                'key' => rand(0, getrandmax()) . rand(0, getrandmax()) // change with a random character based function
+                                            )
                                         )
                                     )
                                 )
-                            )
-        );
-        
-        switch($this->get('request')->query->get('f'))
-        {
-            case '1':
-                    if(! $install->createSubdomain($name, $bandwidth, $quota))
-                    {
-                        throw new NotFoundHttpException();
-                    }
-                    
-            break;
-            case '2':
-                    if(! $install->createDatabase($name, $password))
-                    {
-                        throw new NotFoundHttpException();
-                    }
-            break;
-            case '3':
-                    if(! $install->cloneRepository($name))
-                    {
-                        throw new NotFoundHttpException();
-                    }
-            break;
-            case '4':
-                    if(! $install->fillParameters($name, $parameters))
-                    {
-                        throw new NotFoundHttpException();
-                    }
-            break;
-            case '5':
-                    if(! $install->loadDatabase($name))
-                    {
-                        throw new NotFoundHttpException();
-                    }
-            break;
-        }
-        
-        if($this->get('request')->query->get('check'))
-        {
-            if($install->checkDomainExists($this->get('request')->query->get('check')))
+            );
+            
+            if(!$install->checkDomainExists($name))
             {
-                echo('TRUE');
+                $install->createSubdomain($name, $bandwidth, $quota);
             }
-            else
-            {
-                echo('FALSE');
-            }
+            
+            $install->createDatabase($name, $password);
+            
+            $install->cloneRepository($name);
+            
+            $install->fillParameters($name, $parameters);
+            
+            $install->loadDatabase($name);
+            
+            echo('INSTALLED');
         }
         
         

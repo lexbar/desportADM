@@ -58,7 +58,7 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    die(print_r($result,1));
+    	    //die(print_r($result,1));
 		    return false; //"ERROR generando el subdominio -- ".$result['text'].": ".$result['details'];
 	    } 
     }
@@ -122,9 +122,9 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    echo (print_r($result,1));
-    	    echo "<br>";
-    	    echo print_r($data,1);
+    	    //echo (print_r($result,1));
+    	    //echo "<br>";
+    	    //echo print_r($data,1);
 		    return false; //"ERROR generando la base de datos -- ".$result['text'].": ".$result['details'];
 	    } 
     }
@@ -165,8 +165,6 @@ class InstallService
         
         $yaml = new Parser();
         
-        echo $config_dist_location . "<br>";
-        
         if(!file_exists($config_dist_location))
         {
             return false;
@@ -179,7 +177,7 @@ class InstallService
             } 
             catch (Exception $e)
             {
-                echo("EXCEPTION");
+                //echo("EXCEPTION");
                 return false;
             }   
         }
@@ -187,7 +185,7 @@ class InstallService
         //Combine current parameters with input parameters
         $parameters = array_replace_recursive($parameters, $parameters_input);
         
-        echo(print_r($parameters));
+        //echo(print_r($parameters));
         
         $dumper = new Dumper();
         
@@ -201,7 +199,7 @@ class InstallService
         }
         catch (Exception $e)
         {
-            echo("EXCEPTION");
+            //echo("EXCEPTION");
             return false;
         }
     }
@@ -213,7 +211,7 @@ class InstallService
         
         $root = $daroot.'/'.$name.'.'.$domain;
         
-        echo shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
+        shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
 	
         $result = shell_exec("php $root/app/console colecta:install"); //install
         
