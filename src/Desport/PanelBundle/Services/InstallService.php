@@ -131,8 +131,8 @@ class InstallService
         
         $root = $daroot.'/'.$name.'.'.$domain;
         
-        $config_location = $root . '/config/parameters.yml';
-        $config_dist_location = $root . '/config/parameters.yml.dist';
+        $config_location = $root . '/app/config/parameters.yml';
+        $config_dist_location = $root . '/app/config/parameters.yml.dist';
         
         $yaml = new Parser();
         
