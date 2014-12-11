@@ -93,7 +93,7 @@ class InstallService
 	    {
     	    echo (print_r($result,1));
     	    echo "<br>";
-    	    echo ($data);
+    	    echo print_r($data,1);
 		    return false; //"ERROR generando la base de datos -- ".$result['text'].": ".$result['details'];
 	    } 
     }
