@@ -75,7 +75,18 @@ class DefaultController extends Controller
             break;
         }
         
-        $install->checkDomainExists($name);
+        if($this->get('request')->query->get('check'))
+        {
+            if($install->checkDomainExists($this->get('request')->query->get('check')))
+            {
+                echo('TRUE');
+            }
+            else
+            {
+                echo('FALSE');
+            }
+        }
+        
         
         return $this->render('DesportPanelBundle:Default:landing.html.twig');
     }
