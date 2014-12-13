@@ -11,12 +11,11 @@ class DefaultController extends Controller
     public function landingAction()
     {
         
+        $install = $this->get("desport.install");
         $newdomain = $this->get('request')->query->get('newdomain');
         
         if($newdomain)
         {
-            $install = $this->get("desport.install");
-        
             $name = $newdomain;
             $bandwidth = 0;
             $quota = 1000;
