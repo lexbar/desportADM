@@ -47,21 +47,20 @@ class DefaultController extends Controller
             if(!$install->checkDomainExists($name))
             {
                 $install->createSubdomain($name, $bandwidth, $quota);
-                
-                $install->createDatabase($name, $password);
+            }
             
-                $install->cloneRepository($name);
-                
-                $install->fillParameters($name, $parameters);
-                
-                $install->loadDatabase($name);
-                
-                echo('INSTALLED');
-            }
-            else
+            if(!$install->checkDatabaseExists($name))
             {
-                echo('DOMAIN EXISTS');
+                $install->createDatabase($name, $password);
             }
+            
+            if(!$install->checkRepositoryExists($name))
+            {
+                $install->cloneRepository($name);
+                $install->fillParameters($name, $parameters);
+            }
+            
+            $install->loadDatabase($name);
         }
         
         $install->checkDatabaseExists($name);

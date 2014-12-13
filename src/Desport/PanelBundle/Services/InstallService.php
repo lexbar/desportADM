@@ -14,6 +14,7 @@ class InstallService
     {
         $this->container = $container;
     }
+    
     public function createSubdomain($name, $bandwidth, $quota)
     {
 	    $username = $this->container->getParameter('directadmin_username'); 
@@ -148,15 +149,14 @@ class InstallService
 	    $sock->query('/CMD_API_DATABASES', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    print_r($result);
-	    /*if(in_array($name.'.'.$domain, $result['list']))
+	    if(in_array($username.'_'.$name, $result['list']))
 	    {
     	    return true;
 	    }
 	    else
 	    {
     	    return false;
-	    }*/
+	    }
     }
     
     public function cloneRepository($name)
@@ -181,6 +181,23 @@ class InstallService
     	return true;
     	
         //in background $command = 'nohup '.$com.' > /dev/null 2>>/tmp/test & echo $!';
+    }
+    
+    public function checkRepositoryExists($name)
+    {
+        $domain = $this->container->getParameter('directadmin_domain'); 
+        $daroot = $this->container->getParameter('directadmin_root'); 
+        
+        $root = $daroot.'/'.$name.'.'.$domain;
+        
+        if(file_exists($root.'/app/config/parameters.yml'))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public function fillParameters($name, $parameters_input)
