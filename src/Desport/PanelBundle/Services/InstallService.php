@@ -129,6 +129,36 @@ class InstallService
 	    } 
     }
     
+    public function checkDatabaseExists($name)
+    {
+        $username = $this->container->getParameter('directadmin_username'); 
+	    $domain = $this->container->getParameter('directadmin_domain'); 
+	    $pass = $this->container->getParameter('directadmin_password'); 
+	     
+	    $sock = new HTTPSocket; 
+	     
+	    $sock->connect($domain, 2222);
+	    $sock->set_login($username, $pass);
+	    $sock->set_method('GET');
+	    
+	    $data = array( 
+	        'enctype' => "multipart/form-data"
+	    ); 
+	     
+	    $sock->query('/CMD_API_DATABASES', $data); 
+	    $result = $sock->fetch_parsed_body(); 
+	    
+	    print_r($result);
+	    /*if(in_array($name.'.'.$domain, $result['list']))
+	    {
+    	    return true;
+	    }
+	    else
+	    {
+    	    return false;
+	    }*/
+    }
+    
     public function cloneRepository($name)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
