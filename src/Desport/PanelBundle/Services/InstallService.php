@@ -149,7 +149,7 @@ class InstallService
 	    $sock->query('/CMD_API_DATABASES', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(in_array($username.'_'.$name, $result['list']))
+	    if(is_array($result['list']) && in_array($username.'_'.$name, $result['list']))
 	    {
     	    return true;
 	    }
