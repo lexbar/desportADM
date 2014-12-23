@@ -84,7 +84,7 @@ class DefaultController extends Controller
                 
                 if($install->removeRepository($removedomain))
                 {
-                    echo "Repository Removed":
+                    echo "Repository Removed";
                 }
                 
                 if($install->deleteDomain($removedomain))
