@@ -5,7 +5,6 @@ namespace Desport\PanelBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Security\Core\Util\SecureRandom;
 
 class DefaultController extends Controller
 {
@@ -17,8 +16,7 @@ class DefaultController extends Controller
         
         if($newdomain)
         {
-            $secure_random = new SecureRandom();
-            $random = $secure_random->nextBytes(16);
+            $random = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 8)), 0, 36);
             
             $name = $newdomain;
             $bandwidth = 0;
