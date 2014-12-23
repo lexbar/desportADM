@@ -13,6 +13,7 @@ class DefaultController extends Controller
         
         $install = $this->get("desport.install");
         $newdomain = $this->get('request')->query->get('newdomain');
+        $removedomain = $this->get('request')->query->get('removedomain');
         
         if($newdomain)
         {
@@ -69,6 +70,28 @@ class DefaultController extends Controller
             }
             
             $install->loadDatabase($name);
+        }
+        
+        if($removedomain)
+        {
+            $directadmin_domain = $this->container->getParameter('directadmin_domain');
+            if( $install->checkDomainExists($removedomain) && $removedomain != $directadmin_domain )
+            {
+                if($install->deleteDatabase($removedomain))
+                {
+                    echo "Database Removed<br>";
+                }
+                
+                if($install->removeRepository($removedomain))
+                {
+                    echo "Repository Removed":
+                }
+                
+                if($install->deleteDomain($removedomain))
+                {
+                    echo "Domain Removed<br>";
+                }
+            }
         }
         
         return $this->render('DesportPanelBundle:Default:landing.html.twig');

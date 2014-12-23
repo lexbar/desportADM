@@ -93,6 +93,31 @@ class InstallService
 	    }
     }
     
+    public function deleteDomain($name) // CAREFUL !!! NO WAY BACK
+    {
+        $username = $this->container->getParameter('directadmin_username'); 
+	    $domain = $this->container->getParameter('directadmin_domain'); 
+	    $pass = $this->container->getParameter('directadmin_password'); 
+	     
+	    $sock = new HTTPSocket; 
+	     
+	    $sock->connect($domain, 2222);
+	    $sock->set_login($username, $pass);
+	    $sock->set_method('POST');
+	    
+	    $data = array( 
+	        'enctype' => "multipart/form-data",
+	        'delete' => 'anything',
+	        'confirmed' => 'anything',
+	        'select0' => $name.'.'.$domain
+	    ); 
+	     
+	    $sock->query('/CMD_API_DOMAIN', $data); 
+	    $result = $sock->fetch_parsed_body(); 
+	    
+	    return true; // sometimes it can fail partially
+    }
+    
     public function createDatabase($name, $password)
     {
         $username = $this->container->getParameter('directadmin_username'); 
@@ -159,6 +184,30 @@ class InstallService
 	    }
     }
     
+    public function deleteDatabase($name) // CAREFUL !!! NO WAY BACK
+    {
+        $username = $this->container->getParameter('directadmin_username'); 
+	    $domain = $this->container->getParameter('directadmin_domain'); 
+	    $pass = $this->container->getParameter('directadmin_password'); 
+	     
+	    $sock = new HTTPSocket; 
+	     
+	    $sock->connect($domain, 2222);
+	    $sock->set_login($username, $pass);
+	    $sock->set_method('POST');
+	    
+	    $data = array( 
+	        'enctype' => "multipart/form-data",
+	        'action' => 'delete',
+	        'select0' => $username.'_'.$name
+	    ); 
+	     
+	    $sock->query('/CMD_API_DATABASES', $data); 
+	    $result = $sock->fetch_parsed_body(); 
+	    
+	    return true; 
+    }
+    
     public function cloneRepository($name)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
@@ -198,6 +247,18 @@ class InstallService
         {
             return false;
         }
+    }
+    
+    public function removeRepository($name)
+    {
+        $domain = $this->container->getParameter('directadmin_domain'); 
+        $daroot = $this->container->getParameter('directadmin_root'); 
+        
+        $root = $daroot.'/'.$name.'.'.$domain;
+    	
+    	shell_exec("rm -rf $root"); // clean all files (REMOVE)
+    	
+    	return true;
     }
     
     public function fillParameters($name, $parameters_input)
@@ -251,16 +312,33 @@ class InstallService
         }
     }
     
-    public function loadDatabase($name, $admin_mail = '')
+    public function loadDatabase($name, $admin_mail = '', $admin_username = '')
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
         $root = $daroot.'/'.$name.'.'.$domain;
         
+        // Add whitespaces to admin mail and username
+        if(!empty($admin_mail))
+        {
+            $admin_mail = ' ' . $admin_mail;
+            
+            if(!empty($admin_username))
+            {
+                $admin_username = ' ' . $admin_username;
+            }
+        }
+        else
+        {
+            $admin_username = '';
+        }
+        
+        
+        
         shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
 	
-        $result = shell_exec("php $root/app/console colecta:install " . $admin_mail ); //install
+        $result = shell_exec("php $root/app/console colecta:install" . $admin_mail . $admin_username ); //install
         
         if($result == 'DONE')
         {
