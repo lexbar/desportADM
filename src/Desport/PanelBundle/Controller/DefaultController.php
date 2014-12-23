@@ -33,7 +33,7 @@ class DefaultController extends Controller
                                     'mailer_host' => $this->container->getParameter('mailer_host'),
                                     'mailer_user' => $this->container->getParameter('mailer_user'),
                                     'mailer_password' => $this->container->getParameter('mailer_password'),
-                                    'mail' => array('from' => $this->container->getParameter('mailer_from')),
+                                    'mail' => array('from' => $this->container->getParameter('mail_from')),
                                     'secret' => $random
                                     // ... 
                                 ),
@@ -70,8 +70,6 @@ class DefaultController extends Controller
             
             $install->loadDatabase($name);
         }
-        
-        $install->checkDatabaseExists($name);
         
         return $this->render('DesportPanelBundle:Default:landing.html.twig');
     }
