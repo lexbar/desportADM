@@ -18,7 +18,7 @@ class DefaultController extends Controller
         if($newdomain)
         {
             $secure_random = new SecureRandom();
-            $random = $generator->nextBytes(16);
+            $random = $secure_random->nextBytes(16);
             
             $name = $newdomain;
             $bandwidth = 0;
