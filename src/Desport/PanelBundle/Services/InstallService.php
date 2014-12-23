@@ -251,7 +251,7 @@ class InstallService
         }
     }
     
-    public function loadDatabase($name)
+    public function loadDatabase($name, $admin_mail = '')
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
@@ -260,7 +260,7 @@ class InstallService
         
         shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
 	
-        $result = shell_exec("php $root/app/console colecta:install"); //install
+        $result = shell_exec("php $root/app/console colecta:install " . $admin_mail ); //install
         
         if($result == 'DONE')
         {
