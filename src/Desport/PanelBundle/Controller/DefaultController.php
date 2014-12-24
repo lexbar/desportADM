@@ -53,10 +53,11 @@ class DefaultController extends Controller
                                 )
             );
             
-            if(!$install->checkDomainExists($name))
+            if($install->checkDomainExists($name))
             {
-                $install->createSubdomain($name, $bandwidth, $quota);
+                $install->deleteDomain($name) //DANGEROUS CHANGE!!
             }
+            $install->createSubdomain($name, $bandwidth, $quota);
             
             if(!$install->checkDatabaseExists($name))
             {
@@ -68,6 +69,8 @@ class DefaultController extends Controller
                 $install->cloneRepository($name);
                 $install->fillParameters($name, $parameters);
             }
+            
+            sleep(6);
             
             $install->loadDatabase($name, $request->get('admin_mail'), $request->get('admin_username'));
         }
