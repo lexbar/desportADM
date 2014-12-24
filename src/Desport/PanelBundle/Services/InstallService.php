@@ -246,7 +246,7 @@ class InstallService
         }
     }
     
-    public function v($name)
+    public function removeRepository($name)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
