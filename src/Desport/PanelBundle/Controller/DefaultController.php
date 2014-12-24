@@ -24,17 +24,17 @@ class DefaultController extends Controller
                 $directadmin_domain = $this->container->getParameter('directadmin_domain');
                 if( $name != $directadmin_domain )
                 {
-                    if($install->deleteDatabase($name))
+                    if($install->checkDatabaseExists($name) && $install->deleteDatabase($name))
                     {
                         echo "Database Removed<br>";
                     }
                     
-                    if($install->removeRepository($name))
+                    if($install->checkRepositoryExists($name) && $install->removeRepository($name))
                     {
                         echo "Repository Removed<br>";
                     }
                     
-                    if($install->deleteDomain($name))
+                    if($install->checkDomainExists($name) && $install->deleteDomain($name))
                     {
                         echo "Domain Removed<br>";
                     }
