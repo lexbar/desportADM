@@ -12,14 +12,14 @@ class DefaultController extends Controller
     {
         
         $install = $this->get("desport.install");
-        $newdomain = $this->get('request')->query->get('newdomain');
-        $removedomain = $this->get('request')->query->get('removedomain');
         
-        if($newdomain)
+        if ($this->get('request')->getMethod() == 'POST') 
         {
+            $request = $this->get('request')->request;
+            
             $random = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 8)), 0, 36);
             
-            $name = $newdomain;
+            $name = $request->get('name');
             $bandwidth = 0;
             $quota = 1000;
             $password = 'DE' . md5(time() . rand() . $random);
@@ -69,10 +69,10 @@ class DefaultController extends Controller
                 $install->fillParameters($name, $parameters);
             }
             
-            $install->loadDatabase($name);
+            $install->loadDatabase($name, $request->get('admin_mail'), $request->get('admin_username'));
         }
         
-        if($removedomain)
+        /*if($removedomain)
         {
             $directadmin_domain = $this->container->getParameter('directadmin_domain');
             if( $install->checkDomainExists($removedomain) && $removedomain != $directadmin_domain )
@@ -84,7 +84,7 @@ class DefaultController extends Controller
                 
                 if($install->removeRepository($removedomain))
                 {
-                    echo "Repository Removed";
+                    echo "Repository Removed<br>";
                 }
                 
                 if($install->deleteDomain($removedomain))
@@ -92,8 +92,15 @@ class DefaultController extends Controller
                     echo "Domain Removed<br>";
                 }
             }
-        }
+        }*/
         
-        return $this->render('DesportPanelBundle:Default:landing.html.twig');
+        if($this->get('request')->query->get('safe'))
+        {
+            return $this->render('DesportPanelBundle:Default:landing.html.twig');
+        }
+        else
+        {
+            throw new NotFoundHttpException();
+        }
     }
 }

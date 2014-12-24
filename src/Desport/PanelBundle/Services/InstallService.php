@@ -148,9 +148,6 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    //echo (print_r($result,1));
-    	    //echo "<br>";
-    	    //echo print_r($data,1);
 		    return false; //"ERROR generando la base de datos -- ".$result['text'].": ".$result['details'];
 	    } 
     }
@@ -249,7 +246,7 @@ class InstallService
         }
     }
     
-    public function removeRepository($name)
+    public function v($name)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
