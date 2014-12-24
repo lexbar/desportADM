@@ -17,22 +17,24 @@ class DefaultController extends Controller
         {
             $request = $this->get('request')->request;
             
+            $name = $request->get('name');
+            
             if($this->get('request')->query->get('delete'))
             {
                 $directadmin_domain = $this->container->getParameter('directadmin_domain');
-                if( $install->checkDomainExists($removedomain) && $removedomain != $directadmin_domain )
+                if( $install->checkDomainExists($name) && $name != $directadmin_domain )
                 {
-                    if($install->deleteDatabase($removedomain))
+                    if($install->deleteDatabase($name))
                     {
                         echo "Database Removed<br>";
                     }
                     
-                    if($install->removeRepository($removedomain))
+                    if($install->removeRepository($name))
                     {
                         echo "Repository Removed<br>";
                     }
                     
-                    if($install->deleteDomain($removedomain))
+                    if($install->deleteDomain($name))
                     {
                         echo "Domain Removed<br>";
                     }
@@ -43,7 +45,7 @@ class DefaultController extends Controller
             
             $random = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 8)), 0, 36);
             
-            $name = $request->get('name');
+            
             $bandwidth = 0;
             $quota = 1000;
             $password = 'DE' . md5(time() . rand() . $random);
