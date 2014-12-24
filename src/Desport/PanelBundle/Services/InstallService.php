@@ -253,7 +253,7 @@ class InstallService
         
         $root = $daroot.'/'.$name.'.'.$domain;
     	
-    	shell_exec("rm -rf $root"); // clean all files (REMOVE)
+    	echo shell_exec("rm -rf $root"); // clean all files (REMOVE)
     	
     	return true;
     }
