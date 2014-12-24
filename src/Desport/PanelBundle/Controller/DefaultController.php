@@ -17,6 +17,30 @@ class DefaultController extends Controller
         {
             $request = $this->get('request')->request;
             
+            if($this->get('request')->query->get('delete'))
+            {
+                $directadmin_domain = $this->container->getParameter('directadmin_domain');
+                if( $install->checkDomainExists($removedomain) && $removedomain != $directadmin_domain )
+                {
+                    if($install->deleteDatabase($removedomain))
+                    {
+                        echo "Database Removed<br>";
+                    }
+                    
+                    if($install->removeRepository($removedomain))
+                    {
+                        echo "Repository Removed<br>";
+                    }
+                    
+                    if($install->deleteDomain($removedomain))
+                    {
+                        echo "Domain Removed<br>";
+                    }
+                }
+                
+                return $this->render('DesportPanelBundle:Default:landing.html.twig');
+            }
+            
             $random = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 8)), 0, 36);
             
             $name = $request->get('name');
@@ -55,9 +79,8 @@ class DefaultController extends Controller
             
             if($install->checkDomainExists($name))
             {
-                $install->deleteDomain($name) //DANGEROUS CHANGE!!
+                $install->createSubdomain($name, $bandwidth, $quota);
             }
-            $install->createSubdomain($name, $bandwidth, $quota);
             
             if(!$install->checkDatabaseExists($name))
             {
