@@ -54,7 +54,14 @@ class Ticket
      *
      * @ORM\Column(name="state", type="string", length=30)
      */
-    private $state;
+    private $state; // new / open / pending reminder / pending auto close- / pending auto close+ / closed successful / closed unsuccessful
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="pending", type="datetime")
+     */
+    private $pending;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="tickets")
@@ -306,5 +313,28 @@ class Ticket
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Set pending
+     *
+     * @param \DateTime $pending
+     * @return Ticket
+     */
+    public function setPending($pending)
+    {
+        $this->pending = $pending;
+
+        return $this;
+    }
+
+    /**
+     * Get pending
+     *
+     * @return \DateTime 
+     */
+    public function getPending()
+    {
+        return $this->pending;
     }
 }

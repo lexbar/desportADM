@@ -1,0 +1,394 @@
+{% extends "::backend.html.twig" %}
+
+{% set active = 'clients' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            Clientes
+            <small>Listado de clientes</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+            <li class="active">Clientes</li>
+        </ol>
+    </section>
+    
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Listado de Clientes</h3>
+                        <div class="box-tools">
+                            <div class="input-group">
+                                <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Buscar">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody><tr>
+                                <th>Nombre</th>
+                                <th>Fase</th>
+                                <th class="hidden-xs">Comentarios</th>
+                                <th style="min-width:270px">Acciones</th>
+                            </tr>
+                            {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
+                            {% set stageLabel = {'':'default', 'contact':'warning', 'interest':'primary', 'no-interest':'danger', 'conversion':'success'} %}
+                            
+                            {% for client in clients %}
+                                <tr>
+                                    <td><strong><a href="{{ path('desport_sales_client_view', {client_id:client.id}) }}">{{ client.name }}</a></strong>{% if client.website %}<br><small>(<a href="{{ client.website }}">{{ client.website }}</a>)</small>{% endif %}</td>
+                                    <td><span class="label label-{{ stageLabel[client.stage] }}">{{ stages[client.stage] }}</span></td>
+                                    <td class="hidden-xs">{{ client.comments }}</td>
+                                    <td><a href="" class="btn btn-sm btn-default"><i class="fa fa-check-square-o"></i> Evento</a> <a href="" class="btn btn-sm btn-success"><i class="fa fa-envelope"></i> Contactar</a> <a href="{{ path('desport_sales_client_edit', {client_id:client.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Editar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody></table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+            <div class="col-lg-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Alta Nuevo Cliente</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" action="{{ path('desport_sales_client_new') }}" method="post">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="client_name">Nombre</label>
+                                <input type="text" class="form-control" id="client_name" name="client_name" placeholder="Nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_contactName">Persona de contacto</label>
+                                <input type="text" class="form-control" id="client_contactName" name="client_contactName" placeholder="Nombre de la persona">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_email">Email</label>
+                                <input type="text" class="form-control" id="client_email" name="client_email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_phone">Teléfono</label>
+                                <input type="text" class="form-control" id="client_phone" name="client_phone" placeholder="Teléfono">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_website">Web</label>
+                                <input type="text" class="form-control" id="client_website" name="client_website" placeholder="Página Web">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressCountry">País</label>
+                                <select class="form-control" name="client_addressCountry" id="client_addressCountry">
+{% set countries = {
+ "Europa":{
+  "AL":"Albania",
+  "DE":"Alemania",
+  "AD":"Andorra",
+  "AM":"Armenia",
+  "AT":"Austria",
+  "AZ":"Azerbaiyán",
+  "BE":"Bélgica",
+  "BY":"Bielorrusia",
+  "BA":"Bosnia y Herzegovina",
+  "BG":"Bulgaria",
+  "CY":"Chipre",
+  "VA":"Ciudad del Vaticano (Santa Sede}",
+  "HR":"Croacia",
+  "DK":"Dinamarca",
+  "SK":"Eslovaquia",
+  "SI":"Eslovenia",
+  "ES":"España",
+  "EE":"Estonia",
+  "FI":"Finlandia",
+  "FR":"Francia",
+  "GE":"Georgia",
+  "GR":"Grecia",
+  "HU":"Hungría",
+  "IE":"Irlanda",
+  "IS":"Islandia",
+  "IT":"Italia",
+  "XK":"Kosovo",
+  "LV":"Letonia",
+  "LI":"Liechtenstein",
+  "LT":"Lituania",
+  "LU":"Luxemburgo",
+  "MK":"Macedonia, República de",
+  "MT":"Malta",
+  "MD":"Moldavia",
+  "MC":"Mónaco",
+  "ME":"Montenegro",
+  "NO":"Noruega",
+  "NL":"Países Bajos",
+  "PL":"Polonia", 
+  "PT":"Portugal",
+  "UK":"Reino Unido",
+  "CZ":"República Checa",
+  "RO":"Rumanía", 
+  "RU":"Rusia",
+  "SM":"San Marino",
+  "SE":"Suecia", 
+  "CH":"Suiza",
+  "TR":"Turquía",
+  "UA":"Ucrania",
+  "YU":"Yugoslavia",
+ },
+ 
+  "Sudamérica":{
+  "AR":"Argentina",
+  "BO":"Bolivia",
+  "BR":"Brasil",
+  "CL":"Chile",
+  "CO":"Colombia",
+  "EC":"Ecuador",
+  "GY":"Guayana",
+  "PY":"Paraguay",
+  "PE":"Perú",
+  "SR":"Surinam",
+  "TT":"Trinidad y Tobago",
+  "UY":"Uruguay",
+  "VE":"Venezuela",
+ },
+
+ "Norteamérica y Centroamérica":{
+  "AG":"Antigua y Barbuda",
+  "BS":"Bahamas",
+  "BB":"Barbados",
+  "BZ":"Belice",
+  "CA":"Canadá",
+  "CR":"Costa Rica",
+  "CU":"Cuba",
+  "DM":"Dominica",
+  "SV":"El Salvador",
+  "US":"Estados Unidos",
+  "GD":"Granada",
+  "GT":"Guatemala",
+  "HT":"Haití",
+  "HN":"Honduras",
+  "JM":"Jamaica",
+  "MX":"México",
+  "NI":"Nicaragua",
+  "PA":"Panamá",
+  "PR":"Puerto Rico",
+  "DO":"República Dominicana",
+  "KN":"San Cristóbal y Nieves",
+  "VC":"San Vicente y Granadinas",
+  "LC":"Santa Lucía",
+ },
+
+ "África":{
+  "AO":"Angola",
+  "DZ":"Argelia",
+  "BJ":"Benín",
+  "BW":"Botswana",
+  "BF":"Burkina Faso",
+  "BI":"Burundi",
+  "CM":"Camerún",
+  "CV":"Cabo Verde",
+  "TD":"Chad",
+  "KM":"Comores",
+  "CG":"Congo",
+  "CD":"Congo, República Democrática del",
+  "CI":"Costa de Marfil",
+  "EG":"Egipto",
+  "ER":"Eritrea",
+  "ET":"Etiopía",
+  "GA":"Gabón",
+  "GM":"Gambia",
+  "GH":"Ghana",
+  "GN":"Guinea",
+  "GW":"Guinea Bissau",
+  "GQ":"Guinea Ecuatorial",
+  "KE":"Kenia",
+  "LS":"Lesoto",
+  "LR":"Liberia",
+  "LY":"Libia",
+  "MG":"Madagascar",
+  "MW":"Malawi",
+  "ML":"Malí",
+  "MA":"Marruecos",
+  "MU":"Mauricio",
+  "MR":"Mauritania",
+  "MZ":"Mozambique",
+  "NA":"Namibia",
+  "NE":"Níger",  
+  "NG":"Nigeria",
+  "CF":"República Centroafricana",
+  "ZA":"República de Sudáfrica",
+  "RW":"Ruanda",
+  "EH":"Sahara Occidental",
+  "ST":"Santo Tomé y Príncipe",
+  "SN":"Senegal",  
+  "SC":"Seychelles", 
+  "SL":"Sierra Leona",
+  "SO":"Somalia",
+  "SD":"Sudán",
+  "SS":"Sudán del Sur",
+  "SZ":"Suazilandia",
+  "TZ":"Tanzania",
+  "TG":"Togo",
+  "TN":"Túnez",
+  "UG":"Uganda",
+  "DJ":"Yibuti",
+  "ZM":"Zambia",  
+  "ZW":"Zimbabue",
+ },
+
+ "Oceanía":{
+  "AU":"Australia",
+  "FM":"Micronesia, Estados Federados de",
+  "FJ":"Fiji",
+  "KI":"Kiribati",
+  "MH":"Islas Marshall",
+  "SB":"Islas Salomón",
+  "NR":"Nauru",
+  "NZ":"Nueva Zelanda",
+  "PW":"Palaos",
+  "PG":"Papúa Nueva Guinea",
+  "WS":"Samoa",
+  "TO":"Tonga",
+  "TV":"Tuvalu", 
+  "VU":"Vanuatu", 
+ },
+
+ "Asia":{
+  "AF":"Afganistán",
+  "SA":"Arabia Saudí",
+  "BH":"Baréin",
+  "BD":"Bangladesh",
+  "MM":"Birmania",
+  "BT":"Bután",
+  "BN":"Brunéi",
+  "KH":"Camboya",
+  "CN":"China",
+  "KP":"Corea, República Popular Democrática de",
+  "KR":"Corea, República de",
+  "AE":"Emiratos Árabes Unidos",
+  "PH":"Filipinas",
+  "IN":"India",
+  "ID":"Indonesia",
+  "IQ":"Iraq", 
+  "IR":"Irán",
+  "IL":"Israel",
+  "JP":"Japón",
+  "JO":"Jordania",
+  "KZ":"Kazajistán",
+  "KG":"Kirguizistán",
+  "KW":"Kuwait",
+  "LA":"Laos",
+  "LB":"Líbano",
+  "MY":"Malasia",
+  "MV":"Maldivas",
+  "MN":"Mongolia",
+  "NP":"Nepal",
+  "OM":"Omán",
+  "PK":"Paquistán",
+  "QA":"Qatar",
+  "SG":"Singapur",
+  "SY":"Siria",
+  "LK":"Sri Lanka",
+  "TJ":"Tayikistán",
+  "TH":"Tailandia",
+  "TP":"Timor Oriental",
+  "TM":"Turkmenistán",
+  "UZ":"Uzbekistán",
+  "VN":"Vietnam",
+  "YE":"Yemen",
+ }
+} %}
+                                {% for continent, ccountries in countries %}
+                                    <optgroup label="{{ continent }}">
+                                    {% for key, name in ccountries %}
+                                        <option value="{{ key }}"{% if key == 'ES' %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressZip">Código Postal</label>
+                                <input type="text" class="form-control" id="client_addressZip" name="client_addressZip" placeholder="CP, ZIP o equivalente" onBlur="fillAddressByZip();">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressState">Area administrativa</label>
+                                <input type="text" class="form-control" id="client_addressState" name="client_addressState" placeholder="Comunidad Autónoma / Estado / ...">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressCity">Ciudad</label>
+                                <input type="text" class="form-control" id="client_addressCity" name="client_addressCity" placeholder="Ciudad">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressAddress">Dirección Postal</label>
+                                <input type="text" class="form-control" id="client_addressAddress" name="client_addressAddress" placeholder="Dirección">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_stage">Fase de la venta</label>
+                                <select class="form-control" name="client_stage" id="client_stage">
+                                    {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
+                                    {% for key,stage in stages %}
+                                        <option value="{{ key }}">{{ stage }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client_comments">Comentarios</label>
+                                <textarea rows="4" class="form-control" id="client_comments" name="client_comments"></textarea>
+                            </div>
+                        </div><!-- /.box-body -->
+                        
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-fw"></i> Crear Nuevo Cliente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+<!--
+    function fillAddressByZip() {
+        if($('#client_addressState').val() != '' && $('#client_addressCity').val() != '')
+            return false;
+        
+        var addressZip = $('#client_addressZip').val();
+        var addressCountry = $('#client_addressCountry').val();
+        var geocoder = new google.maps.Geocoder();
+        
+        if($.isNumeric(addressZip) && geocoder) {
+            geocoder.geocode({ 'address': addressZip + ',' + addressCountry }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var adm1 = '';
+                    var adm2 = '';
+                    
+                    for(var i = 0; i < results[0].address_components.length; i++) {
+                        if($.inArray("administrative_area_level_1", results[0].address_components[i].types) >= 0)
+                            adm1 = results[0].address_components[i].long_name;
+                        if($.inArray("administrative_area_level_2", results[0].address_components[i].types) >= 0)
+                            adm2 = results[0].address_components[i].long_name;
+                    }
+                    
+                    if($('#client_addressState').val() == '')
+                        $('#client_addressState').val(adm1);
+                        
+                    if($('#client_addressCity').val() == '')
+                        $('#client_addressCity').val(adm2);
+                        
+                    console.log(results[0].address_components);
+                }
+                else {
+                    console.log("Geocoding failed: " + status);
+                }
+            });
+        }
+        
+        return false;
+    }
+-->
+</script>
+{% endblock %}

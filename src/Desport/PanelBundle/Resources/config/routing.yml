@@ -1,3 +1,19 @@
-desport_landing:
-    path:     /
-    defaults: { _controller: DesportPanelBundle:Default:landing }
+desport_admin_dashboard:
+    path:     /admin/
+    defaults: { _controller: DesportPanelBundle:Default:dashboard }
+
+desport_sales_client_index:
+    path:     /sales/client/
+    defaults: { _controller: DesportPanelBundle:Client:index }
+desport_sales_client_new:
+    path:     /sales/client/new/
+    defaults: { _controller: DesportPanelBundle:Client:new }
+desport_sales_client_view:
+    pattern:     /sales/client/view/{client_id}/
+    defaults: { _controller: DesportPanelBundle:Client:view }
+desport_sales_client_edit:
+    pattern:     /sales/client/edit/{client_id}/
+    defaults: { _controller: DesportPanelBundle:Client:edit }
+desport_sales_client_stage:
+    pattern:     /sales/client/stage/{client_id}/
+    defaults: { _controller: DesportPanelBundle:Client:stage }

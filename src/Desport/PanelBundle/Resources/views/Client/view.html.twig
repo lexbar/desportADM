@@ -1,0 +1,125 @@
+{% extends "::backend.html.twig" %}
+
+{% set active = 'clients' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            Cliente
+            <small>{{ client.name }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+            <li><a href="{{ path('desport_sales_client_index') }}">Clientes</a></li>
+            <li class="active">Vista Cliente</li>
+        </ol>
+    </section>
+    
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Datos de contacto</h3>
+                        <div class="box-tools pull-right">
+                            <a class="btn btn-default" href="{{ path('desport_sales_client_edit', {client_id:client.id}) }}"><i class="fa fa-edit"></i> Editar</a>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <dl class="dl-horizontal">
+                            <dt>Nombre del Cliente</dt>
+                            <dd>{{ client.name }}</dd>
+                            <dt>Persona de contacto</dt>
+                            <dd>{{ client.contactName | default('?') }}</dd>
+                            <dt>Teléfono</dt>
+                            <dd>{{ client.phone | default('?') }}</dd>
+                            <dt>Email</dt>
+                            <dd>{{ client.email | default('?') }}</dd>
+                            <dt>Página web</dt>
+                            <dd>{{ client.website | default('?') }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                
+                
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Venta</h3>
+                    </div>
+                    <div class="box-body">
+                        {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
+                        {% set stageLabel = {'':'default', 'contact':'warning', 'interest':'primary', 'no-interest':'danger', 'conversion':'success'} %}
+                        
+                        <p class="lead">Fase de la venta: <span class="label label-{{ stageLabel[client.stage] }}">{{ stages[client.stage] }}</span></p>
+                        
+                        <form role="form" action="{{ path('desport_sales_client_stage', {client_id:client.id}) }}" method="post">
+                            <div class="form-group">
+                                <label for="client_stage">Modificar a:</label>
+                                <select class="form-control" name="client_stage" id="client_stage">
+                                    {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
+                                    {% for key,stage in stages %}
+                                        <option value="{{ key }}"{% if key == client.stage %} selected="selected"{% endif %}>{{ stage }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client_comments">Comentarios</label>
+                                <textarea rows="4" class="form-control" id="client_comments" name="client_comments">{{ client.comments }}</textarea>
+                            </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-edit fa-fw"></i> Modificar datos de venta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Ubicación</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>{{ client.addressFull | default('No hay dirección establecida para este cliente.') }}</p>
+                        {% if client.addressFull %}
+                        <div id="map-canvas" style="height:200px"></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% if client.addressFull %}
+    {% block javascripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+    
+    function setmap(address) {
+        geocoder = new google.maps.Geocoder();
+        
+        geocoder.geocode( { 'address': '{{ client.addressFull }}'}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var mapOptions = {
+                    zoom: 5,
+                    center: results[0].geometry.location
+                }
+                
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+    
+    google.maps.event.addDomListener(window, 'load', setmap);
+    
+    </script>
+    {% endblock %}
+{% endif %}

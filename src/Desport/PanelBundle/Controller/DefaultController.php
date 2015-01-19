@@ -8,7 +8,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DefaultController extends Controller
 {
-    public function landingAction()
+    public function dashboardAction()
+    {
+        return $this->render('DesportPanelBundle:Default:dashboard.html.twig');
+    }
+    public function headerNavbarAction()
+    {
+        return $this->render('DesportPanelBundle:Default:headerNavbar.html.twig');
+    }
+    public function sidebarAction($active = '')
+    {
+        return $this->render('DesportPanelBundle:Default:sidebar.html.twig', array('active'=>$active));
+    }
+    public function newSiteAction()
     {
         
         $install = $this->get("desport.install");
@@ -125,13 +137,6 @@ class DefaultController extends Controller
             }
         }*/
         
-        if($this->get('request')->query->get('safe'))
-        {
-            return $this->render('DesportPanelBundle:Default:landing.html.twig');
-        }
-        else
-        {
-            throw new NotFoundHttpException();
-        }
+        return $this->render('DesportPanelBundle:Default:newSite.html.twig');
     }
 }
