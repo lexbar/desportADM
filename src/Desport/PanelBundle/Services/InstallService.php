@@ -364,7 +364,28 @@ class InstallService
         $username = $this->container->getParameter('directadmin_username'); 
 	    $pass = $this->container->getParameter('directadmin_password'); 
 	    
-        return (string)md5($username . $pass . $name);
+        $pass = (string)md5($username . $pass . $name);
+        
+        //Md5 Hash returns hex string, we are going to transform a-f letters to capital pseudo-random letters
+        
+        $capitals = str_repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 2) :
+        $modified = 0;
+        
+        for($i = 0; $i < count($pass); $i++)
+        {
+            if( in_array($pass[$i], array('a','b','c','d','e','f')) )
+            {
+                $pass[$i] = $capitals[ $i + ord($pass[$i]) - 97 ];
+                $modified++;
+            }
+        }
+        
+        //Now we add in the end one symbol picked by the amount of letters we changed
+        $symbols = str_repeat("!|#$%&()=?¿*.{}¡", 4) :
+        
+        $pass .= $symbols[$modified];
+        
+        return $pass;
     }
     
     public function generateParameters($name, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $random1, $random2)
