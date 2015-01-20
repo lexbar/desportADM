@@ -59,7 +59,7 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    //die(print_r($result,1));
+    	    die(print_r($result,1));
 		    return false; //"ERROR generando el subdominio -- ".$result['text'].": ".$result['details'];
 	    } 
     }
@@ -153,6 +153,7 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
+    	    die(print_r($result,1));
 		    return false; //"ERROR generando la base de datos -- ".$result['text'].": ".$result['details'];
 	    } 
     }
