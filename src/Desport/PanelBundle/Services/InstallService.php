@@ -118,7 +118,7 @@ class InstallService
 	    return true; // sometimes it can fail partially
     }
     
-    public function createDatabase($name, $password=false)
+    public function createDatabase($name, $password = false)
     {
         $username = $this->container->getParameter('directadmin_username'); 
 	    $domain = $this->container->getParameter('directadmin_domain'); 

@@ -130,19 +130,51 @@ class SiteController extends Controller
         
         $install = $this->get("desport.install");
         
+        die($install->generatePassword('prueba'));
+        
         switch($stage_id)
         {
             case 0:
-                $install->createSubdomain($site->getName(), $site->getBandwidth(), $site->getQuota());
+                if($install->createSubdomain($site->getName(), $site->getBandwidth(), $site->getQuota()))
+                {
+                    $this->get('session')->getFlashBag()->add('success', 'Dominio creado correctamente.');
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido crear el dominio.');
+                }
             break;
             
             case 1:
-                $install->createDatabase($site->getName());
+                if($install->createDatabase($site->getName()))
+                {
+                    $this->get('session')->getFlashBag()->add('success', 'Base de datos creada.');
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido crear la base de datos.');
+                }
             break;
             
             case 2:
-                $install->cloneRepository($site->getName());
-                $install->fillParameters($name);
+                if($install->cloneRepository($site->getName()))
+                {
+                    $this->get('session')->getFlashBag()->add('success', 'Repositorio creado.');
+                    
+                    if($install->fillParameters($name))
+                    {
+                        $this->get('session')->getFlashBag()->add('success', 'Parámetros insertados correctamente.');
+                    }
+                    else
+                    {
+                        $this->get('session')->getFlashBag()->add('error', 'No se ha podido crear el archivo de parámetros.');
+                    }
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido clonar el repositorio.');
+                }
+                
             break;
             
             case 3:
