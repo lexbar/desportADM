@@ -59,8 +59,8 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    die(print_r($result,1));
-		    return false; //"ERROR generando el subdominio -- ".$result['text'].": ".$result['details'];
+    	    $this->container->get('session')->getFlashBag()->add('error', $result['text'] . ': ' . $result['details']);
+		    return false;
 	    } 
     }
     
@@ -153,8 +153,8 @@ class InstallService
 	    }
 	    else //ERROR
 	    {
-    	    die(print_r($result,1));
-		    return false; //"ERROR generando la base de datos -- ".$result['text'].": ".$result['details'];
+    	    $this->container->get('session')->getFlashBag()->add('error', $result['text'] . ': ' . $result['details']);
+		    return false;
 	    } 
     }
     
@@ -364,18 +364,25 @@ class InstallService
         $username = $this->container->getParameter('directadmin_username'); 
 	    $pass = $this->container->getParameter('directadmin_password'); 
 	    
-        $pass = (string)md5($username . $pass . $name);
+        $pass = md5($username . $pass . $name);
         
         //Md5 Hash returns hex string, we are going to transform a-f letters to capital pseudo-random letters
         
         $capitals = str_repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 2);
         $modified = 0;
         
-        for($i = 0; $i < count($pass); $i++)
+        for($i = 0; $i < strlen($pass); $i++)
         {
-            if( in_array($pass[$i], array('a','b','c','d','e','f')) )
+            if( in_array($pass[$i], array('a','b','c','d','e','f')))
             {
                 $pass[$i] = $capitals[ $i + ord($pass[$i]) - 97 ];
+                
+                //every other modification turn back lower case
+                if($modified % 2 == 1) 
+                {
+                    $pass[$i] = strtolower($pass[$i]);
+                }
+                
                 $modified++;
             }
         }
