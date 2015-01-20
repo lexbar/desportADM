@@ -130,8 +130,6 @@ class SiteController extends Controller
         
         $install = $this->get("desport.install");
         
-        die($install->generatePassword('prueba'));
-        
         switch($stage_id)
         {
             case 0:
