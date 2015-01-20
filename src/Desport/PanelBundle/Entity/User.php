@@ -56,6 +56,11 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Site", mappedBy="userCreated")
      */
     private $sites;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="user")
+     */
+     private $transactions;
 
 
     /**
@@ -247,5 +252,38 @@ class User extends BaseUser
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     * @return User
+     */
+    public function addTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

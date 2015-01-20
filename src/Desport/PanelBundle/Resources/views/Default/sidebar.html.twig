@@ -36,8 +36,13 @@
                 </a>
             </li>
             <li{% if active == 'sites'%} class="active"{% endif %}>
-                <a href="{{ path('desport_sales_client_index') }}">
+                <a href="{{ path('desport_sales_site_index') }}">
                     <i class="fa fa-book"></i> <span>Sitios Web</span>
+                </a>
+            </li>
+            <li{% if active == 'products'%} class="active"{% endif %}>
+                <a href="{{ path('desport_sales_site_index') }}">
+                    <i class="fa fa-suitcase"></i> <span>Productos</span>
                 </a>
             </li>
         </ul>

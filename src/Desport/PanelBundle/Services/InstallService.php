@@ -118,7 +118,7 @@ class InstallService
 	    return true; // sometimes it can fail partially
     }
     
-    public function createDatabase($name, $password)
+    public function createDatabase($name, $password=false)
     {
         $username = $this->container->getParameter('directadmin_username'); 
 	    $domain = $this->container->getParameter('directadmin_domain'); 
@@ -129,6 +129,11 @@ class InstallService
 	    $sock->connect($domain, 2222); 
 	    $sock->set_login($username, $pass); 
 	    $sock->set_method('POST'); 
+	    
+	    if(!$password)
+	    {
+    	    $password = $this->generatePassword($name);
+	    }
 	     
 	    $data = array( 
 	        'enctype' => "multipart/form-data", 
@@ -258,7 +263,7 @@ class InstallService
     	return true;
     }
     
-    public function fillParameters($name, $parameters_input)
+    public function fillParameters($name, $parameters_input = false)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
@@ -267,6 +272,11 @@ class InstallService
         
         $config_location = $root . '/app/config/parameters.yml';
         $config_dist_location = $root . '/app/config/parameters.yml.dist';
+        
+        if(!$parameters_input)
+        {
+            $parameters_input = $this->autoParameters($name);
+        }
         
         $yaml = new Parser();
         
@@ -346,5 +356,75 @@ class InstallService
             print_r($result);
             return false;
         }
+    }
+    
+    public function generatePassword($name)
+    {
+        $username = $this->container->getParameter('directadmin_username'); 
+	    $pass = $this->container->getParameter('directadmin_password'); 
+	    
+        return (string)md5($username . $pass . $name);
+    }
+    
+    public function generateParameters($name, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $random1, $random2)
+    {
+        return array(
+            'parameters'=>
+            array(
+                'database_name' => 'desport_'.$name ,
+                'database_user' => 'desport_'.$name,
+                'database_password' => $database_password,
+                // Copy current mailer parameters
+                'mailer_transport' => $mailer_transport,
+                'mailer_host' => $mailer_host,
+                'mailer_user' => $mailer_user,
+                'mailer_password' => $mailer_password,
+                'mail' => array('from' => $mail_from),
+                'secret' => $random1
+                // ... 
+            ),
+            'security'=>
+            array(
+                'firewalls'=>
+                array(
+                    'main'=>
+                    array(
+                        'remember_me'=>
+                        array(
+                            'key' => $random2
+                        )
+                    )
+                )
+            )
+        );
+    }
+    
+    public function autoParameters($name)
+    {
+        return $this->generateParameters(
+            $name,
+            $this->generatePassword($name),
+            $this->container->getParameter('mailer_transport'),
+            $this->container->getParameter('mailer_host'),
+            $this->container->getParameter('mailer_user'),
+            $this->container->getParameter('mailer_password'),
+            $this->container->getParameter('mail_from'),
+            $this->generateRandomString(32),
+            $this->generateRandomString(32)
+        );
+    }
+    
+    public function generateRandomString($length = 10) 
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        
+        $randomString = '';
+        
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        
+        return $randomString;
     }
 }

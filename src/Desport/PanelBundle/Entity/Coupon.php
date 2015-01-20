@@ -36,9 +36,8 @@ class Coupon
     private $name;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="product", type="boolean")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="coupons")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     private $product;
 
@@ -69,7 +68,11 @@ class Coupon
      * @ORM\Column(name="expires", type="datetime")
      */
     private $expires;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="coupon")
+     */
+     private $transactions;
 
     /**
      * Get id
@@ -240,5 +243,45 @@ class Coupon
     public function getExpires()
     {
         return $this->expires;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     * @return Coupon
+     */
+    public function addTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

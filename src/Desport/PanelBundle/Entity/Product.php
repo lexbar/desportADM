@@ -76,7 +76,11 @@ class Product
      * @ORM\Column(name="properties", type="array")
      */
     private $properties;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="product")
+     */
+     private $transactions;
 
     /**
      * Get id
@@ -270,5 +274,45 @@ class Product
     public function getProperties()
     {
         return $this->properties;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     * @return Product
+     */
+    public function addTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

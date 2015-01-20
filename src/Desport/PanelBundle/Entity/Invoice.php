@@ -100,6 +100,11 @@ class Invoice
      * @ORM\OneToMany(targetEntity="Event", mappedBy="invoice")
      */
     private $events;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="invoice")
+     */
+     private $transactions;
 
 
     /**
@@ -426,5 +431,38 @@ class Invoice
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     * @return Invoice
+     */
+    public function addTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

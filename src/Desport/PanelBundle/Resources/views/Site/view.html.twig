@@ -1,0 +1,128 @@
+{% extends "::backend.html.twig" %}
+
+{% set active = 'sites' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            Sitio Web
+            <small>{{ site.name }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+            <li><a href="{{ path('desport_sales_site_index') }}">Sitios</a></li>
+            <li class="active">Vista Sitio</li>
+        </ol>
+    </section>
+    
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Instalación</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="progress xs progress-striped">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ ( installStages[0] + installStages[1] + installStages[2] + installStages[3] ) * 25 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ( installStages[0] + installStages[1] + installStages[2] + installStages[3] ) * 25 }}%">
+                                <span class="sr-only">25% Completo</span>
+                            </div>
+                        </div>
+                        
+                        <div class="box-group" id="accordion">
+                            <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                            <div class="panel box box-{{ installStages[0] ? 'success' : 'danger' }}">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                            Dominio
+                                        </a>
+                                    </h4>
+                                    <div class="box-tools pull-right">
+                                        {% if installStages[0] %}<a class="btn btn-danger" href="{{ path('desport_sales_site_install_undo', {site_id : site.id, stage_id : 0}) }}" onClick="return confirm('¿Seguro que deseas realizar esta acción?\nNo podrás deshacer los cambios.')"><i class="fa fa-trash fa-fw"></i> Eliminar</a>
+                                        {% else %}<a class="btn btn-default" href="{{ path('desport_sales_site_install_stage', {site_id : site.id, stage_id : 0}) }}"><i class="fa fa-sign-in fa-fw"></i> Ejecutar</a>{% endif %}
+                                    </div>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in">
+                                    <div class="box-body">
+                                        {% if installStages[0] %}
+                                            <p class="text-success">Completada con éxito (<strong><a target="_blank" href="http://{{ site.name }}.{{ domain }}/">{{ site.name }}.{{ domain }}</a></strong>) <i class="fa fa-check"></i></p>
+                                        {% else %}
+                                            <p class="text-danger">No se ha registrado el dominio (<strong><a target="_blank" href="http://{{ site.name }}.{{ domain }}/">{{ site.name }}.{{ domain }}</a></strong>) <i class="fa fa-times"></i></p>
+                                        {% endif %}
+                                        <p class="text-muted">La fase de instalación del dominio supone indicar al sistema que se reserve un espacio de ejecución a determinado nombre de dominio. En esta fase quedan delimitados el ancho de banda máximo permitido y la cuota de disco duro en el servidor (diferente del espacio máximo para archivos, ya que éste incluye todo lo necesario para el funcionamiento del programa, además de los archivos subidos por los usuarios.)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel box box-{{ installStages[1] ? 'success' : 'danger' }}">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                            Base de datos
+                                        </a>
+                                    </h4>
+                                    <div class="box-tools pull-right">
+                                        {% if installStages[1] %}<a class="btn btn-danger" href="{{ path('desport_sales_site_install_undo', {site_id : site.id, stage_id : 1}) }}" onClick="return confirm('¿Seguro que deseas realizar esta acción?\nNo podrás deshacer los cambios.')"><i class="fa fa-trash fa-fw"></i> Eliminar</a>
+                                        {% else %}<a class="btn btn-default" href="{{ path('desport_sales_site_install_stage', {site_id : site.id, stage_id : 1}) }}"><i class="fa fa-sign-in fa-fw"></i> Ejecutar</a>{% endif %}
+                                    </div>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse">
+                                    <div class="box-body">
+                                        {% if installStages[1] %}
+                                            <p class="text-success">La base de datos se ha creado correctamente <i class="fa fa-check"></i></p>
+                                        {% else %}
+                                            <p class="text-danger">No se ha creado la base de datos <i class="fa fa-times"></i></p>
+                                        {% endif %}
+                                        <p class="text-muted">En esta fase se crean los permisos y se configura la base de datos que albergará toda la información del sistema.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel box box-{{ installStages[2] ? 'success' : 'danger' }}">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                            Repositorio
+                                        </a>
+                                    </h4>
+                                    <div class="box-tools pull-right">
+                                        {% if installStages[2] %}<a class="btn btn-danger" href="{{ path('desport_sales_site_install_undo', {site_id : site.id, stage_id : 2}) }}" onClick="return confirm('¿Seguro que deseas realizar esta acción?\nNo podrás deshacer los cambios.')"><i class="fa fa-trash fa-fw"></i> Eliminar</a>
+                                        {% else %}<a class="btn btn-default" href="{{ path('desport_sales_site_install_stage', {site_id : site.id, stage_id : 2}) }}"><i class="fa fa-sign-in fa-fw"></i> Ejecutar</a>{% endif %}
+                                    </div>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse">
+                                    <div class="box-body">
+                                        {% if installStages[2] %}
+                                            <p class="text-success">El repositorio está cargado <i class="fa fa-check"></i></p>
+                                            <p class="text-warning">Aunque no se puede garantizar que no esté corrupto.</p>
+                                        {% else %}
+                                            <p class="text-danger">No se ha cargado el repositorio <i class="fa fa-times"></i></p>
+                                        {% endif %}
+                                        <p class="text-muted">El repositorio son todos los archivos necesarios para poder ejecutar el programa. En esta fase se realiza una copia de la última versión del repositorio al espacio creado para este dominio. También se crea el archivo de configuración con todos los datos necesarios para que el software funcione en este entorno (contraseñas maestras, restricciones, características, etc...)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel box box-{{ installStages[3] ? 'success' : 'danger' }}">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                                            Instalación
+                                        </a>
+                                    </h4>
+                                    <div class="box-tools pull-right">
+                                        {% if installStages[3] %}<a class="btn btn-danger" href="{{ path('desport_sales_site_install_undo', {site_id : site.id, stage_id : 3}) }}" onClick="return confirm('¿Seguro que deseas realizar esta acción?\nNo podrás deshacer los cambios.')"><i class="fa fa-trash fa-fw"></i> Eliminar</a>
+                                        {% else %}<a class="btn btn-default" href="{{ path('desport_sales_site_install_stage', {site_id : site.id, stage_id : 3}) }}"><i class="fa fa-sign-in fa-fw"></i> Ejecutar</a>{% endif %}
+                                    </div>
+                                </div>
+                                <div id="collapseFour" class="panel-collapse collapse">
+                                    <div class="box-body">
+                                        <p class="text-muted">Durante la fase final de instalación se crean todas las tablas dentro de la base de datos, y éstas se rellenan con los datos iniciales para poder empezar a utilizar el programa. También podrían ejecutarse otras tareas consideradas fundamentales para el arranque inicial.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

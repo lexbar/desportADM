@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Site
 {
@@ -46,49 +47,49 @@ class Site
      *
      * @ORM\Column(name="bandwidth", type="integer")
      */
-    private $bandwidth;
+    private $bandwidth=0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="quota", type="integer")
      */
-    private $quota;
+    private $quota=0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="max_filespace", type="integer")
      */
-    private $maxFilespace;
+    private $maxFilespace=0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="max_activeusers", type="integer")
      */
-    private $maxActiveusers;
+    private $maxActiveusers=0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="ads", type="boolean")
      */
-    private $ads;
+    private $ads=false;
 
     /**
      * @var array
      *
      * @ORM\Column(name="bundles", type="array")
      */
-    private $bundles;
+    private $bundles=array();
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="expires", type="datetime")
+     * @ORM\Column(name="expires", type="datetime", nullable=true)
      */
-    private $expires;
+    private $expires=null;
 
     /**
      * @var boolean
@@ -98,10 +99,22 @@ class Site
     private $active;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="state", type="string", length=30)
+     */
+    private $state;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="sites")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
     private $client;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Transaction", mappedBy="site")
+     */
+     private $transactions;
 
     /**
      * Get id
@@ -387,5 +400,85 @@ class Site
     public function getClient()
     {
         return $this->client;
+    }
+    
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'));
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     * @return Site
+     */
+    public function addTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions[] = $transactions;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactions
+     *
+     * @param \Desport\PanelBundle\Entity\Transaction $transactions
+     */
+    public function removeTransaction(\Desport\PanelBundle\Entity\Transaction $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
+    
+    public function parseProductProperties(array $properties)
+    {
+        foreach($properties as $k=>$v)
+        {
+            switch($k)
+            {
+                case 'bandwidth':
+                    $this->setBandwidth($v);
+                break;
+                case 'quota':
+                    $this->setQuota($v);
+                break;
+                case 'max_filespace':
+                    $this->setMaxFilespace($v);
+                break;
+                case 'max_activeusers':
+                    $this->setMaxActiveusers($v);
+                break;
+                case 'ads':
+                    $this->setAds($v);
+                break;
+                case 'bundles':
+                    $this->setBundles($v);
+                break;
+                case 'expires':
+                    $this->setExpires(new \DateTime($v));
+                break;
+            }
+        }
     }
 }

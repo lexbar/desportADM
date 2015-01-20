@@ -28,3 +28,6 @@ parameters:
     directadmin_domain: ~
     directadmin_password: ~
     directadmin_root: '/path/to/domains'
+twig:
+    globals:
+        domain: "%directadmin_domain%"

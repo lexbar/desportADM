@@ -1442,6 +1442,12 @@ body > .header .logo .icon {
 .box .box-header a {
   color: #444;
 }
+.box .box-header a.btn {
+  color: #FFF;
+}
+.box .box-header a.btn.btn-default {
+  color: #444;
+}
 .box .box-header > .box-tools {
   padding: 5px 10px 5px 5px;
 }
