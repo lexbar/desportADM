@@ -368,7 +368,7 @@ class InstallService
         
         //Md5 Hash returns hex string, we are going to transform a-f letters to capital pseudo-random letters
         
-        $capitals = str_repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 2) :
+        $capitals = str_repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 2);
         $modified = 0;
         
         for($i = 0; $i < count($pass); $i++)
@@ -381,7 +381,7 @@ class InstallService
         }
         
         //Now we add in the end one symbol picked by the amount of letters we changed
-        $symbols = str_repeat("!|#$%&()=?¿*.{}¡", 4) :
+        $symbols = str_repeat("!|#$%&()=?¿*.{}¡", 4);
         
         $pass .= $symbols[$modified];
         
