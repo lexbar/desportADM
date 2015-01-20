@@ -176,7 +176,7 @@ class SiteController extends Controller
             break;
             
             case 3:
-                $install->loadDatabase($site->getName(), $site->getClient()->getEmail(), $site->getClient()->getContactMail());
+                $install->loadDatabase($site->getName(), $site->getClient()->getEmail(), $site->getClient()->getContactName());
             break;
         }
         
