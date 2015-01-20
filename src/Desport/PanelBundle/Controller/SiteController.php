@@ -106,16 +106,10 @@ class SiteController extends Controller
         
         $install = $this->get("desport.install");
         
-        /*$installStages = array(
+        $installStages = array(
             $install->checkDomainExists($site->getName()),
             $install->checkDatabaseExists($site->getName()),
             $install->checkRepositoryExists($site->getName()),
-            false
-        );*/
-        $installStages = array(
-            false,
-            false,
-            true,
             false
         );
         
