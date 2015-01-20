@@ -30,7 +30,7 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data", 
 	        'action' => 'create', 
-	        'domain' => $name.'.'.$domain, 
+	        'domain' => $this->clean($name).'.'.$domain, 
 	        'bandwidth' => $bandwidth,
 	        'quota' => $quota,
 	        'ssl' => '' ,
@@ -83,7 +83,7 @@ class InstallService
 	    $sock->query('/CMD_API_SHOW_DOMAINS', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(in_array($name.'.'.$domain, $result['list']))
+	    if(in_array($this->clean($name).'.'.$domain, $result['list']))
 	    {
     	    return true;
 	    }
@@ -109,7 +109,7 @@ class InstallService
 	        'enctype' => "multipart/form-data",
 	        'delete' => 'anything',
 	        'confirmed' => 'anything',
-	        'select0' => $name.'.'.$domain
+	        'select0' => $this->clean($name).'.'.$domain
 	    ); 
 	     
 	    $sock->query('/CMD_API_DOMAIN', $data); 
@@ -138,8 +138,8 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data", 
 	        'action' => 'create', 
-	        'name' => $name, 
-	        'user' => $name,
+	        'name' => $this->clean($name), 
+	        'user' => $this->clean($name),
 	        'passwd' => $password,
 	        'passwd2' => $password 
 	    ); 
@@ -177,7 +177,7 @@ class InstallService
 	    $sock->query('/CMD_API_DATABASES', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(is_array($result['list']) && in_array($username.'_'.$name, $result['list']))
+	    if(is_array($result['list']) && in_array($username.'_'.$this->clean($name), $result['list']))
 	    {
     	    return true;
 	    }
@@ -202,7 +202,7 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data",
 	        'action' => 'delete',
-	        'select0' => $username.'_'.$name
+	        'select0' => $username.'_'.$this->clean($name)
 	    ); 
 	     
 	    $sock->query('/CMD_API_DATABASES', $data); 
@@ -216,7 +216,7 @@ class InstallService
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
-        $root = $daroot.'/'.$name.'.'.$domain;
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
     	
     	shell_exec("rm -rf $root"); // clean all files (REMOVE)
     	
@@ -240,7 +240,7 @@ class InstallService
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
-        $root = $daroot.'/'.$name.'.'.$domain;
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
         
         if(file_exists($root.'/app/config/parameters.yml'))
         {
@@ -257,9 +257,9 @@ class InstallService
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
-        $root = $daroot.'/'.$name.'.'.$domain;
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
     	
-    	echo shell_exec("rm -rf $root"); // clean all files (REMOVE)
+    	shell_exec("rm -rf $root"); // clean all files (REMOVE)
     	
     	return true;
     }
@@ -269,14 +269,14 @@ class InstallService
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
-        $root = $daroot.'/'.$name.'.'.$domain;
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
         
         $config_location = $root . '/app/config/parameters.yml';
         $config_dist_location = $root . '/app/config/parameters.yml.dist';
         
         if(!$parameters_input)
         {
-            $parameters_input = $this->autoParameters($name);
+            $parameters_input = $this->autoParameters($this->clean($name));
         }
         
         $yaml = new Parser();
@@ -325,7 +325,7 @@ class InstallService
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
-        $root = $daroot.'/'.$name.'.'.$domain;
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
         
         // Add whitespaces to admin mail and username
         if(!empty($admin_mail))
@@ -455,5 +455,10 @@ class InstallService
         }
         
         return $randomString;
+    }
+    
+    public function clean($name)
+    {
+        return preg_replace("/[^a-zA-Z0-9]+/", "", $name);
     }
 }
