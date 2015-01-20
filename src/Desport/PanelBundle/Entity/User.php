@@ -27,7 +27,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private $name='';
     
     /**
      * @var string
