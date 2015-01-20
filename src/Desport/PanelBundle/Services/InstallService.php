@@ -390,7 +390,7 @@ class InstallService
         }
         
         //Now we add in the end one symbol picked by the amount of letters we changed
-        $symbols = str_repeat("!|#$%&()=?¿*.{}¡", 4);
+        $symbols = str_repeat("!?@#%&()=.", 5);
         
         $pass .= $symbols[$modified];
         
