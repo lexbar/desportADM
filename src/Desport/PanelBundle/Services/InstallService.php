@@ -396,13 +396,13 @@ class InstallService
         return $pass;
     }
     
-    public function generateParameters($name, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $random1, $random2)
+    public function generateParameters($database_name, $database_user, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $random1, $random2)
     {
         return array(
             'parameters'=>
             array(
-                'database_name' => 'desport_'.$name ,
-                'database_user' => 'desport_'.$name,
+                'database_name' => $database_name ,
+                'database_user' => $database_user,
                 'database_password' => $database_password,
                 // Copy current mailer parameters
                 'mailer_transport' => $mailer_transport,
@@ -431,8 +431,11 @@ class InstallService
     
     public function autoParameters($name)
     {
+        $username = $this->container->getParameter('directadmin_username'); 
+        
         return $this->generateParameters(
-            $name,
+            $username.'_'.$name,
+            $username.'_'.$name,
             $this->generatePassword($name),
             $this->container->getParameter('mailer_transport'),
             $this->container->getParameter('mailer_host'),
