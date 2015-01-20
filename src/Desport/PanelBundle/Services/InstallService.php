@@ -217,6 +217,7 @@ class InstallService
         $daroot = $this->container->getParameter('directadmin_root'); 
         
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
+    	$this->container->get('session')->getFlashBag()->add('error', 'Root:'.$root);
     	
     	shell_exec("rm -rf $root"); // clean all files (REMOVE)
     	
