@@ -283,6 +283,7 @@ class InstallService
         
         if(!file_exists($config_dist_location))
         {
+            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración base.');
             return false;
         }
         else 
@@ -293,7 +294,7 @@ class InstallService
             } 
             catch (Exception $e)
             {
-                //echo("EXCEPTION");
+                $this->container->get('session')->getFlashBag()->add('error', 'Ha fallado el parseador de parámetros.');
                 return false;
             }   
         }
@@ -315,7 +316,7 @@ class InstallService
         }
         catch (Exception $e)
         {
-            //echo("EXCEPTION");
+            $this->container->get('session')->getFlashBag()->add('error', 'Ha fallado el inversor de formato de configuración.');
             return false;
         }
     }

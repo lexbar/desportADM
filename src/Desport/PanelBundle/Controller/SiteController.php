@@ -165,7 +165,7 @@ class SiteController extends Controller
                     }
                     else
                     {
-                        $this->get('session')->getFlashBag()->add('error', 'No se ha podido crear el archivo de parámetros.');
+                        $this->get('session')->getFlashBag()->add('error', 'No se ha podido introducir parámetros necesarios para el funcionamiento.');
                     }
                 }
                 else
