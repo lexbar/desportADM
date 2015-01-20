@@ -34,5 +34,5 @@ desport_sales_site_install_stage:
     defaults: { _controller: DesportPanelBundle:Site:installStage }
 desport_sales_site_install_undo:
     pattern:     /sales/site/install/{site_id}/undo/{stage_id}
-    defaults: { _controller: DesportPanelBundle:Site:installUndo }
+    defaults: { _controller: DesportPanelBundle:Site:installUndoStage }
     
