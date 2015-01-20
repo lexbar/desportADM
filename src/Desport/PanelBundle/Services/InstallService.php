@@ -283,7 +283,7 @@ class InstallService
         
         if(!file_exists($config_dist_location))
         {
-            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración base.<br>'.$config_dist_location);
+            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración base.');
             return false;
         }
         else 

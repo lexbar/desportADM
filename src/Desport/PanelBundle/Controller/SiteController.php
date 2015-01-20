@@ -159,7 +159,7 @@ class SiteController extends Controller
                 {
                     $this->get('session')->getFlashBag()->add('success', 'Repositorio creado.');
                     
-                    if($install->fillParameters($name))
+                    if($install->fillParameters($site->getName()))
                     {
                         $this->get('session')->getFlashBag()->add('success', 'Parámetros insertados correctamente.');
                     }
