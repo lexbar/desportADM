@@ -481,4 +481,27 @@ class Site
             }
         }
     }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return Site
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
 }
