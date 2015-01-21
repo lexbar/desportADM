@@ -277,6 +277,7 @@ class InstallService
         if($param instanceof \Desport\PanelBundle\Entity\Site)
         {
             $parameters_input = $this->autoParameters($this->clean($name), $param);
+            $this->container->get('session')->getFlashBag()->add('error', print_r($parameters_input,1));
         }
         elseif(is_array($param))
         {
