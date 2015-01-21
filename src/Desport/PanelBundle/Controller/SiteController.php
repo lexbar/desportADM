@@ -182,7 +182,7 @@ class SiteController extends Controller
                 }
                 else
                 {
-                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido cargar los datos de arranque.');
+                    $this->get('session')->getFlashBag()->add('error', 'No se han podido cargar los datos de arranque.');
                 }
             break;
         }

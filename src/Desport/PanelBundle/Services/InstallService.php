@@ -349,7 +349,7 @@ class InstallService
 	
         $result = shell_exec("php $root/app/console colecta:install" . $admin_mail . $admin_username ); //install
         
-        if($result == 'DONE')
+        if(preg_match("#DONE#", $result))
         {
             return true;
         }
