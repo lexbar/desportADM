@@ -349,13 +349,15 @@ class InstallService
 	
         $result = shell_exec("php $root/app/console colecta:install" . $admin_mail . $admin_username ); //install
         
+        $this->container->get('session')->getFlashBag()->add('error', "php $root/app/console colecta:install" . $admin_mail . $admin_username);
+        
         if($result == 'DONE')
         {
             return true;
         }
         else
         {
-            print_r($result);
+            $this->container->get('session')->getFlashBag()->add('error', print_r($result,1));
             return false;
         }
     }
