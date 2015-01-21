@@ -23,8 +23,9 @@
                         <h3 class="box-title">Instalación</h3>
                     </div>
                     <div class="box-body">
+                        {% set progress_bar = ( installStages[0] + installStages[1] + installStages[2] + installStages[3] ) * 25 %}
                         <div class="progress xs progress-striped">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ ( installStages[0] + installStages[1] + installStages[2] + installStages[3] ) * 25 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ( installStages[0] + installStages[1] + installStages[2] + installStages[3] ) * 25 }}%">
+                            <div class="progress-bar progress-bar-{{ progress_bar == 100 ? 'success' : 'danger' }}" role="progressbar" aria-valuenow="{{ progress_bar }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress_bar }}%">
                                 <span class="sr-only">25% Completo</span>
                             </div>
                         </div>

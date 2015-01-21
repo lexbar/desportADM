@@ -367,7 +367,7 @@ class InstallService
         
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
         
-        $result = shell_exec("php $root/app/console colecta:status"); //install
+        $result = shell_exec("php $root/app/console colecta:status"); //check status
         
         if(preg_match("#OK#", $result))
         {
