@@ -335,7 +335,7 @@ class InstallService
             
             $admin_username = " '" . $admin_username . "'";
             
-            $host = ' ' . $this->clean($name) . '.' $domain;
+            $host = ' ' . $this->clean($name) . '.' . $domain;
         }
         else
         {
