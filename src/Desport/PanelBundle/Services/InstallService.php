@@ -264,7 +264,7 @@ class InstallService
     	return true;
     }
     
-    public function fillParameters($name, $parameters_input = false)
+    public function fillParameters($name, $parameters_input = false, $site = false)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
@@ -276,7 +276,7 @@ class InstallService
         
         if(!$parameters_input)
         {
-            $parameters_input = $this->autoParameters($this->clean($name));
+            $parameters_input = $this->autoParameters($this->clean($name), $site);
         }
         
         $yaml = new Parser();
@@ -394,7 +394,7 @@ class InstallService
         return $pass;
     }
     
-    public function generateParameters($database_name, $database_user, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $random1, $random2)
+    public function generateParameters($database_name, $database_user, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $mail_admin, $random1, $random2)
     {
         return array(
             'parameters'=>
@@ -407,7 +407,7 @@ class InstallService
                 'mailer_host' => $mailer_host,
                 'mailer_user' => $mailer_user,
                 'mailer_password' => $mailer_password,
-                'mail' => array('from' => $mail_from),
+                'mail' => array('from' => $mail_from, 'admin' => $mail_admin),
                 'secret' => $random1
                 // ... 
             ),
@@ -427,7 +427,7 @@ class InstallService
         );
     }
     
-    public function autoParameters($name)
+    public function autoParameters($name, $site)
     {
         $username = $this->container->getParameter('directadmin_username'); 
         
@@ -440,6 +440,7 @@ class InstallService
             $this->container->getParameter('mailer_user'),
             $this->container->getParameter('mailer_password'),
             $this->container->getParameter('mail_from'),
+            $site->getClient()->getEmail(),
             $this->generateRandomString(32),
             $this->generateRandomString(32)
         );

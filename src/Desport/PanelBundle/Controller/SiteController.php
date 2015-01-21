@@ -159,11 +159,7 @@ class SiteController extends Controller
                 {
                     $this->get('session')->getFlashBag()->add('success', 'Repositorio creado.');
                     
-                    if($install->fillParameters($site->getName()))
-                    {
-                        $this->get('session')->getFlashBag()->add('success', 'Parámetros insertados correctamente.');
-                    }
-                    else
+                    if(!$install->fillParameters($site->getName(), false, $site))
                     {
                         $this->get('session')->getFlashBag()->add('error', 'No se ha podido introducir parámetros necesarios para el funcionamiento.');
                     }
