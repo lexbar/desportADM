@@ -264,7 +264,7 @@ class InstallService
     	return true;
     }
     
-    public function fillParameters($name, $parameters_input = false, $site = false)
+    public function fillParameters($name, $param)
     {
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
@@ -274,9 +274,13 @@ class InstallService
         $config_location = $root . '/app/config/parameters.yml';
         $config_dist_location = $root . '/app/config/parameters.yml.dist';
         
-        if(!$parameters_input)
+        if($param instanceof \Desport\PanelBundle\Entity\Site)
         {
-            $parameters_input = $this->autoParameters($this->clean($name), $site);
+            $parameters_input = $this->autoParameters($this->clean($name), $param);
+        }
+        elseif(is_array($param))
+        {
+            $parameters_input = $param;
         }
         
         $yaml = new Parser();
