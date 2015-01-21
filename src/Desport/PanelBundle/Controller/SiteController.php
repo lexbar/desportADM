@@ -176,7 +176,14 @@ class SiteController extends Controller
             break;
             
             case 3:
-                $install->loadDatabase($site->getName(), $site->getClient()->getEmail(), $site->getClient()->getContactName());
+                if($install->loadDatabase($site->getName(), $site->getClient()->getEmail(), $site->getClient()->getContactName()))
+                {
+                    $this->get('session')->getFlashBag()->add('success', 'La web está instalada con los datos de arranque.');
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido cargar los datos de arranque.');
+                }
             break;
         }
         

@@ -335,7 +335,7 @@ class InstallService
             
             if(!empty($admin_username))
             {
-                $admin_username = ' ' . $admin_username;
+                $admin_username = " '" . $admin_username . "'";
             }
         }
         else
@@ -349,15 +349,12 @@ class InstallService
 	
         $result = shell_exec("php $root/app/console colecta:install" . $admin_mail . $admin_username ); //install
         
-        $this->container->get('session')->getFlashBag()->add('error', "php $root/app/console colecta:install" . $admin_mail . $admin_username);
-        
         if($result == 'DONE')
         {
             return true;
         }
         else
         {
-            $this->container->get('session')->getFlashBag()->add('error', print_r($result,1));
             return false;
         }
     }
