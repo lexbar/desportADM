@@ -360,6 +360,25 @@ class InstallService
         }
     }
     
+    public function checkStatus($name)
+    {
+        $domain = $this->container->getParameter('directadmin_domain'); 
+        $daroot = $this->container->getParameter('directadmin_root'); 
+        
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
+        
+        $result = shell_exec("php $root/app/console colecta:status"); //install
+        
+        if(preg_match("#OK#", $result))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     public function generatePassword($name)
     {
         $username = $this->container->getParameter('directadmin_username'); 

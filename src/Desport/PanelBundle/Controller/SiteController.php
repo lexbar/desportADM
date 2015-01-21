@@ -110,7 +110,7 @@ class SiteController extends Controller
             $install->checkDomainExists($site->getName()),
             $install->checkDatabaseExists($site->getName()),
             $install->checkRepositoryExists($site->getName()),
-            false
+            $install->checkStatus($site->getName())
         );
         
         return $this->render('DesportPanelBundle:Site:view.html.twig', array('site' => $site, 'installStages' => $installStages));
