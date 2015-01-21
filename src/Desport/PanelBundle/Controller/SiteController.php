@@ -215,7 +215,7 @@ class SiteController extends Controller
             break;
             
             case 3:
-            
+                $this->get('session')->getFlashBag()->add('error', 'Para eliminar los datos de instalación debes reiniciar los pasos 2 y 3 (Base de Datos y Repositorio).');
             break;
         }
         
