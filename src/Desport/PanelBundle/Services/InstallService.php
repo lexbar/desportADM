@@ -333,10 +333,9 @@ class InstallService
         {
             $admin_mail = ' ' . $admin_mail;
             
-            if(!empty($admin_username))
-            {
-                $admin_username = " '" . $admin_username . "'";
-            }
+            $admin_username = " '" . $admin_username . "'";
+            
+            $host = ' ' . $this->clean($name) . '.' $domain;
         }
         else
         {
@@ -347,7 +346,7 @@ class InstallService
         
         shell_exec("php $root/app/console doctrine:schema:create"); //create database schema
 	
-        $result = shell_exec("php $root/app/console colecta:install" . $admin_mail . $admin_username ); //install
+        $result = shell_exec("php $root/app/console colecta:install" . $admin_mail . $admin_username . $host ); //install
         
         if(preg_match("#DONE#", $result))
         {
