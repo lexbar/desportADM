@@ -82,7 +82,7 @@ class SiteController extends Controller
                         
                         $this->get('session')->getFlashBag()->add('success', 'El Sitio Web se ha introducido correctamente en la base de datos.');
                         
-                        return new RedirectResponse($this->generateUrl('desport_sales_client_view', array('client_id' => $client->getId())));
+                        return new RedirectResponse($this->generateUrl('desport_sales_site_view', array('site_id' => $site->getId())));
                     }
                 }   
             }
