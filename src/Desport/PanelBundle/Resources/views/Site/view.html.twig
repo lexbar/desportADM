@@ -127,3 +127,17 @@
         </div>
     </section>
 {% endblock %}
+
+{% block javascripts %}
+<script>
+<!--
+$( document ).ready(function() {
+    $('.box-tools a').click(function () {
+        $(this).addClass('disabled');
+        $(this).children('.fa-trash').removeClass('fa-trash').addClass('fa-spinner fa-spin');
+        $(this).children('.fa-sign-in').removeClass('fa-sign-in').addClass('fa-spinner fa-spin');
+    })
+  });
+-->
+</script>
+{% endblock %}
