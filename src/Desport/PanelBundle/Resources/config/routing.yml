@@ -17,6 +17,9 @@ desport_sales_client_edit:
 desport_sales_client_stage:
     pattern:     /sales/client/stage/{client_id}/
     defaults: { _controller: DesportPanelBundle:Client:stage }
+desport_sales_client_contact:
+    pattern:     /sales/client/contact/{client_id}/
+    defaults: { _controller: DesportPanelBundle:Client:contact }
     
     
 desport_sales_site_index:

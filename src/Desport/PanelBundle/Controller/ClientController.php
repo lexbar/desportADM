@@ -5,6 +5,7 @@ namespace Desport\PanelBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Desport\PanelBundle\Entity\Client;
+use Desport\PanelBundle\Entity\Message;
 
 class ClientController extends Controller
 {
@@ -113,6 +114,88 @@ class ClientController extends Controller
         
         return $this->render('DesportPanelBundle:Client:view.html.twig', array('client' => $client));
     }
+    
+    public function contactAction($client_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
+        
+        if(! $client)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El cliente no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $message = new Message();
+        
+        if($this->get('request')->getMethod() == 'POST')
+        {
+            $request = $this->get('request')->request;
+            
+            $message->setSubject($request->get('message_subject'));
+            $message->setText($request->get('message_text'));
+            
+            if(! $message->getSubject() || ! $message->getText())
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No puedes dejar ningún campo vacío.');
+            }
+            else
+            {
+                if($user->getName())
+                {
+                    $message->setEmailFrom(array($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain') => $user->getName()) );
+                }
+                else
+                {
+                    $message->setEmailFrom($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain'));
+                }
+                
+                if($client->getContactName())
+                {
+                    $message->setEmailTo(array($client->getEmail() => $client->getContactName()));
+                }
+                else
+                {
+                    $message->setEmailTo($client->getEmail());
+                }
+                
+                $message->setTextHTML($request->get('message_text'));
+                $message->setAttachments(array());
+                
+                $message->SetUserFrom($user);
+                $message->setClient($client);
+                
+                $em->persist($message); 
+                $em->flush();
+                
+                // SEND EMAIL
+                $email = \Swift_Message::newInstance()
+                    ->setSubject($message->getSubject())
+                    ->setFrom($message->getEmailFrom())
+                    ->setTo($message->getEmailTo())
+                    ->setBody(
+                        $this->renderView(
+                            'DesportPanelBundle:Client:email.txt.twig',
+                            array('message' => $message)
+                        )
+                    )
+                ;
+                
+                $mailgun = $this->container->get("mailgun.swift_transport.transport");
+                
+                $mailgun->send($email);
+                
+                $this->get('session')->getFlashBag()->add('success', 'Mensaje enviado.');
+                return new RedirectResponse($this->generateUrl('desport_sales_client_view', array('client_id' => $client->getId())));
+            }
+        }
+        
+        return $this->render('DesportPanelBundle:Client:contact.html.twig', array('client' => $client, 'message' => $message));
+    }
+    
     private function fillFormData($client)
     {
         $request = $this->get('request')->request;
