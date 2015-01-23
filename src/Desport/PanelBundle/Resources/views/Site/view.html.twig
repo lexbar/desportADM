@@ -18,6 +18,30 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-6">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Información del sitio</h3>
+                        <div class="box-tools pull-right">
+                            <a class="btn btn-default" href="{#{ path('desport_sales_site_edit', {site_id:site.id}) }#}"><i class="fa fa-edit fa-fw"></i> Editar</a>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <dl class="dl-horizontal">
+                            <dt>Nombre del Sitio</dt>
+                            <dd>{{ site.name }}</dd>
+                            <dt>Cliente</dt>
+                            <dd><a href="{{ path('desport_sales_client_view', {client_id:site.client.id}) }}">{{ site.client.name | default('?') }}</a></dd>
+                            <dt>Fecha de creación</dt>
+                            <dd>{{ site.dateCreated | date('d/m/Y') }}</dd>
+                            <dt>Fecha de expiración</dt>
+                            <dd>{{ site.expires ? site.expires | date("d/m/Y") : 'no expira' }}</dd>
+                            <dt>Creado por:</dt>
+                            <dd>{{ site.userCreated ? site.userCreated.name : 'desconocido' }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
                 <div class="box box-default">
                     <div class="box-header">
                         <h3 class="box-title">Instalación</h3>
@@ -29,6 +53,9 @@
                                 <span class="sr-only">25% Completo</span>
                             </div>
                         </div>
+                        
+                        <p>Si alguna de las fases de instalación no se ha ejecutado correctamente puedes gestionarlas de forma manual usando los siguientes controles.</p>
+                        <p><strong>¡El orden es importante!</strong> Si no se siguien los pasos de arriba a abajo puede dar lugar a errores. Si durante el proceso de instalación ha ocurrido algún error, una buena forma de solucionarlo es eliminar todos los pasos que se hubieran ejecutado con éxito y volver a ejecutarlos de uno en uno.</p>
                         
                         <div class="box-group" id="accordion">
                             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -75,6 +102,7 @@
                                             <p class="text-danger">No se ha creado la base de datos <i class="fa fa-times"></i></p>
                                         {% endif %}
                                         <p class="text-muted">En esta fase se crean los permisos y se configura la base de datos que albergará toda la información del sistema.</p>
+                                        <p class="text-warning">Si se borra la base de datos se pierden TODOS los datos de la web (usuarios, publicaciones, etc...).</p>
                                     </div>
                                 </div>
                             </div>

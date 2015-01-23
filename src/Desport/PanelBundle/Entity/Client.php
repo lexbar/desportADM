@@ -137,6 +137,11 @@ class Client
      * @ORM\OneToMany(targetEntity="Event", mappedBy="client")
      */
     private $events;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="client")
+     */
+    private $messages;
 
 
     /**
@@ -942,5 +947,38 @@ class Client
         );
         
         return $countries[$code];
+    }
+
+    /**
+     * Add messages
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messages
+     * @return Client
+     */
+    public function addMessage(\Desport\PanelBundle\Entity\Message $messages)
+    {
+        $this->messages[] = $messages;
+
+        return $this;
+    }
+
+    /**
+     * Remove messages
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messages
+     */
+    public function removeMessage(\Desport\PanelBundle\Entity\Message $messages)
+    {
+        $this->messages->removeElement($messages);
+    }
+
+    /**
+     * Get messages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 }

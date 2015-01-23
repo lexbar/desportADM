@@ -60,7 +60,22 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="user")
      */
-     private $transactions;
+    private $transactions;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Ticket", mappedBy="responsible")
+     */
+    private $tickets;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="userFrom")
+     */
+    private $messagesSent;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="userTo")
+     */
+    private $messagesReceived;
 
 
     /**
@@ -285,5 +300,104 @@ class User extends BaseUser
     public function getTransactions()
     {
         return $this->transactions;
+    }
+
+    /**
+     * Add messagesSent
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messagesSent
+     * @return User
+     */
+    public function addMessagesSent(\Desport\PanelBundle\Entity\Message $messagesSent)
+    {
+        $this->messagesSent[] = $messagesSent;
+
+        return $this;
+    }
+
+    /**
+     * Remove messagesSent
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messagesSent
+     */
+    public function removeMessagesSent(\Desport\PanelBundle\Entity\Message $messagesSent)
+    {
+        $this->messagesSent->removeElement($messagesSent);
+    }
+
+    /**
+     * Get messagesSent
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessagesSent()
+    {
+        return $this->messagesSent;
+    }
+
+    /**
+     * Add messagesReceived
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messagesReceived
+     * @return User
+     */
+    public function addMessagesReceived(\Desport\PanelBundle\Entity\Message $messagesReceived)
+    {
+        $this->messagesReceived[] = $messagesReceived;
+
+        return $this;
+    }
+
+    /**
+     * Remove messagesReceived
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messagesReceived
+     */
+    public function removeMessagesReceived(\Desport\PanelBundle\Entity\Message $messagesReceived)
+    {
+        $this->messagesReceived->removeElement($messagesReceived);
+    }
+
+    /**
+     * Get messagesReceived
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessagesReceived()
+    {
+        return $this->messagesReceived;
+    }
+
+    /**
+     * Add tickets
+     *
+     * @param \Desport\PanelBundle\Entity\Ticket $tickets
+     * @return User
+     */
+    public function addTicket(\Desport\PanelBundle\Entity\Ticket $tickets)
+    {
+        $this->tickets[] = $tickets;
+
+        return $this;
+    }
+
+    /**
+     * Remove tickets
+     *
+     * @param \Desport\PanelBundle\Entity\Ticket $tickets
+     */
+    public function removeTicket(\Desport\PanelBundle\Entity\Ticket $tickets)
+    {
+        $this->tickets->removeElement($tickets);
+    }
+
+    /**
+     * Get tickets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
     }
 }

@@ -80,7 +80,12 @@ class Product
     /**
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="product")
      */
-     private $transactions;
+    private $transactions;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Coupon", mappedBy="product")
+     */
+    private $coupons;
 
     /**
      * Get id

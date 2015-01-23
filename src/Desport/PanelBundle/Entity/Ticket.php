@@ -73,12 +73,18 @@ class Ticket
      * @ORM\ManyToOne(targetEntity="User", inversedBy="tickets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user;
+    private $responsible;
 
     /**
      * @ORM\OneToMany(targetEntity="Event", mappedBy="ticket")
      */
     private $events;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Message", inversedBy="ticket")
+     * @ORM\JoinColumn(name="message_id", referencedColumnName="id")
+     **/
+    private $message;
 
 
     /**
@@ -336,5 +342,51 @@ class Ticket
     public function getPending()
     {
         return $this->pending;
+    }
+
+    /**
+     * Set responsible
+     *
+     * @param \Desport\PanelBundle\Entity\User $responsible
+     * @return Ticket
+     */
+    public function setResponsible(\Desport\PanelBundle\Entity\User $responsible = null)
+    {
+        $this->responsible = $responsible;
+
+        return $this;
+    }
+
+    /**
+     * Get responsible
+     *
+     * @return \Desport\PanelBundle\Entity\User 
+     */
+    public function getResponsible()
+    {
+        return $this->responsible;
+    }
+
+    /**
+     * Set message
+     *
+     * @param \Desport\PanelBundle\Entity\Message $message
+     * @return Ticket
+     */
+    public function setMessage(\Desport\PanelBundle\Entity\Message $message = null)
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Get message
+     *
+     * @return \Desport\PanelBundle\Entity\Message 
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 }
