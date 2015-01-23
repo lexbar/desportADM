@@ -320,4 +320,37 @@ class Product
     {
         return $this->transactions;
     }
+
+    /**
+     * Add coupons
+     *
+     * @param \Desport\PanelBundle\Entity\Coupon $coupons
+     * @return Product
+     */
+    public function addCoupon(\Desport\PanelBundle\Entity\Coupon $coupons)
+    {
+        $this->coupons[] = $coupons;
+
+        return $this;
+    }
+
+    /**
+     * Remove coupons
+     *
+     * @param \Desport\PanelBundle\Entity\Coupon $coupons
+     */
+    public function removeCoupon(\Desport\PanelBundle\Entity\Coupon $coupons)
+    {
+        $this->coupons->removeElement($coupons);
+    }
+
+    /**
+     * Get coupons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCoupons()
+    {
+        return $this->coupons;
+    }
 }

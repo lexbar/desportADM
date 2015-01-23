@@ -32,10 +32,13 @@ parameters:
     mailgun_key: "key"
     mailgun_domain: "domain.com"
     mailer_transport: mailgun
+    
+    siteName: 'Deporde.com'
 
 twig:
     globals:
         domain: "%directadmin_domain%"
+        site_name:'%siteName%'
 
 cspoo_swiftmailer_mailgun:
     key: "%mailgun_key%"

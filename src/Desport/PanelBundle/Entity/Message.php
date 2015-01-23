@@ -57,13 +57,6 @@ class Message
     private $textHTML;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="attachments", type="array")
-     */
-    private $attachments;
-
-    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="messagesSent")
      * @ORM\JoinColumn(name="user_from_id", referencedColumnName="id")
      */
@@ -210,29 +203,6 @@ class Message
     public function getTextHTML()
     {
         return $this->textHTML;
-    }
-
-    /**
-     * Set attachments
-     *
-     * @param array $attachments
-     * @return Message
-     */
-    public function setAttachments($attachments)
-    {
-        $this->attachments = $attachments;
-
-        return $this;
-    }
-
-    /**
-     * Get attachments
-     *
-     * @return array 
-     */
-    public function getAttachments()
-    {
-        return $this->attachments;
     }
 
     /**

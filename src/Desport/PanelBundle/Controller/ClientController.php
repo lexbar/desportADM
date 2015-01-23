@@ -144,28 +144,14 @@ class ClientController extends Controller
             }
             else
             {
-                if($user->getName())
-                {
-                    $message->setEmailFrom(array($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain') => $user->getName()) );
-                }
-                else
-                {
-                    $message->setEmailFrom($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain'));
-                }
+                $message->setEmailFrom($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain'));
                 
-                if($client->getContactName())
-                {
-                    $message->setEmailTo(array($client->getEmail() => $client->getContactName()));
-                }
-                else
-                {
-                    $message->setEmailTo($client->getEmail());
-                }
+                $message->setEmailTo($client->getEmail());
                 
                 $message->setTextHTML($request->get('message_text'));
-                $message->setAttachments(array());
+                //$message->setAttachments('');
                 
-                $message->SetUserFrom($user);
+                $message->setUserFrom($user);
                 $message->setClient($client);
                 
                 $em->persist($message); 
@@ -174,8 +160,8 @@ class ClientController extends Controller
                 // SEND EMAIL
                 $email = \Swift_Message::newInstance()
                     ->setSubject($message->getSubject())
-                    ->setFrom($message->getEmailFrom())
-                    ->setTo($message->getEmailTo())
+                    ->setFrom(array( $message->getEmailFrom() => $this->container->getParameter('site_name') ))
+                    ->setTo(array($message->getEmailTo() => $client->getContactName()))
                     ->setBody(
                         $this->renderView(
                             'DesportPanelBundle:Client:email.txt.twig',
