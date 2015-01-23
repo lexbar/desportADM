@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Desport\PanelBundle\DesportPanelBundle(),
+            new cspoo\Swiftmailer\MailgunBundle\cspooSwiftmailerMailgunBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

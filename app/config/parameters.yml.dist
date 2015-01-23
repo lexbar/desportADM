@@ -28,6 +28,15 @@ parameters:
     directadmin_domain: ~
     directadmin_password: ~
     directadmin_root: '/path/to/domains'
+    
+    mailgun_key: "key"
+    mailgun_domain: "domain.com"
+    mailer_transport: mailgun
+
 twig:
     globals:
         domain: "%directadmin_domain%"
+
+cspoo_swiftmailer_mailgun:
+    key: "%mailgun_key%"
+    domain: "%mailgun_domain%"
