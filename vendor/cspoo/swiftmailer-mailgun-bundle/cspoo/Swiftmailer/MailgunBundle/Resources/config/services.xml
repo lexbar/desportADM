@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/ schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="mailgun.swift_transport.transport.class">cspoo\Swiftmailer\MailgunBundle\Services\MailgunTransport</parameter>
+        <parameter key="mailgun.class">Mailgun\Mailgun</parameter>
+    </parameters>
+
+    <services>
+        <service id="mailgun.library" class="%mailgun.class%" public="true">
+            <argument>%mailgun.key%</argument>
+        </service>
+
+        <service id="mailgun.swift_transport.transport" class="%mailgun.swift_transport.transport.class%" public="true">
+            <argument></argument>
+            <argument type="service" id="mailgun.library"></argument>
+            <argument>%mailgun.domain%</argument>
+        </service>
+    </services>
+</container>
