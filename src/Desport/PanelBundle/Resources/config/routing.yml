@@ -39,3 +39,6 @@ desport_sales_site_install_undo:
     pattern:     /sales/site/install/{site_id}/undo/{stage_id}
     defaults: { _controller: DesportPanelBundle:Site:installUndoStage }
     
+desport_api_mailgun_message:
+    path:     /api/mailgun/message/new/
+    defaults: { _controller: DesportPanelBundle:API:mailgunMessageNew }
