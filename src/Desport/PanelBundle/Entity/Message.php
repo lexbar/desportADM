@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Message
 {
@@ -78,6 +79,25 @@ class Message
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
     private $client;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="read", type="boolean")
+     */
+    private $read;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MessageAttachment", mappedBy="message")
+     */
+    private $attachments;
 
 
     /**
@@ -295,5 +315,99 @@ class Message
     public function getClient()
     {
         return $this->client;
+    }
+    
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $this->setDate(new \DateTime('now'));
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Message
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set read
+     *
+     * @param boolean $read
+     * @return Message
+     */
+    public function setRead($read)
+    {
+        $this->read = $read;
+
+        return $this;
+    }
+
+    /**
+     * Get read
+     *
+     * @return boolean 
+     */
+    public function getRead()
+    {
+        return $this->read;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add attachments
+     *
+     * @param \Desport\PanelBundle\Entity\MessageAttachment $attachments
+     * @return Message
+     */
+    public function addAttachment(\Desport\PanelBundle\Entity\MessageAttachment $attachments)
+    {
+        $this->attachments[] = $attachments;
+
+        return $this;
+    }
+
+    /**
+     * Remove attachments
+     *
+     * @param \Desport\PanelBundle\Entity\MessageAttachment $attachments
+     */
+    public function removeAttachment(\Desport\PanelBundle\Entity\MessageAttachment $attachments)
+    {
+        $this->attachments->removeElement($attachments);
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
     }
 }

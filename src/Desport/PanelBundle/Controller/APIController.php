@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Desport\PanelBundle\Entity\Message;
+use Desport\PanelBundle\Entity\MessageAttachment;
 
 class APIController extends Controller
 {
@@ -35,10 +36,16 @@ class APIController extends Controller
             $message->setEmailFrom($request->get('from'));
             $message->setEmailTo($request->get('recipient'));
             
-            //$message->setAttachments('');
-            
-            //$message->setUserFrom($user);
-            //$message->setClient($client);
+            $attachments = intval($request->get('attachment-count'));
+            for($i = 0; $i < $attachments; $i++)
+            {
+                $attachment = new MessageAttachment();
+                
+                $attachment->loadFile($_FILES['attachment-' . $i]);
+                $attachment->setMessage($message);
+                
+                $em->persist($attachment);
+            }
             
             $em->persist($message); 
             $em->flush();
