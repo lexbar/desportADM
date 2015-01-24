@@ -38,7 +38,7 @@ class APIController extends Controller
             
             $attachment_count = $request->get('attachment-count');
             
-            for($i = 0; $i < $attachment_count; $i++)
+            for($i = 1; $i <= $attachment_count; $i++)
             {
                 $attachment = new MessageAttachment();
                 
