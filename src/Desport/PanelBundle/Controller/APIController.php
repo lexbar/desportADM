@@ -16,13 +16,13 @@ class APIController extends Controller
         {
             $request = $this->get('request')->request;
             
-            /*$signature = hash_hmac('sha256', $request->get('timestamp') . $request->get('token'), $this->container->getParameter('mailgun_key') );
+            $signature = hash_hmac('sha256', $request->get('timestamp') . $request->get('token'), $this->container->getParameter('mailgun_key') );
             
             if($signature != $request->get('signature'))
             {
                 throw $this->createNotFoundException('No POST vars detected.');
                 exit();
-            }*/
+            }
             
             $em = $this->getDoctrine()->getManager();
         
@@ -54,7 +54,6 @@ class APIController extends Controller
             return new Response('OK');
         }
         
-        return $this->render('DesportPanelBundle:Default:test.html.twig');
-        //throw $this->createNotFoundException('No POST vars detected.');
+        throw $this->createNotFoundException('No POST vars detected.');
     }
 }
