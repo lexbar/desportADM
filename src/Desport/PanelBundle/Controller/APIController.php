@@ -45,6 +45,12 @@ class APIController extends Controller
                 $message->setParentMessage($parent);
             }
             
+            $client = $em->getRepository('DesportPanelBundle:Client')->findOneByEmail($request->get('Sender'));
+            if($client)
+            {
+                $message->setClient($client);
+            }
+            
             $attachment_count = $request->get('attachment-count');
             
             for($i = 1; $i <= $attachment_count; $i++)

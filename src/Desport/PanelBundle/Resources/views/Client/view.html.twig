@@ -22,7 +22,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Datos de contacto</h3>
                         <div class="box-tools pull-right">
-                            <a href="{{ path('desport_sales_client_contact', {client_id:client.id}) }}" class="btn btn-sm btn-success"><i class="fa fa-envelope"></i> Contactar</a> <a class="btn btn-default" href="{{ path('desport_sales_client_edit', {client_id:client.id}) }}"><i class="fa fa-edit fa-fw"></i> Editar</a>
+                            <a class="btn btn-default" href="{{ path('desport_sales_client_edit', {client_id:client.id}) }}"><i class="fa fa-edit fa-fw"></i> Editar</a>
                         </div>
                     </div>
                     <div class="box-body">
@@ -41,6 +41,48 @@
                     </div>
                 </div>
                 
+                
+                <div class="box box-success mailbox">
+                    <div class="box-header">
+                        <h3 class="box-title">Mensajes</h3>
+                        <div class="box-tools pull-right">
+                            <a href="{{ path('desport_sales_client_contact', {client_id:client.id}) }}" class="btn btn-sm btn-success"><i class="fa fa-envelope"></i> Contactar</a>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        {% if client.messages %}
+                            <table class="table table-mailbox"><tbody>
+                                     
+                            {% for message in client.messages %}
+                                <tr class="{% if not message.isRead %}unread{% endif %}">
+                                    <td class="small-col"><i class="fa fa-reply"></i></td>
+                                    <td class="name"><a href="#">John Doe</a></td>
+                                    <td class="subject"><a href="#">{{ message.subject }}</a></td>
+                                    <td class="time">{{ message.date | date("d/m/Y H:i") }}</td>
+                                </tr>
+                            {% endfor %}   
+                            
+                            </tbody></table> 
+                            
+                        {% else %}
+                            <p class="lead">No hay mensajes con este cliente</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Ubicación</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>{{ client.addressFull | default('No hay dirección establecida para este cliente.') }}</p>
+                        {% if client.addressFull %}
+                        <div id="map-canvas" style="height:200px"></div>
+                        {% endif %}
+                    </div>
+                </div>
                 
                 <div class="box box-success">
                     <div class="box-header">
@@ -81,20 +123,6 @@
                                 <button type="submit" class="btn btn-default"><i class="fa fa-edit fa-fw"></i> Modificar datos de venta</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <div class="box box-info">
-                    <div class="box-header">
-                        <h3 class="box-title">Ubicación</h3>
-                    </div>
-                    <div class="box-body">
-                        <p>{{ client.addressFull | default('No hay dirección establecida para este cliente.') }}</p>
-                        {% if client.addressFull %}
-                        <div id="map-canvas" style="height:200px"></div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
