@@ -45,7 +45,7 @@ class APIController extends Controller
                 $message->setParentMessage($parent);
             }
             
-            $client = $em->getRepository('DesportPanelBundle:Client')->findOneByEmail($request->get('Sender'));
+            $client = $em->getRepository('DesportPanelBundle:Client')->findOneByEmail($this->cleanEmail($request->get('from')));
             if($client)
             {
                 $message->setClient($client);
@@ -70,5 +70,22 @@ class APIController extends Controller
         }
         
         throw $this->createNotFoundException('No POST vars detected.');
+    }
+    
+    public function cleanEmail($address)
+    {
+        $address_sclean = str_replace(array('<','>'), '', $address); //remove < and > symbols
+        
+        $address_split = explode(' ', $address_sclean); //split by whitespaces
+        
+        foreach($address_split as $part)
+        {
+            if(filter_var($part, FILTER_VALIDATE_EMAIL))
+            {
+                return $part;
+            }
+        }
+        
+        return $address;
     }
 }
