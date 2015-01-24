@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        {% if client.messages %}
+                        {% if client.messages | length %}
                             <table class="table table-mailbox"><tbody>
                                      
                             {% for message in client.messages %}
