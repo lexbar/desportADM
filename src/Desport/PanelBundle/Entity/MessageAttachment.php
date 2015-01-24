@@ -45,7 +45,7 @@ class MessageAttachment
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="blob")
      */
     private $content;
 
@@ -193,6 +193,8 @@ class MessageAttachment
     public function loadFile($file)
     {
         $this->setName($file['name']);
-        $this->setContent(file_get_contents( $file['tmp_name'] ));
+        
+        $content = fread(fopen($file['tmp_name'], "r"), $file['size']);
+        $this->setContent($content);
     }
 }

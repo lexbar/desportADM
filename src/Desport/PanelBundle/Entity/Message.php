@@ -90,9 +90,9 @@ class Message
     /**
      * @var boolean
      *
-     * @ORM\Column(name="read", type="boolean")
+     * @ORM\Column(name="isRead", type="boolean")
      */
-    private $read;
+    private $isRead=false;
     
     /**
      * @ORM\OneToMany(targetEntity="MessageAttachment", mappedBy="message")
@@ -349,36 +349,6 @@ class Message
     }
 
     /**
-     * Set read
-     *
-     * @param boolean $read
-     * @return Message
-     */
-    public function setRead($read)
-    {
-        $this->read = $read;
-
-        return $this;
-    }
-
-    /**
-     * Get read
-     *
-     * @return boolean 
-     */
-    public function getRead()
-    {
-        return $this->read;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add attachments
      *
      * @param \Desport\PanelBundle\Entity\MessageAttachment $attachments
@@ -409,5 +379,35 @@ class Message
     public function getAttachments()
     {
         return $this->attachments;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set isRead
+     *
+     * @param boolean $isRead
+     * @return Message
+     */
+    public function setIsRead($isRead)
+    {
+        $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    /**
+     * Get isRead
+     *
+     * @return boolean 
+     */
+    public function getIsRead()
+    {
+        return $this->isRead;
     }
 }
