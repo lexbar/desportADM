@@ -29,25 +29,11 @@ class Ticket
     private $date;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="response_to", type="boolean")
-     */
-    private $responseTo;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255)
      */
     private $subject;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="text", type="text")
-     */
-    private $text;
 
     /**
      * @var string
@@ -81,10 +67,9 @@ class Ticket
     private $events;
     
     /**
-     * @ORM\OneToOne(targetEntity="Message", inversedBy="ticket")
-     * @ORM\JoinColumn(name="message_id", referencedColumnName="id")
-     **/
-    private $message;
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="ticket")
+     */
+    private $messages;
 
 
     /**
@@ -388,5 +373,38 @@ class Ticket
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Add messages
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messages
+     * @return Ticket
+     */
+    public function addMessage(\Desport\PanelBundle\Entity\Message $messages)
+    {
+        $this->messages[] = $messages;
+
+        return $this;
+    }
+
+    /**
+     * Remove messages
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messages
+     */
+    public function removeMessage(\Desport\PanelBundle\Entity\Message $messages)
+    {
+        $this->messages->removeElement($messages);
+    }
+
+    /**
+     * Get messages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 }

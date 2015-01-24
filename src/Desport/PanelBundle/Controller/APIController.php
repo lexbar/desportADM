@@ -86,6 +86,15 @@ class APIController extends Controller
             }
         }
         
+        //lets try again less restrictive
+        foreach($address_split as $part)
+        {
+            if(preg_match("/.*@.*/i", $part)
+            {
+                return $part;
+            }
+        }
+        
         return $address;
     }
 }

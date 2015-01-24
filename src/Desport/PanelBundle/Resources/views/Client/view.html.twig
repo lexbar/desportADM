@@ -56,8 +56,8 @@
                             {% for message in client.messages %}
                                 <tr class="{% if not message.isRead %}unread{% endif %}">
                                     <td class="small-col"><i class="fa fa-reply"></i></td>
-                                    <td class="name"><a href="#">John Doe</a></td>
-                                    <td class="subject"><a href="#">{{ message.subject }}</a></td>
+                                    <td class="name"><a href="#">{{ message.subject }}</a></td>
+                                    <td class="subject">{{ message.text[0:40] }}{{ message.text | length > 40 ? '...' : '' }}</td>
                                     <td class="time">{{ message.date | date("d/m/Y H:i") }}</td>
                                 </tr>
                             {% endfor %}   
@@ -72,7 +72,7 @@
             </div>
             
             <div class="col-lg-4">
-                <div class="box box-info">
+                <div class="box box-default">
                     <div class="box-header">
                         <h3 class="box-title">Ubicación</h3>
                     </div>
@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
                         <h3 class="box-title">Venta</h3>
                         <div class="box-tools pull-right">

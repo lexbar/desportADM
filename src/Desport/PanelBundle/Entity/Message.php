@@ -70,11 +70,6 @@ class Message
     private $userTo;
 
     /**
-     * @ORM\OneToOne(targetEntity="Ticket", mappedBy="message")
-     **/
-    private $ticket;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="messages")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
@@ -116,6 +111,12 @@ class Message
      * @ORM\OneToMany(targetEntity="Message", mappedBy="parentMessage")
      */
     private $responses;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Ticket", inversedBy="messages")
+     * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
+     */
+    private $ticket;
     
 
     /**
@@ -287,29 +288,6 @@ class Message
     public function getUserTo()
     {
         return $this->userTo;
-    }
-
-    /**
-     * Set ticket
-     *
-     * @param boolean $ticket
-     * @return Message
-     */
-    public function setTicket($ticket)
-    {
-        $this->ticket = $ticket;
-
-        return $this;
-    }
-
-    /**
-     * Get ticket
-     *
-     * @return boolean 
-     */
-    public function getTicket()
-    {
-        return $this->ticket;
     }
 
     /**
@@ -506,5 +484,28 @@ class Message
     public function getResponses()
     {
         return $this->responses;
+    }
+
+    /**
+     * Set ticket
+     *
+     * @param \Desport\PanelBundle\Entity\Ticket $ticket
+     * @return Message
+     */
+    public function setTicket(\Desport\PanelBundle\Entity\Ticket $ticket = null)
+    {
+        $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * Get ticket
+     *
+     * @return \Desport\PanelBundle\Entity\Ticket 
+     */
+    public function getTicket()
+    {
+        return $this->ticket;
     }
 }
