@@ -39,7 +39,7 @@ class APIController extends Controller
             $message->setMailgunId($request->get('Message-Id'));
             
             //if it is a response...
-            $parent = $em->getRepository('DesportPanelBundle:Message')->findOneById($request->get('In-Reply-To'));
+            $parent = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('In-Reply-To'));
             if($parent)
             {
                 $message->setParentMessage($parent);
