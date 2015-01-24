@@ -154,8 +154,6 @@ class ClientController extends Controller
                 $message->setUserFrom($user);
                 $message->setClient($client);
                 
-                $em->persist($message); 
-                $em->flush();
                 
                 // SEND EMAIL
                 $email = \Swift_Message::newInstance()
@@ -172,7 +170,12 @@ class ClientController extends Controller
                 
                 $mailgun = $this->container->get("mailgun.swift_transport.transport");
                 
-                $mailgun->send($email);
+                $mailgun_id = $mailgun->send($email);
+                
+                $message->setMailgunId($mailgun_id);
+                
+                $em->persist($message); 
+                $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('success', 'Mensaje enviado.');
                 return new RedirectResponse($this->generateUrl('desport_sales_client_view', array('client_id' => $client->getId())));

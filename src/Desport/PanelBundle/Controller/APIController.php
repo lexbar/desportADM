@@ -36,6 +36,15 @@ class APIController extends Controller
             $message->setEmailFrom($request->get('from'));
             $message->setEmailTo($request->get('recipient'));
             
+            $message->setMailgunId($request->get('Message-Id'));
+            
+            //if it is a response...
+            $parent = $em->getRepository('DesportPanelBundle:Message')->findOneById($request->get('In-Reply-To'));
+            if($parent)
+            {
+                $message->setParentMessage($parent);
+            }
+            
             $attachment_count = $request->get('attachment-count');
             
             for($i = 1; $i <= $attachment_count; $i++)

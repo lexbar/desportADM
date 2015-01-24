@@ -98,7 +98,25 @@ class Message
      * @ORM\OneToMany(targetEntity="MessageAttachment", mappedBy="message")
      */
     private $attachments;
-
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mailgunId", type="string", length=255)
+     */
+    private $mailgunId='';
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Message", inversedBy="responses")
+     * @ORM\JoinColumn(name="parent_message_id", referencedColumnName="id")
+     */
+    private $parentMessage;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="parentMessage")
+     */
+    private $responses;
+    
 
     /**
      * Get id
@@ -409,5 +427,84 @@ class Message
     public function getIsRead()
     {
         return $this->isRead;
+    }
+
+    /**
+     * Set mailgunId
+     *
+     * @param string $mailgunId
+     * @return Message
+     */
+    public function setMailgunId($mailgunId)
+    {
+        $this->mailgunId = $mailgunId;
+
+        return $this;
+    }
+
+    /**
+     * Get mailgunId
+     *
+     * @return string 
+     */
+    public function getMailgunId()
+    {
+        return $this->mailgunId;
+    }
+
+    /**
+     * Set parentMessage
+     *
+     * @param \Desport\PanelBundle\Entity\Message $parentMessage
+     * @return Message
+     */
+    public function setParentMessage(\Desport\PanelBundle\Entity\Message $parentMessage = null)
+    {
+        $this->parentMessage = $parentMessage;
+
+        return $this;
+    }
+
+    /**
+     * Get parentMessage
+     *
+     * @return \Desport\PanelBundle\Entity\Message 
+     */
+    public function getParentMessage()
+    {
+        return $this->parentMessage;
+    }
+
+    /**
+     * Add responses
+     *
+     * @param \Desport\PanelBundle\Entity\Message $responses
+     * @return Message
+     */
+    public function addResponse(\Desport\PanelBundle\Entity\Message $responses)
+    {
+        $this->responses[] = $responses;
+
+        return $this;
+    }
+
+    /**
+     * Remove responses
+     *
+     * @param \Desport\PanelBundle\Entity\Message $responses
+     */
+    public function removeResponse(\Desport\PanelBundle\Entity\Message $responses)
+    {
+        $this->responses->removeElement($responses);
+    }
+
+    /**
+     * Get responses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getResponses()
+    {
+        return $this->responses;
     }
 }
