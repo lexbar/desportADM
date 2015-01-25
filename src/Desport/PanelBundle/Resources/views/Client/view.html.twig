@@ -54,7 +54,7 @@
                             <table class="table table-mailbox"><tbody>
                                      
                             {% for message in messages %}
-                                <tr class="{% if message.recipientDomain(domain) and message.isRead %}unread{% endif %}">
+                                <tr class="{% if not message.recipientDomain(domain) and not message.isRead %}unread{% endif %}">
                                     <td class="small-col">{% if not message.recipientDomain(domain) %}<i class="fa fa-mail-forward"></i>{% else %}<i class="fa fa-mail-reply"></i>{% endif %}</td>
                                     <td class="name"><a href="#">{{ message.subject }}</a></td>
                                     <td class="subject">{{ message.text[0:40] }}{{ message.text | length > 40 ? '...' : '' }}</td>
