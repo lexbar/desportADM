@@ -50,10 +50,10 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        {% if client.messages | length %}
+                        {% if messages | length %}
                             <table class="table table-mailbox"><tbody>
                                      
-                            {% for message in client.messages %}
+                            {% for message in messages %}
                                 <tr class="{% if not message.isRead %}unread{% endif %}">
                                     <td class="small-col"><i class="fa fa-reply"></i></td>
                                     <td class="name"><a href="#">{{ message.subject }}</a></td>

@@ -111,8 +111,15 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
+        if(! $client)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El cliente no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
         
-        return $this->render('DesportPanelBundle:Client:view.html.twig', array('client' => $client));
+        $messages = $em->getRepository('DesportPanelBundle:Message')->findBy(array('client'=>$client->getId()), array('date'=>'DESC'));
+        
+        return $this->render('DesportPanelBundle:Client:view.html.twig', array('client' => $client, 'messages' => $messages));
     }
     
     public function contactAction($client_id)
