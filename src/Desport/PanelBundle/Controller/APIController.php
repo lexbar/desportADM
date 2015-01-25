@@ -40,16 +40,63 @@ class APIController extends Controller
             
             //if it is a response...
             $parent = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('In-Reply-To'));
-            if($parent)
+            if( $parent )
             {
                 $message->setParentMessage($parent);
+                
+                if($parent->getClient())
+                {
+                    $message->setClient($parent->getClient());
+                }
+                
+                if($parent->getUserFrom())
+                {
+                    $message->setUserTo($parent->getUserFrom());
+                }
+                
+                if($parent->getUserTo())
+                {
+                    $message->setUserFrom($parent->getUserTo());
+                }
+                
+                if($parent->getTicket())
+                {
+                    $message->setTicket($parent->getTicket());
+                }
             }
             
-            $client = $em->getRepository('DesportPanelBundle:Client')->findOneByEmail($this->cleanEmail($request->get('from')));
-            if($client)
+            // Now we'll try to infer metadata
+            
+            if( ! $message->getClient() )
             {
-                $message->setClient($client);
+                $client = $em->getRepository('DesportPanelBundle:Client')->findOneByEmail($this->cleanEmail($request->get('from')));
+                if($client)
+                {
+                    $message->setClient($client);
+                }
             }
+            
+            if( ! $message->getUserTo() )
+            {
+                $userTo = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($this->cleanEmail($request->get('recipient')));
+                if($userTo)
+                {
+                    $message->setUserTo($userTo);
+                }
+            }
+            
+            if( ! $message->getUserFrom() )
+            {
+                $userFrom = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($this->cleanEmail($request->get('from')));
+                if($userTo)
+                {
+                    $message->setUserFrom($userFrom);
+                }
+            }
+            
+            //TODO: Ticket infering
+            
+            //Manage attachments
             
             $attachment_count = $request->get('attachment-count');
             
