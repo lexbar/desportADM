@@ -139,7 +139,7 @@ class InstallService
 	        'enctype' => "multipart/form-data", 
 	        'action' => 'create', 
 	        'name' => $this->clean($name), 
-	        'user' => $this->clean($name),
+	        'user' => $this->clean($name,1),
 	        'passwd' => $password,
 	        'passwd2' => $password 
 	    ); 
@@ -177,7 +177,7 @@ class InstallService
 	    $sock->query('/CMD_API_DATABASES', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(is_array($result['list']) && in_array($username.'_'.$this->clean($name), $result['list']))
+	    if(is_array($result['list']) && in_array($username.'_'.$this->clean($name,1), $result['list']))
 	    {
     	    return true;
 	    }
@@ -481,8 +481,15 @@ class InstallService
         return $randomString;
     }
     
-    public function clean($name)
+    public function clean($name, $shorten = 1)
     {
-        return preg_replace("/[^a-zA-Z0-9]+/", "", $name);
+        $clean = preg_replace("/[^a-zA-Z0-9]+/", "", $name);                  
+        
+        if($shorten) //this is a restriction for database names
+        {
+            $clean = substr( $clean, 0, 16 - strlen($this->container->getParameter('directadmin_username') . '_') );
+        }
+        
+        return $clean;
     }
 }
