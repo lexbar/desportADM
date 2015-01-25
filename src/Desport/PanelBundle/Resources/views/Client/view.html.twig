@@ -101,13 +101,11 @@
                         {% endif %}
                         
                         {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
-                        {% set stageLabel = {'':'default', 'contact':'warning', 'interest':'primary', 'no-interest':'danger', 'conversion':'success'} %}
-                        
-                        <p class="lead">Fase de la venta: <span class="label label-{{ stageLabel[client.stage] }}">{{ stages[client.stage] }}</span></p>
+                        {% set stageLabel = {'':'', 'contact':'has-warning', 'interest':'has-success', 'no-interest':'has-error', 'conversion':'has-success'} %}
                         
                         <form role="form" action="{{ path('desport_sales_client_stage', {client_id:client.id}) }}" method="post">
-                            <div class="form-group">
-                                <label for="client_stage">Modificar a:</label>
+                            <div class="form-group {{ stageLabel[client.stage] }}">
+                                <label for="client_stage">Fase de la venta:</label>
                                 <select class="form-control" name="client_stage" id="client_stage">
                                     {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
                                     {% for key,stage in stages %}
@@ -120,7 +118,7 @@
                                 <textarea rows="4" class="form-control" id="client_comments" name="client_comments">{{ client.comments }}</textarea>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-edit fa-fw"></i> Modificar datos de venta</button>
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-edit fa-fw"></i> Modificar datos de venta</button>
                             </div>
                         </form>
                     </div>
