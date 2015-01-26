@@ -201,6 +201,6 @@ class MessageAttachment
     public function mimeType()
     {
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
-        return $finfo->buffer($this->getcontent());
+        return $finfo->buffer(stream_get_contents($this->getcontent()));
     }
 }
