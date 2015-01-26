@@ -3541,3 +3541,9 @@ fieldset[disabled] .btn-vk.active {
   color: #587ea3;
   background-color: #ffffff;
 }
+
+
+/* ADDED FOR DESPORT CONTROL PANEL */
+.email-body {
+    font-size: 17px;
+}
