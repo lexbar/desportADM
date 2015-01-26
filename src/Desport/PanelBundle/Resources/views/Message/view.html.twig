@@ -28,7 +28,18 @@
                     <div class="box-body">
                         <p>{% if message.userFrom %}<img src="{{ message.userFrom.avatar }}" style="max-height:24px;"><strong>{{ message.userFrom.name }}</strong>{% else %}<strong>{{ message.emailFrom }}{% endif %}</strong></p>
                         <p class="text-muted">para {{ message.userTo ? message.userTo.name : message.emailTo }}</p>
-                        {{ message.textHTML }}
+                        {{ message.textHTML | raw }}
+                        
+                        {% if message.attachments | length > 0 %}
+                            <hr>
+                            <h3>Archivos adjuntos:</h3>
+                            
+                            <ul>
+                            {% for attachment in message.attachments %}
+                                <li>{{ attachment.name }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
                     </div>
                 </div>
             </div>
