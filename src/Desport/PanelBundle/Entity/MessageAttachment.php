@@ -197,4 +197,10 @@ class MessageAttachment
         $content = fread(fopen($file['tmp_name'], "r"), $file['size']);
         $this->setContent($content);
     }
+    
+    public function mimeType()
+    {
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        return $finfo->buffer($this->getcontent());
+    }
 }

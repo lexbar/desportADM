@@ -37,7 +37,7 @@
                     
                     <ul>
                     {% for attachment in message.attachments %}
-                        <li>{{ attachment.name }}</li>
+                        <li><a href="{{ path('desport_sales_messages_attachment', {attachment_id:attachment.id}) }}">{{ attachment.name }}</a></li>
                     {% endfor %}
                     </ul>
                 {% endif %}

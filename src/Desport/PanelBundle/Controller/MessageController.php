@@ -66,4 +66,30 @@ class MessageController extends Controller
         
         return $this->render('DesportPanelBundle:Message:view.html.twig', array('message' => $message));
     }
+    
+    public function attachmentAction($attachment_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $attachment = $em->getRepository('DesportPanelBundle:MessageAttachment')->findOneById($attachment_id);
+        
+        if(!$attachment)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El archivo adjunto no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $response = new Response();
+        
+        $response->setStatusCode(200);
+        $response->setContent($attachment->getcontent());
+        $response->headers->set('Content-Type', $attachment->mimeType() );
+        $response->headers->set('Content-Text', 'Descarga de '.$attachment->getName());
+        $response->headers->set('Content-Disposition', 'attachment; filename='.$attachment->getName());
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', '0');
+        
+        return $response;
+    }
 }
