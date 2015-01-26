@@ -82,7 +82,7 @@ class MessageController extends Controller
         $response = new Response();
         
         $response->setStatusCode(200);
-        $response->setContent($attachment->getcontent());
+        $response->setContent(stream_get_contents($attachment->getcontent()));
         $response->headers->set('Content-Type', $attachment->mimeType() );
         $response->headers->set('Content-Text', 'Descarga de '.$attachment->getName());
         $response->headers->set('Content-Disposition', 'attachment; filename='.$attachment->getName());
