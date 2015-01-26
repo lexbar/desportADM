@@ -1,0 +1,43 @@
+{% extends "::backend.html.twig" %}
+
+{% set active = 'clients' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            Mensajes de entrada
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+            <li class="active"><a href="{{ path('desport_sales_client_index') }}">Mensajes</a></li>
+        </ol>
+    </section>
+    
+    <section class="content">
+            <div class="box box-success mailbox">
+                <div class="box-header">
+                    <h3 class="box-title">Mensajes</h3>
+                </div>
+                <div class="box-body">
+                    {% if messages | length %}
+                        <table class="table table-mailbox"><tbody>
+                                 
+                        {% for message in messages %}
+                            <tr class="{% if not message.recipientDomain(domain) and not message.isRead %}unread{% endif %}">
+                                <td class="small-col">{% if not message.recipientDomain(domain) %}<i class="fa fa-mail-forward"></i>{% else %}<i class="fa fa-mail-reply"></i>{% endif %}</td>
+                                <td class="name"><a href="{{ path('desport_sales_messages_view', {message_id:message.id}) }}">{{ message.subject }}</a></td>
+                                <td class="subject">{{ message.text[0:40] }}{{ message.text | length > 40 ? '...' : '' }}</td>
+                                <td class="time">{{ message.date | date("d/m/Y H:i") }}</td>
+                            </tr>
+                        {% endfor %}   
+                        
+                        </tbody></table> 
+                        
+                    {% else %}
+                        <p class="lead">No hay mensajes de entrada</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

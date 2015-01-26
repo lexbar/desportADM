@@ -20,6 +20,22 @@ desport_sales_client_stage:
 desport_sales_client_contact:
     pattern:     /sales/client/contact/{client_id}/
     defaults: { _controller: DesportPanelBundle:Client:contact }
+desport_sales_client_messages:
+    pattern:     /sales/client/messages/{client_id}/
+    defaults: { _controller: DesportPanelBundle:Message:client }
+desport_sales_client_messages_page:
+    pattern:     /sales/client/messages/{client_id}/page/{page_number}/
+    defaults: { _controller: DesportPanelBundle:Message:client }
+desport_sales_client_messages_page_max:
+    pattern:     /sales/client/messages/{client_id}/page/{page_number}/max/{max_results}/
+    defaults: { _controller: DesportPanelBundle:Message:client }
+    
+desport_sales_messages_index:
+    pattern:     /sales/client/message/
+    defaults: { _controller: DesportPanelBundle:Message:index }
+desport_sales_messages_view:
+    pattern:     /sales/client/message/{message_id}
+    defaults: { _controller: DesportPanelBundle:Message:view }
     
     
 desport_sales_site_index:
@@ -42,3 +58,4 @@ desport_sales_site_install_undo:
 desport_api_mailgun_message:
     path:     /api/mailgun/message/new/
     defaults: { _controller: DesportPanelBundle:API:mailgunMessageNew }
+    
