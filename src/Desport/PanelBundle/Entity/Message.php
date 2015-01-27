@@ -529,4 +529,28 @@ class Message
         }
         
     }
+    
+    public function getSwiftEmailFrom()
+    {
+        $addr = $this->getEmailFrom();
+        
+        if(preg_match("/(?P<name>\w+)<(?P<email>\d+)>/", trim($addr), $matches))
+        {
+            return array($matches['email'] => $matches['name']);
+        }
+        
+        return $addr;
+    }
+    
+    public function getSwiftEmailTo()
+    {
+        $addr = $this->getEmailTo();
+        
+        if(preg_match("/(?P<name>\w+)<(?P<email>\d+)>/", trim($addr), $matches))
+        {
+            return array($matches['email'] => $matches['name']);
+        }
+        
+        return $addr;
+    }
 }

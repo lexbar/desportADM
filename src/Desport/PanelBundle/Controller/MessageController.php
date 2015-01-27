@@ -56,12 +56,93 @@ class MessageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
+        $user = $this->get('security.context')->getToken()->getUser();
+        
         $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
         
         if(!$message)
         {
             $this->get('session')->getFlashBag()->add('error', 'El mensaje no existe en la base de datos.');
             return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $response = new Message();
+        
+        if($this->get('request')->getMethod() == 'POST') // Response
+        {
+            $request = $this->get('request')->request;
+            
+            $response->setSubject($request->get('message_subject'));
+            $response->setText($request->get('message_text'));
+            
+            if(! $response->getSubject() || ! $response->getText())
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No puedes dejar ningún campo vacío.');
+            }
+            else
+            {
+                $response->setEmailFrom($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain'));
+                
+                $response->setEmailTo($message->getEmailFrom());
+                
+                $response->setTextHTML($request->get('message_text'));
+                
+                $response->setUserFrom($user);
+                
+                if($message->getClient())
+                {
+                    $response->setClient($message->getClient());
+                }
+                
+                if($message->getUserFrom())
+                {
+                    $response->setUserTo($message->getUserFrom());
+                }
+
+                if($message->getUserTo())
+                {
+                    $response->setUserFrom($message->getUserTo());
+                }
+                
+                if($message->getTicket())
+                {
+                    $response->setTicket($message->getTicket());
+                }
+                
+                $response->setParentMessage($message);
+                
+                // SEND EMAIL
+                $email = \Swift_Message::newInstance()
+                    ->setSubject($response->getSubject())
+                    ->setFrom(array( $response->getEmailFrom() => $this->container->getParameter('site_name') ))
+                    ->setTo($response->getSwiftEmailTo())
+                    ->setBody(
+                        $this->renderView(
+                            'DesportPanelBundle:Client:email.txt.twig',
+                            array('message' => $response)
+                        )
+                    )
+                ;
+                
+                $mailgun = $this->container->get("mailgun.swift_transport.transport");
+                
+                $mailgun_id = $mailgun->send($email);
+                
+                $response->setMailgunId($mailgun_id);
+                
+                $em->persist($response); 
+                $em->flush();
+                
+                $this->get('session')->getFlashBag()->add('success', 'Mensaje enviado.');
+                return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array('message_id' => $response->getId())));
+            }
+        }
+        
+        if(!$message->getIsRead())
+        {
+            $message->setIsRead(true);
+            $em->persist($message); 
+            $em->flush();
         }
         
         return $this->render('DesportPanelBundle:Message:view.html.twig', array('message' => $message));
@@ -91,5 +172,43 @@ class MessageController extends Controller
         $response->headers->set('Expires', '0');
         
         return $response;
+    }
+    
+    public function attachmentKeepAction($attachment_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $attachment = $em->getRepository('DesportPanelBundle:MessageAttachment')->findOneById($attachment_id);
+        
+        if(!$attachment)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El archivo adjunto no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $attachment->setKeep(true);
+        $em->persist($attachment); 
+        $em->flush();
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $attachment->getMessage()->getId() )));
+    }
+    
+    public function attachmentUnkeepAction($attachment_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $attachment = $em->getRepository('DesportPanelBundle:MessageAttachment')->findOneById($attachment_id);
+        
+        if(!$attachment)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El archivo adjunto no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $attachment->setKeep(false);
+        $em->persist($attachment); 
+        $em->flush();
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $attachment->getMessage()->getId() )));
     }
 }

@@ -3547,3 +3547,6 @@ fieldset[disabled] .btn-vk.active {
 .email-body {
     font-size: 17px;
 }
+.email-body hr {
+    border-style: dashed;
+}

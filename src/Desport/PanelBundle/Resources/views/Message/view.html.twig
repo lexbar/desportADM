@@ -6,7 +6,7 @@
     <section class="content-header">
         <h1>
             Mensaje
-            <small>{{ message.subject }}</small>
+            <small>{% if message.client %}<a href="{{ path('desport_sales_client_view', {client_id:message.client.id}) }}">{{ message.client.name }}</a>{% else %}sin cliente asociado{% endif %}</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -20,7 +20,7 @@
             <div class="box-header">
                 <h3 class="box-title">{{ message.subject }}</h3>
                 <div class="box-tools pull-right">
-                    <a href="" class="btn btn-default"><i class="fa fa-reply"></i></a>
+                    <span style="padding-right:20px">{{ message.date | date("d/m/Y H:i") }}</span> <a href="" class="btn btn-default"><i class="fa fa-reply"></i></a>
                 </div>
             </div>
             <div class="box-body">
@@ -28,19 +28,44 @@
                 <p class="text-muted">para {{ message.userTo ? message.userTo.name : message.emailTo }}</p>
                 
                 <div class="email-body">
-                {{ message.textHTML | raw }}
-                </div>
-                
-                {% if message.attachments | length > 0 %}
-                    <hr>
-                    <h3>Archivos adjuntos:</h3>
+                    {{ message.textHTML | raw }}
                     
-                    <ul>
-                    {% for attachment in message.attachments %}
-                        <li><a href="{{ path('desport_sales_messages_attachment', {attachment_id:attachment.id}) }}">{{ attachment.name }}</a></li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
+                    
+                    {% if message.attachments | length > 0 %}
+                        <hr>
+                        <h4>Archivos adjuntos:</h4>
+                        
+                        <ul>
+                        {% for attachment in message.attachments %}
+                            <li>
+                                <a href="{{ path('desport_sales_messages_attachment', {attachment_id:attachment.id}) }}">{{ attachment.name }}</a>  - 
+                                <a href="{{ path('desport_sales_messages_attachment', {attachment_id:attachment.id}) }}" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Descargar</a> 
+                                {% if attachment.keep %}
+                                <a href="{{ path('desport_sales_messages_attachment_unkeep', {attachment_id:attachment.id}) }}" class="btn btn-primary btn-xs"><i class="fa fa-times"></i> No conservar</a>
+                                {% else %}
+                                <a href="{{ path('desport_sales_messages_attachment_keep', {attachment_id:attachment.id}) }}" class="btn btn-default btn-xs"><i class="fa fa-check"></i> Conservar</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Responder</h3>
+            </div>
+            <div class="box-body">
+                <div class="email-response">
+                    <form role="form" action="{#{ path('desport_sales_client_contact', {client_id:client.id}) }#}" method="post">
+                        <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="Re: {{ message.subject }}"><br>
+                        <textarea rows="4" class="form-control" id="message_text" name="message_text"></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
