@@ -10,7 +10,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
-            <li><a href="{{ path('desport_sales_client_index') }}">Mensajes</a></li>
+            <li>{% if message.client %}<a href="{{ path('desport_sales_client_view',{client_id:message.client.id}) }}">Cliente</a>{% else %}<a href="{{ path('desport_sales_messages_index') }}">Mensajes</a>{% endif %}</li>
             <li class="active">Vista Mensaje</li>
         </ol>
     </section>
