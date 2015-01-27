@@ -60,11 +60,6 @@ class Ticket
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $responsible;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="ticket")
-     */
-    private $events;
     
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="ticket")
@@ -284,26 +279,6 @@ class Ticket
         $this->events[] = $events;
 
         return $this;
-    }
-
-    /**
-     * Remove events
-     *
-     * @param \Desport\PanelBundle\Entity\Event $events
-     */
-    public function removeEvent(\Desport\PanelBundle\Entity\Event $events)
-    {
-        $this->events->removeElement($events);
-    }
-
-    /**
-     * Get events
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEvents()
-    {
-        return $this->events;
     }
 
     /**

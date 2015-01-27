@@ -48,11 +48,6 @@ class User extends BaseUser
     private $invoices;
     
     /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="user")
-     */
-    private $events;
-    
-    /**
      * @ORM\OneToMany(targetEntity="Site", mappedBy="userCreated")
      */
     private $sites;
@@ -142,29 +137,6 @@ class User extends BaseUser
     public function getInvoices()
     {
         return $this->invoices;
-    }
-
-    /**
-     * Add events
-     *
-     * @param \Desport\PanelBundle\Entity\Event $events
-     * @return User
-     */
-    public function addEvent(\Desport\PanelBundle\Entity\Event $events)
-    {
-        $this->events[] = $events;
-
-        return $this;
-    }
-
-    /**
-     * Remove events
-     *
-     * @param \Desport\PanelBundle\Entity\Event $events
-     */
-    public function removeEvent(\Desport\PanelBundle\Entity\Event $events)
-    {
-        $this->events->removeElement($events);
     }
 
     /**

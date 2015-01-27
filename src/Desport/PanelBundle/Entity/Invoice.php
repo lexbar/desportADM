@@ -95,11 +95,6 @@ class Invoice
      * @ORM\Column(name="method", type="string", length=30)
      */
     private $method;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="invoice")
-     */
-    private $events;
     
     /**
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="invoice")
@@ -369,29 +364,7 @@ class Invoice
     {
         return $this->method;
     }
-
-    /**
-     * Set event
-     *
-     * @param boolean $event
-     * @return Invoice
-     */
-    public function setEvent($event)
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
-    /**
-     * Get event
-     *
-     * @return boolean 
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
+    
     /**
      * Constructor
      */

@@ -14,7 +14,7 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'));
-        
+                
         return $this->render('DesportPanelBundle:Client:index.html.twig', array('clients'=>$clients));
     }
     

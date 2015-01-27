@@ -132,11 +132,6 @@ class Client
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="client")
      */
     private $tickets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="client")
-     */
-    private $events;
     
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="client")
@@ -497,29 +492,6 @@ class Client
     public function getTickets()
     {
         return $this->tickets;
-    }
-
-    /**
-     * Set events
-     *
-     * @param boolean $events
-     * @return Client
-     */
-    public function setEvents($events)
-    {
-        $this->events = $events;
-
-        return $this;
-    }
-
-    /**
-     * Get events
-     *
-     * @return boolean 
-     */
-    public function getEvents()
-    {
-        return $this->events;
     }
     /**
      * Constructor
