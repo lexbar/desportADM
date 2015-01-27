@@ -5,8 +5,10 @@ namespace Desport\PanelBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException
 use Desport\PanelBundle\Entity\Message;
 use Desport\PanelBundle\Entity\MessageAttachment;
+use Desport\PanelBundle\Entity\EventType\PlainText;
 
 class APIController extends Controller
 {
@@ -20,7 +22,7 @@ class APIController extends Controller
             
             if($signature != $request->get('signature'))
             {
-                throw $this->createNotFoundException('No POST vars detected.');
+                throw new AccessDeniedException();
                 exit();
             }
             
@@ -111,6 +113,35 @@ class APIController extends Controller
             }
             
             $em->persist($message); 
+            $em->flush();
+            
+            return new Response('OK');
+        }
+        
+        throw $this->createNotFoundException('No POST vars detected.');
+    }
+    
+    public function mailgunMessageDropAction()
+    {
+        if($this->get('request')->getMethod() == 'POST')
+        {
+            $request = $this->get('request')->request;
+            
+            $signature = hash_hmac('sha256', $request->get('timestamp') . $request->get('token'), $this->container->getParameter('mailgun_key') );
+            
+            if($signature != $request->get('signature'))
+            {
+                throw new AccessDeniedException();
+                exit();
+            }
+            
+            $em = $this->getDoctrine()->getManager();
+        
+            //$message = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('recipient'));
+            
+            $event = new PlainText();
+            $event->setText(print_r($_POST, 1));     
+            $em->persist($event); 
             $em->flush();
             
             return new Response('OK');
