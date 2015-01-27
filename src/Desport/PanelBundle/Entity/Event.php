@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"PlainText" = "\Desport\PanelBundle\Entity\EventType\PlainText","ClientCreated" = "\Desport\PanelBundle\Entity\EventType\ClientCreated"})
+ * @ORM\DiscriminatorMap({"PlainText" = "\Desport\PanelBundle\Entity\EventType\PlainText","ClientCreated" = "\Desport\PanelBundle\Entity\EventType\ClientCreated","DroppedMessage" = "\Desport\PanelBundle\Entity\EventType\DroppedMessage"})
  */
 class Event
 {

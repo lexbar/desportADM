@@ -17,10 +17,10 @@ class ClientCreated extends \Desport\PanelBundle\Entity\Event
     protected $date;
     
     /**
-     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Event")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Client")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    protected $user;
+    protected $client;
 
 
     public function getType()
@@ -29,25 +29,25 @@ class ClientCreated extends \Desport\PanelBundle\Entity\Event
     }
     
     /**
-     * Set user
+     * Set client
      *
-     * @param boolean $user
+     * @param boolean $client
      * @return ClientCreated
      */
-    public function setUser($user)
+    public function setClient($client)
     {
-        $this->user = $user;
+        $this->client = $client;
 
         return $this;
     }
 
     /**
-     * Get user
+     * Get client
      *
      * @return boolean 
      */
     public function getUser()
     {
-        return $this->user;
+        return $this->client;
     }
 }

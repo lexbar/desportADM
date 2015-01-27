@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Desport\PanelBundle\Entity\Message;
 use Desport\PanelBundle\Entity\MessageAttachment;
-use Desport\PanelBundle\Entity\EventType\PlainText;
+use Desport\PanelBundle\Entity\EventType\DroppedMessage;
 
 class APIController extends Controller
 {
@@ -137,10 +137,17 @@ class APIController extends Controller
             
             $em = $this->getDoctrine()->getManager();
         
-            //$message = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('recipient'));
+            $message = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('Message-Id'));
             
-            $event = new PlainText();
-            $event->setText(print_r($_POST, 1));     
+            if(!$message)
+            {
+                return new Response('NO ID FOUND');
+            }
+            
+            $event = new DroppedMessage();
+            $event->setMessage($message);
+            $event->setReason($request->get('description'));     
+            
             $em->persist($event); 
             $em->flush();
             
