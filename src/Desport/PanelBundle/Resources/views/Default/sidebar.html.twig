@@ -30,6 +30,11 @@
                     <i class="fa fa-dashboard"></i> <span>Portada</span>
                 </a>
             </li>
+            <li{% if active == 'dashboard'%} class="active"{% endif %}>
+                <a href="{{ path('desport_sales_messages_index') }}">
+                    <i class="fa fa-inbox"></i> <span>Bandeja de entrada</span>
+                </a>
+            </li>
             <li{% if active == 'clients'%} class="active"{% endif %}>
                 <a href="{{ path('desport_sales_client_index') }}">
                     <i class="fa fa-user"></i> <span>Clientes</span>
