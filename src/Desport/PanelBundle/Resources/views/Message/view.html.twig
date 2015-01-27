@@ -41,13 +41,15 @@
                                 <a href="{{ path('desport_sales_messages_attachment', {attachment_id:attachment.id}) }}">{{ attachment.name }}</a>  - 
                                 <a href="{{ path('desport_sales_messages_attachment', {attachment_id:attachment.id}) }}" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Descargar</a> 
                                 {% if attachment.keep %}
-                                <a href="{{ path('desport_sales_messages_attachment_unkeep', {attachment_id:attachment.id}) }}" class="btn btn-primary btn-xs"><i class="fa fa-times"></i> No conservar</a>
+                                <a href="{{ path('desport_sales_messages_attachment_unkeep', {attachment_id:attachment.id}) }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> No conservar</a>
                                 {% else %}
                                 <a href="{{ path('desport_sales_messages_attachment_keep', {attachment_id:attachment.id}) }}" class="btn btn-default btn-xs"><i class="fa fa-check"></i> Conservar</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
                         </ul>
+                        
+                        <p><em>Si los archivos adjuntados son importantes no olvides pulsar en "Conservar". De lo contrario se eliminarán del sistema pasado un tiempo.</em></p>
                     {% endif %}
                     
                 </div>
