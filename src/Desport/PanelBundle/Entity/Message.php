@@ -534,9 +534,9 @@ class Message
     {
         $addr = $this->getEmailFrom();
         
-        if(preg_match("/(?P<name>\w+)<(?P<email>\d+)>/", trim($addr), $matches))
+        if(preg_match("/(.+)\<(.+)\>/", trim($addr), $matches)) // catch the format "Name <email@address>"
         {
-            return array($matches['email'] => $matches['name']);
+            return array($matches[2] => $matches[1]);
         }
         
         return $addr;
@@ -546,9 +546,9 @@ class Message
     {
         $addr = $this->getEmailTo();
         
-        if(preg_match("/(?P<name>\w+)<(?P<email>\d+)>/", trim($addr), $matches))
+        if(preg_match("/(.+)\<(.+)\>/", trim($addr), $matches)) // catch the format "Name <email@address>"
         {
-            return array($matches['email'] => $matches['name']);
+            return array($matches[2] => $matches[1]);
         }
         
         return $addr;
