@@ -74,6 +74,7 @@ class MessageController extends Controller
             
             $response->setSubject($request->get('message_subject'));
             $response->setText($request->get('message_text'));
+            $response->setTextHTML($request->get('message_text'));
             
             if(! $response->getSubject() || ! $response->getText())
             {
@@ -84,8 +85,6 @@ class MessageController extends Controller
                 $response->setEmailFrom($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain'));
                 
                 $response->setEmailTo($message->getEmailFrom());
-                
-                $response->setTextHTML($request->get('message_text'));
                 
                 $response->setUserFrom($user);
                 
@@ -145,7 +144,7 @@ class MessageController extends Controller
             $em->flush();
         }
         
-        return $this->render('DesportPanelBundle:Message:view.html.twig', array('message' => $message));
+        return $this->render('DesportPanelBundle:Message:view.html.twig', array('message' => $message, 'response' => $response));
     }
     
     public function attachmentAction($attachment_id)

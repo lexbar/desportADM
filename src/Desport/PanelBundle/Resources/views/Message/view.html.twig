@@ -70,8 +70,8 @@
                 <div class="email-response">
                     <form role="form" action="{#{ path('desport_sales_client_contact', {client_id:client.id}) }#}" method="post">
                         <a name="response" id="response"></a>
-                        <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="Re: {{ message.subject }}"><br>
-                        <textarea rows="4" class="form-control" id="message_text" name="message_text"></textarea>
+                        <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="{{ response.subject | default('Re: ' ~ message.subject) }}"><br>
+                        <textarea rows="4" class="form-control" id="message_text" name="message_text">{{ response.text }}</textarea>
                         <br>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                     </form>
