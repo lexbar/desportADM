@@ -5,7 +5,7 @@ namespace Desport\PanelBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Desport\PanelBundle\Entity\Message;
 use Desport\PanelBundle\Entity\MessageAttachment;
 use Desport\PanelBundle\Entity\EventType\PlainText;
