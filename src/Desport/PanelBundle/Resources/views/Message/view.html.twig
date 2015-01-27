@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="box-body">
-                <p>{% if message.userFrom %}<img src="{{ message.userFrom.avatar | default('/img/avatar_anonymous.png') }}" style="max-height:24px;"><strong>{{ message.userFrom.name }}</strong>{% else %}<strong>{{ message.emailFrom }}{% endif %}</strong>
+                <p>{% if message.userFrom %}<img src="{{ message.userFrom.avatar | default('/img/avatar_anonymous.png') }}" style="max-height:24px;"> <strong>{{ message.userFrom.name }}</strong>{% else %}<strong>{{ message.emailFrom }}{% endif %}</strong>
                 <br><span class="text-muted">para {{ message.userTo ? message.userTo.name : message.emailTo }}</span></p>
                 
                 
