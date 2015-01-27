@@ -1,0 +1,2 @@
+<li class="list-group-item clearfix"><a href="{{ path('desport_sales_messages_view', {message_id:message.id}) }}">{{ message.subject }}</a> <span class="pull-right">{{ message.date | date("d/m/Y H:i") }}</span></li>
+{% if message.parentMessage %}{{ include('DesportPanelBundle:Message:messageHeadline.html.twig',{message:message.parentMessage}) }}{% endif %}

@@ -20,7 +20,7 @@
             <div class="box-header">
                 <h3 class="box-title">{{ message.subject }}</h3>
                 <div class="box-tools pull-right">
-                    <span style="padding-right:20px">{{ message.date | date("d/m/Y H:i") }}</span> <a href="" class="btn btn-default"><i class="fa fa-reply"></i></a>
+                    <span style="padding-right:20px">{{ message.date | date("d/m/Y H:i") }}</span> <a href="#response" class="btn btn-default"><i class="fa fa-reply"></i></a>
                 </div>
             </div>
             <div class="box-body">
@@ -34,7 +34,7 @@
                     
                     {% if message.attachments | length > 0 %}
                         <hr>
-                        <h4>Archivos adjuntos:</h4>
+                        <h3>Archivos adjuntos:</h3>
                         
                         <ul>
                         {% for attachment in message.attachments %}
@@ -53,6 +53,12 @@
                         <p><em>Si los archivos adjuntados son importantes no olvides pulsar en "Conservar". De lo contrario se eliminarán del sistema pasado un tiempo.</em></p>
                     {% endif %}
                     
+                    {% if message.parentMessage %}
+                        <h3>En respuesta a:</h3>
+                        <ul class="list-group"> 
+                        {{ include('DesportPanelBundle:Message:messageHeadline.html.twig',{message:message.parentMessage}) }}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -63,6 +69,7 @@
             <div class="box-body">
                 <div class="email-response">
                     <form role="form" action="{#{ path('desport_sales_client_contact', {client_id:client.id}) }#}" method="post">
+                        <a name="response" id="response"></a>
                         <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="Re: {{ message.subject }}"><br>
                         <textarea rows="4" class="form-control" id="message_text" name="message_text"></textarea>
                         <br>
