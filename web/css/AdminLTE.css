@@ -3554,3 +3554,14 @@ fieldset[disabled] .btn-vk.active {
     font-size: 14px;
     color: #888;
 }
+.mailbox .table-mailbox {
+    table-layout: fixed;
+    width: 100%;
+}
+.mailbox .table-mailbox tr > td.subject {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mailbox .table-mailbox tr > td.date {
+    width: 120px;
+}
