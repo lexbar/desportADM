@@ -483,7 +483,7 @@ class InstallService
     
     public function clean($name, $shorten = 1)
     {
-        $clean = preg_replace("/[^a-zA-Z0-9]+/", "", $name);                  
+        $clean = preg_replace("/[^[:alnum:][:space:]]/ui", '', $name);
         
         if($shorten) //this is a restriction for database names
         {
