@@ -41,7 +41,7 @@ class DroppedMessage extends \Desport\PanelBundle\Entity\Event
      * @param boolean $message
      * @return DroppedMessage
      */
-    public function setMessage($message)
+    public function setMessage(\Desport\PanelBundle\Entity\Message $message)
     {
         $this->message = message;
 
