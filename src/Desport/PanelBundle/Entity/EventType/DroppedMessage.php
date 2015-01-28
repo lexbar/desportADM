@@ -43,7 +43,7 @@ class DroppedMessage extends \Desport\PanelBundle\Entity\Event
      */
     public function setMessage(\Desport\PanelBundle\Entity\Message $message)
     {
-        $this->message = message;
+        $this->message = $message;
 
         return $this;
     }
