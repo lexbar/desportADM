@@ -20,7 +20,7 @@
             <div class="box-header">
                 <h3 class="box-title">{{ message.subject }}</h3>
                 <div class="box-tools pull-right">
-                    <span style="padding-right:20px">{{ message.date | date("d/m/Y H:i") }}</span> <a href="#response" class="btn btn-default"><i class="fa fa-reply"></i></a>
+                    <span style="padding-right:20px">{{ message.date | date("d/m/Y H:i") }}</span> <a href="#response" class="btn btn-default" onClick="$('#message_text').focus();return false;"><i class="fa fa-reply"></i></a>
                 </div>
             </div>
             <div class="box-body">
