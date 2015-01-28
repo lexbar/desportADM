@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Desport\PanelBundle\Entity\Client;
 use Desport\PanelBundle\Entity\Message;
+use Desport\PanelBundle\Entity\EventType\ClientCreated;
 
 class ClientController extends Controller
 {
@@ -22,6 +23,8 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
+        $user = $this->get('security.context')->getToken()->getUser();
+        
         $client = new Client();
         
         if($this->get('request')->getMethod() == 'POST')
@@ -34,7 +37,12 @@ class ClientController extends Controller
             }
             else
             {
+                $event = new ClientCreated();
+                $event->setClient($client);
+                $event->setUser($user);
+                
                 $em->persist($client); 
+                $em->persist($event); 
                 $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('success', 'El Cliente se ha introducido correctamente en la base de datos.');

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Desport\PanelBundle\Entity\Site;
 use Desport\PanelBundle\Entity\Transaction;
+use Desport\PanelBundle\Entity\EventType\SiteCreated;
 
 class SiteController extends Controller
 {
@@ -74,9 +75,14 @@ class SiteController extends Controller
                         $site->setState('requested');
                         $client->setStage('conversion');
                         
+                        $event = new SiteCreated();
+                        $event->setSite($site);
+                        $event->setUser($user);
+                        
                         $em->persist($site); 
                         $em->persist($transaction); 
                         $em->persist($client); 
+                        $em->persist($event); 
                         
                         $em->flush();
                         
