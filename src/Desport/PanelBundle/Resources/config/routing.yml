@@ -56,16 +56,16 @@ desport_sales_site_new:
 desport_sales_site_view:
     pattern:     /sales/site/view/{site_id}/
     defaults: { _controller: DesportPanelBundle:Site:view }
-    
+
+desport_sales_site_install:
+    pattern:     /sales/site/install/{site_id}/
+    defaults: { _controller: DesportPanelBundle:Site:install }
 desport_sales_site_install_stage:
     pattern:     /sales/site/install/{site_id}/stage/{stage_id}/
     defaults: { _controller: DesportPanelBundle:Site:installStage }
 desport_sales_site_install_undo:
     pattern:     /sales/site/install/{site_id}/undo/{stage_id}/
     defaults: { _controller: DesportPanelBundle:Site:installUndoStage }
-desport_sales_site_install:
-    pattern:     /sales/site/install/{site_id}/
-    defaults: { _controller: DesportPanelBundle:Site:install }
     
 desport_api_mailgun_message_new:
     path:     /api/mailgun/message/new/
