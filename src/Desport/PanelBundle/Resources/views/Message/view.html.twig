@@ -16,7 +16,27 @@
     </section>
     
     <section class="content">
-        <div class="box">
+    
+        <div class="box box-solid">
+            <div class="box-body">
+                <a class="btn btn-default"><i class="fa fa-bell-o"></i> Crear Ticket</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Transferir</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Desplegable transferir</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"><i class="fa fa-check"></i> Alex Barros</a></li>
+                        <li><a href="#">Apolo Esperanza</a></li>
+                        <li><a href="#">Sheila Fernandez</a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-default"><i class="fa fa-eye"></i> No leida</a>
+            </div>
+        </div>
+        
+        <div class="box box-primary">
             <div class="box-header">
                 <h3 class="box-title">{{ message.subject }}</h3>
                 <div class="box-tools pull-right">
@@ -55,14 +75,16 @@
                     
                     {% if message.parentMessage %}
                         <h3>En respuesta a:</h3>
-                        <ul class="list-group"> 
-                        {{ include('DesportPanelBundle:Message:messageHeadline.html.twig',{message:message.parentMessage}) }}
-                        </ul>
+                        <div class="mailbox">
+                        <table class="table table-mailbox"><tbody>
+                        {{ include('DesportPanelBundle:Message:mailboxRowRecursive.html.twig',{message:message.parentMessage}) }}
+                        </table>
+                        </div>
                     {% endif %}
                 </div>
             </div>
         </div>
-        <div class="box">
+        <div class="box box-success">
             <div class="box-header">
                 <h3 class="box-title">Responder</h3>
             </div>

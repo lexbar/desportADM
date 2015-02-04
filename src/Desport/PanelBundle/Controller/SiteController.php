@@ -88,7 +88,7 @@ class SiteController extends Controller
                         
                         $this->get('session')->getFlashBag()->add('success', 'El Sitio Web se ha introducido correctamente en la base de datos.');
                         
-                        return new RedirectResponse($this->generateUrl('desport_sales_site_view', array('site_id' => $site->getId())));
+                        return new RedirectResponse($this->generateUrl('desport_sales_site_install', array('site_id' => $site->getId())));
                     }
                 }   
             }
@@ -120,6 +120,60 @@ class SiteController extends Controller
         );
         
         return $this->render('DesportPanelBundle:Site:view.html.twig', array('site' => $site, 'installStages' => $installStages));
+    }
+    
+    public function installAction($site_id)
+    {
+	    $em = $this->getDoctrine()->getManager();
+	    
+	    $site = $em->getRepository('DesportPanelBundle:Site')->findOneById($site_id);
+        
+        if(!$site)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El sitio no existe en nuestra base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_site_index'));
+        }
+        
+        $install = $this->get("desport.install");
+        
+        if($install->createSubdomain($site->getName(), $site->getBandwidth(), $site->getQuota()))
+        {
+            if($install->createDatabase($site->getName()))
+            {
+                if($install->cloneRepository($site->getName()))
+                {
+                    if($install->fillParameters($site->getName(), $site))
+                    {
+                        if($install->loadDatabase($site->getName(), $site->getClient()->getEmail(), $site->getClient()->getContactName()))
+		                {
+		                    $this->get('session')->getFlashBag()->add('success', 'Sitio instalado correctamente.');
+		                }
+		                else
+		                {
+                            $this->get('session')->getFlashBag()->add('error', 'No se han podido cargar los datos de arranque.');
+                        }
+                    }
+                    else
+                    {
+	                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido introducir parámetros necesarios para el funcionamiento.');
+                    }
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('error', 'No se ha podido clonar el repositorio.');
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se ha podido crear la base de datos.');
+            }
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('error', 'No se ha podido crear el dominio.');
+        }
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_site_view', array( 'site_id' => $site->getId() )));
     }
     
     public function installStageAction($site_id, $stage_id)
