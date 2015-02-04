@@ -30,7 +30,7 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data", 
 	        'action' => 'create', 
-	        'domain' => $this->clean($name).'.'.$domain, 
+	        'domain' => $this->clean($name,0).'.'.$domain, 
 	        'bandwidth' => $bandwidth,
 	        'quota' => $quota,
 	        'ssl' => '' ,
