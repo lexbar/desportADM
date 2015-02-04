@@ -27,6 +27,13 @@ class SiteCreated extends \Desport\PanelBundle\Entity\Event
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
+    
+    /**
+     * @var text $text
+     *
+     * @ORM\Column(name="text", type="text")
+     */
+    protected $text;
 
 
     public function getType()
@@ -78,5 +85,26 @@ class SiteCreated extends \Desport\PanelBundle\Entity\Event
     public function getUser()
     {
         return $this->user;
+    }
+    
+    /**
+     * Set text
+     *
+     * @param string $text
+     * @return Place
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * Get text
+     *
+     * @return string 
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 }

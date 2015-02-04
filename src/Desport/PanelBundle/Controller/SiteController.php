@@ -78,6 +78,7 @@ class SiteController extends Controller
                         $event = new SiteCreated();
                         $event->setSite($site);
                         $event->setUser($user);
+                        $event->setText($request->get('event_comments'))
                         
                         $em->persist($site); 
                         $em->persist($transaction); 
