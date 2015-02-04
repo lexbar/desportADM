@@ -83,7 +83,7 @@ class InstallService
 	    $sock->query('/CMD_API_SHOW_DOMAINS', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(in_array($this->clean($name).'.'.$domain, $result['list']))
+	    if(in_array($this->clean($name,0).'.'.$domain, $result['list']))
 	    {
     	    return true;
 	    }
@@ -109,7 +109,7 @@ class InstallService
 	        'enctype' => "multipart/form-data",
 	        'delete' => 'anything',
 	        'confirmed' => 'anything',
-	        'select0' => $this->clean($name).'.'.$domain
+	        'select0' => $this->clean($name,0).'.'.$domain
 	    ); 
 	     
 	    $sock->query('/CMD_API_DOMAIN', $data); 
@@ -138,7 +138,7 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data", 
 	        'action' => 'create', 
-	        'name' => $this->clean($name), 
+	        'name' => $this->clean($name,0), 
 	        'user' => $this->clean($name,1),
 	        'passwd' => $password,
 	        'passwd2' => $password 
@@ -202,7 +202,7 @@ class InstallService
 	    $data = array( 
 	        'enctype' => "multipart/form-data",
 	        'action' => 'delete',
-	        'select0' => $username.'_'.$this->clean($name)
+	        'select0' => $username.'_'.$this->clean($name,1)
 	    ); 
 	     
 	    $sock->query('/CMD_API_DATABASES', $data); 
@@ -453,8 +453,8 @@ class InstallService
         $username = $this->container->getParameter('directadmin_username'); 
         
         return $this->generateParameters(
-            $username.'_'.$name,
-            $username.'_'.$name,
+            $username.'_'.$this->clean($name,0),
+            $username.'_'.$this->clean($name,1),
             $this->generatePassword($name),
             $this->container->getParameter('mailer_transport'),
             $this->container->getParameter('mailer_host'),
@@ -481,7 +481,7 @@ class InstallService
         return $randomString;
     }
     
-    public function clean($name, $shorten = 1)
+    public function clean($name, $shorten = 0)
     {
         $clean = preg_replace("/[^[:alnum:][:space:]]/ui", '', $name);
         
