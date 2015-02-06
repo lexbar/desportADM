@@ -1,7 +1,14 @@
 parameters:
     desport.install.class: Desport\PanelBundle\Services\InstallService
+    desport.registration_success.class: Desport\PanelBundle\EventListener\RegistrationSuccessListener
  
 services:
     desport.install:
         class: "%desport.install.class%"
         arguments: ['@service_container']
+    
+    desport.registration_success:
+        class: "%desport.registration_success.class%"
+        arguments: ['@router']
+        tags:
+            - { name: kernel.event_subscriber }

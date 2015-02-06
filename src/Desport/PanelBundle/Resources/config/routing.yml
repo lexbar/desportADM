@@ -1,5 +1,16 @@
+desport_site_index:
+    path:     /
+    defaults: { _controller: DesportPanelBundle:Default:index }
+    
+desport_login_success:
+    path:     /loginsuccess
+    defaults: { _controller: DesportPanelBundle:Default:loginSuccess }
+
 desport_admin_dashboard:
     path:     /admin/
+    defaults: { _controller: DesportPanelBundle:Default:dashboard }
+desport_sales_dashboard:
+    path:     /sales/
     defaults: { _controller: DesportPanelBundle:Default:dashboard }
 
 desport_sales_client_index:

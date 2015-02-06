@@ -8,10 +8,31 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DefaultController extends Controller
 {
+    public function indexAction()
+    {
+        return $this->render('DesportPanelBundle:Default:index.html.twig');
+    }
     public function dashboardAction()
     {
         return $this->render('DesportPanelBundle:Default:dashboard.html.twig');
     }
+    public function loginSuccessAction()
+    {
+        $securityContext = $this->container->get('security.context');
+        $router = $this->container->get('router');
+    
+        if ($securityContext->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse($router->generate('desport_admin_dashboard'), 307);
+        } 
+    
+        if ($securityContext->isGranted('ROLE_SALES')) {
+            return new RedirectResponse($router->generate('desport_sales_dashboard'), 307);
+        }
+        
+        //Default...
+        return new RedirectResponse($router->generate('desport_site_index'), 307);
+    }
+
     public function headerNavbarAction()
     {
         return $this->render('DesportPanelBundle:Default:headerNavbar.html.twig');
