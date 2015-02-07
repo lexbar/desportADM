@@ -3568,3 +3568,6 @@ fieldset[disabled] .btn-vk.active {
 .mailbox .table-mailbox tr > td.date {
     width: 120px;
 }
+.navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a > p, .navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a > h4 {
+    margin: 0;
+}

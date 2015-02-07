@@ -143,7 +143,7 @@ class SiteController extends Controller
             {
                 if($install->cloneRepository($site->getName()))
                 {
-                    if($install->fillParameters($site->getName(), $site))
+                    if($install->fillParameters($site))
                     {
                         if($install->loadDatabase($site->getName(), $site->getClient()->getEmail(), $site->getClient()->getContactName()))
 		                {

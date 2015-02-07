@@ -264,8 +264,10 @@ class InstallService
     	return true;
     }
     
-    public function fillParameters($name, $param)
+    public function fillParameters($site, $parameters_input = false)
     {
+        $name = $site->getName();
+        
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
@@ -274,13 +276,9 @@ class InstallService
         $config_location = $root . '/app/config/parameters.yml';
         $config_dist_location = $root . '/app/config/parameters.yml.dist';
         
-        if($param instanceof \Desport\PanelBundle\Entity\Site)
+        if(! $parameters_input)
         {
-            $parameters_input = $this->autoParameters($this->clean($name), $param);
-        }
-        elseif(is_array($param))
-        {
-            $parameters_input = $param;
+            $parameters_input = $this->autoParameters($site);
         }
         
         $yaml = new Parser();
@@ -448,14 +446,28 @@ class InstallService
         );
     }
     
-    public function autoParameters($name, $site)
+    public function generateWebParameters($web_title, $adsense)
+    {
+        return array(
+            'twig'=>
+            array(
+                'globals'=>
+                array(
+                    'web_title' => $web_title,
+                    'adsense' => $adsense
+                )
+            )
+        );
+    }
+    
+    public function autoParameters($site)
     {
         $username = $this->container->getParameter('directadmin_username'); 
         
         return $this->generateParameters(
-            $username.'_'.$this->clean($name,0),
-            $username.'_'.$this->clean($name,1),
-            $this->generatePassword($name),
+            $username.'_'.$this->clean($site->getName(),0),
+            $username.'_'.$this->clean($site->getName(),1),
+            $this->generatePassword($site->getName()),
             $this->container->getParameter('mailer_transport'),
             $this->container->getParameter('mailer_host'),
             $this->container->getParameter('mailer_user'),
@@ -464,6 +476,14 @@ class InstallService
             $site->getClient()->getEmail(),
             $this->generateRandomString(32),
             $this->generateRandomString(32)
+        );
+    }
+    
+    public function autoWebParameters($site)
+    {
+        return $this->generateWebParameters(
+            ucfirst($site->getName()),
+            $site->getAds() ? $this->container->getParameter('adsense_code') : ''
         );
     }
     
