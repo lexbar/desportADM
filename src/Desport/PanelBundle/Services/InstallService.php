@@ -264,7 +264,7 @@ class InstallService
     	return true;
     }
     
-    public function fillParameters($site, $parameters_input = false, $web_parameters_input)
+    public function fillParameters($site, $parameters_input = false, $web_parameters_input = false)
     {
         #Site name
         $name = $site->getName();
