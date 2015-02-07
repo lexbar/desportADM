@@ -46,7 +46,7 @@
                                         <span class="label label-{% if site.maxFilespace > 0 %}warning{% else %}primary{% endif %}" title="Límite de archivos (Mb)"><i class="fa fa-file-photo-o"></i> S: {{ site.maxFilespace }}</span> 
                                         <span class="label label-{% if site.maxFilespace > 0 %}warning{% else %}primary{% endif %}" title="Límite de usuarios"><i class="fa fa-users"></i> U: {{ site.maxActiveusers }}</span> 
                                         <span class="label label-{% if site.ads %}danger{% else %}success{% endif %}" title="Publicidad"><i class="fa fa-tag"></i> P: {% if site.ads %}si{% else %}no{% endif %}</span></td>
-                                    <td>{% if site.expires %}{{ site.expires | date("d/m/Y") }}{% else %}no caduca{% endif %}</td>
+                                    <td>{% if site.expires %}<span class="text-{% if date(site.expires) < date('now') %}danger{% else %}success{% endif %}">{{ site.expires | date("d/m/Y") }}</span>{% else %}no caduca{% endif %}</td>
                                 </tr>
                             {% endfor %}
                         </tbody></table>

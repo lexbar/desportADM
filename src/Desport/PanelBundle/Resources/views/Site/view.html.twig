@@ -34,7 +34,7 @@
                             <dt>Fecha de creación</dt>
                             <dd>{{ site.dateCreated | date('d/m/Y') }}</dd>
                             <dt>Fecha de expiración</dt>
-                            <dd>{{ site.expires ? site.expires | date("d/m/Y") : 'no expira' }}</dd>
+                            <dd>{% if site.expires %}<span class="text-{% if date(site.expires) < date() %}danger{% else %}success{% endif %}">{{ site.expires | date("d/m/Y") }}</span>{% else %}no caduca{% endif %}</dd>
                             <dt>Creado por:</dt>
                             <dd>{{ site.userCreated ? site.userCreated.name : 'desconocido' }}</dd>
                         </dl>
