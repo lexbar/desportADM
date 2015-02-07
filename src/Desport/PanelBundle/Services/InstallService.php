@@ -264,35 +264,51 @@ class InstallService
     	return true;
     }
     
-    public function fillParameters($site, $parameters_input = false)
+    public function fillParameters($site, $parameters_input = false, $web_parameters_input)
     {
+        #Site name
         $name = $site->getName();
         
+        #DirectAdmin Parameters
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
+        #Root address
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
         
-        $config_location = $root . '/app/config/parameters.yml';
-        $config_dist_location = $root . '/app/config/parameters.yml.dist';
+        #Config parameters locations
+        $config_parameters_location = $root . '/app/config/parameters.yml';
+        $config_parameters_dist_location = $root . '/app/config/parameters.yml.dist';
         
+        #Config web parameters locations
+        $config_web_parameters_location = $root . '/app/config/web_parameters.yml';
+        $config_web_parameters_dist_location = $root . '/app/config/web_parameters.yml.dist';
+        
+        #Optional inputs for parameters and web parameters
         if(! $parameters_input)
         {
             $parameters_input = $this->autoParameters($site);
         }
         
+        if(! $web_parameters_input)
+        {
+            $web_parameters_input = $this->autoWebParameters($site);
+        }
+        
+        #YAML parser
         $yaml = new Parser();
         
-        if(!file_exists($config_dist_location))
+        #Try to extract parameters dist data (default parameters)
+        if(!file_exists($config_parameters_dist_location))
         {
-            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración base.<br>'.$config_dist_location);
+            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración base.');
             return false;
         }
         else 
         {
             try
             {
-                $parameters = $yaml->parse(file_get_contents($config_dist_location));
+                $parameters = $yaml->parse(file_get_contents($config_parameters_dist_location));
             } 
             catch (Exception $e)
             {
@@ -301,17 +317,43 @@ class InstallService
             }   
         }
         
+        #Now again for web parameters
+        if(!file_exists($config_web_parameters_dist_location))
+        {
+            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración de parámetros web.');
+            return false;
+        }
+        else 
+        {
+            try
+            {
+                $web_parameters = $yaml->parse(file_get_contents($config_web_parameters_dist_location));
+            } 
+            catch (Exception $e)
+            {
+                $this->container->get('session')->getFlashBag()->add('error', 'Ha fallado el parseador de parámetros web.');
+                return false;
+            }   
+        }
+        
         //Combine current parameters with input parameters
         $parameters = array_replace_recursive($parameters, $parameters_input);
+        $web_parameters = array_replace_recursive($web_parameters, $web_parameters_input);
         
+        #Now back to Yaml files
         $dumper = new Dumper();
         
         try
         {
+            #Parameters file
             $yaml = $dumper->dump($parameters, 4);
+            file_put_contents($config_parameters_location, $yaml);
             
-            file_put_contents($config_location, $yaml);
+            #Web parameters file
+            $yaml = $dumper->dump($web_parameters, 4);
+            file_put_contents($config_web_parameters_location, $yaml);
             
+            #EVERYTHING OK
             return true;
         }
         catch (Exception $e)
