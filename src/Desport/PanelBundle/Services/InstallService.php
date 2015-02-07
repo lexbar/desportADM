@@ -337,8 +337,8 @@ class InstallService
         }
         
         //Combine current parameters with input parameters
-        $parameters = array_replace_recursive($parameters, $parameters_input);
-        $web_parameters = array_replace_recursive($web_parameters, $web_parameters_input);
+        $parameters = $this->mergeProperties($parameters, $parameters_input);
+        $web_parameters = $this->mergeProperties($web_parameters, $web_parameters_input);
         
         #Now back to Yaml files
         $dumper = new Dumper();
@@ -527,6 +527,11 @@ class InstallService
             ucfirst($site->getName()),
             $site->getAds() ? $this->container->getParameter('adsense_code') : ''
         );
+    }
+    
+    public function mergeProperties($original, $merge)
+    {
+        return array_replace_recursive($original, $merge);
     }
     
     public function generateRandomString($length = 10) 
