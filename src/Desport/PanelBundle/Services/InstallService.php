@@ -455,7 +455,7 @@ class InstallService
         return $pass;
     }
     
-    public function generateParameters($database_name, $database_user, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $mail_admin, $random1, $random2)
+    public function generateParameters($database_name, $database_user, $database_password, $mailer_transport, $mailer_host, $mailer_user, $mailer_password, $mail_from, $mail_admin, $random1, $limit_users, $limit_space, $random2)
     {
         return array(
             'parameters'=>
@@ -469,7 +469,9 @@ class InstallService
                 'mailer_user' => $mailer_user,
                 'mailer_password' => $mailer_password,
                 'mail' => array('from' => $mail_from, 'admin' => $mail_admin),
-                'secret' => $random1
+                'secret' => $random1,
+                'limit_users' => $limit_users,
+                'limit_space' => $limit_space
                 // ... 
             ),
             'security'=>
@@ -507,17 +509,19 @@ class InstallService
         $username = $this->container->getParameter('directadmin_username'); 
         
         return $this->generateParameters(
-            $username.'_'.$this->clean($site->getName(),0),
-            $username.'_'.$this->clean($site->getName(),1),
-            $this->generatePassword($site->getName()),
-            $this->container->getParameter('mailer_transport'),
-            $this->container->getParameter('mailer_host'),
-            $this->container->getParameter('mailer_user'),
-            $this->container->getParameter('mailer_password'),
-            $this->container->getParameter('mail_from'),
-            $site->getClient()->getEmail(),
-            $this->generateRandomString(32),
-            $this->generateRandomString(32)
+            $username.'_'.$this->clean($site->getName(),0), // Database name
+            $username.'_'.$this->clean($site->getName(),1), // Database user
+            $this->generatePassword($site->getName()), // Database password
+            $this->container->getParameter('mailer_transport'), // Mailer transport
+            $this->container->getParameter('mailer_host'), // Mailer Host
+            $this->container->getParameter('mailer_user'), // Mailer User
+            $this->container->getParameter('mailer_password'), // Mailer Passowrd
+            $this->container->getParameter('mail_from'), // Maile from
+            $site->getClient()->getEmail(), // mail admin
+            $this->generateRandomString(32), // random 1
+            $site->getMaxActiveusers(), // Limit Users 
+            $site->getMaxFilespace(), // Limit space
+            $this->generateRandomString(32) // random 2
         );
     }
     

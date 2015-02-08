@@ -5,6 +5,9 @@ desport_site_index:
 desport_login_success:
     path:     /loginsuccess
     defaults: { _controller: DesportPanelBundle:Default:loginSuccess }
+desport_profile_edit:
+    path:     /profile/
+    defaults: { _controller: DesportPanelBundle:User:profile }
 
 desport_admin_dashboard:
     path:     /admin/
