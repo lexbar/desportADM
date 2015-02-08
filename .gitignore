@@ -2,4 +2,6 @@ app/config/parameters.yml
 app/cache/prod/*
 app/cache/dev/*
 app/logs/*
+web/avatar/
+web/avatar/*
 *~

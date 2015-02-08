@@ -57,7 +57,7 @@ class UserController extends Controller
                         $user->setPassword($encodedpass);
                     }
                     
-                    if(isset($_FILES['user_avatar']))
+                    if(isset($_FILES['user_avatar']) && $_FILES['user_avatar']["tmp_name"])
                     {
                         $avatarFile = new UploadedFile($_FILES["user_avatar"]["tmp_name"], $_FILES["user_avatar"]["name"], $_FILES["user_avatar"]["type"], $_FILES["user_avatar"]["size"], $_FILES["user_avatar"]["error"]);
                         $avatarFile->move($this->get('kernel')->getRootDir() . '/../web/avatar/', $user->getId() .'.png');
