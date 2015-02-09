@@ -4,10 +4,11 @@
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
 
-        <h3 class="timeline-header"><a href="{{ path('desport_sales_site_view', {site_id: event.site.id}) }}">Nuevo Sitio Web</a></h3>
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_site_view', {site_id: event.site.id}) }}">Nuevo Sitio Web</a> {{ event.site.name }}</h3>
 
         <div class="timeline-body">
             Introducido por {{ event.user.name }}
+            <br> {{ event.text }}
         </div>
 
         <div class='timeline-footer'>
