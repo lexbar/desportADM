@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Desport\PanelBundle\Entity\Message;
 use Desport\PanelBundle\Entity\MessageAttachment;
+use Desport\PanelBundle\Entity\EventType\MessageTransfered;
 
 class MessageController extends Controller
 {
@@ -137,14 +138,102 @@ class MessageController extends Controller
             }
         }
         
-        if(!$message->getIsRead())
+        if(!$message->getIsRead() && $message->getUserTo() && $message->getUserTo()->getId() == $user->getId()) // if is not read, and the user reading it is the recipient
         {
-            $message->setIsRead(true);
+            $message->setIsRead(true); // set as read
             $em->persist($message); 
             $em->flush();
         }
         
-        return $this->render('DesportPanelBundle:Message:view.html.twig', array('message' => $message, 'response' => $response));
+        $users = $em->createQueryBuilder()->select('u')
+            ->from('DesportPanelBundle:User', 'u')
+            ->where('u.roles LIKE :roles_admin OR u.roles LIKE :roles_sales')
+            ->setParameter('roles_admin', '%"ROLE_ADMIN"%')
+            ->setParameter('roles_sales', '%"ROLE_SALES"%')
+            ->getQuery()->getResult();
+        
+        return $this->render('DesportPanelBundle:Message:view.html.twig', array('message' => $message, 'response' => $response, 'users' => $users));
+    }
+    
+    public function transferAction($message_id, $user_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
+        
+        if(!$message)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El mensaje no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_index'));
+        }
+        
+        $user_transfered = $em->getRepository('DesportPanelBundle:User')->findOneById($user_id);
+        
+        if(!$user_transfered)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El usuario no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $message->setUserTo($user_transfered);
+        $message->setIsRead(false);
+        
+        $event = new MessageTransfered();
+        $event->setMessage($message);
+        $event->setUser($user);
+        $event->setUserTransfered($user_transfered);
+        
+        $em->persist($message); 
+        $em->persist($event);
+        $em->flush();
+        
+        $this->get('session')->getFlashBag()->add('success', 'Mensaje transferido correctamente.');
+        
+        if($message->getClient())
+        {
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
+        }
+        else
+        {
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_index'));
+        }
+    }
+    
+    public function unreadAction($message_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
+        
+        if(!$message)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El mensaje no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_index'));
+        }
+        
+        if($message->getUserTo() && $message->getUserTo()->getId() != $user->getId())
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El mensaje no está destinado a tí.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
+        }
+        
+        $message->setIsRead(false);
+        
+        $em->persist($message); 
+        $em->flush();
+        
+        if($message->getClient())
+        {
+            return new RedirectResponse($this->generateUrl('desport_sales_client_view', array( 'client_id' => $message->getClient()->getId() )));
+        }
+        else
+        {
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_index'));
+        }
     }
     
     public function attachmentAction($attachment_id)

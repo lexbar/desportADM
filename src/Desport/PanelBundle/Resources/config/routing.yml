@@ -47,6 +47,9 @@ desport_sales_client_messages_page_max:
 desport_sales_messages_index:
     pattern:     /sales/client/message/
     defaults: { _controller: DesportPanelBundle:Message:index }
+desport_sales_messages_view:
+    pattern:     /sales/client/message/view/{message_id}/
+    defaults: { _controller: DesportPanelBundle:Message:view }
 desport_sales_messages_attachment:
     pattern:     /sales/client/message/attachment/{attachment_id}/
     defaults: { _controller: DesportPanelBundle:Message:attachment }
@@ -56,9 +59,13 @@ desport_sales_messages_attachment_keep:
 desport_sales_messages_attachment_unkeep:
     pattern:     /sales/client/message/attachment/{attachment_id}/unkeep/
     defaults: { _controller: DesportPanelBundle:Message:attachmentUnkeep }
-desport_sales_messages_view:
-    pattern:     /sales/client/message/{message_id}/
-    defaults: { _controller: DesportPanelBundle:Message:view }
+desport_sales_messages_transfer:
+    pattern:     /sales/client/message/transfer/{message_id}/{user_id}/
+    defaults: { _controller: DesportPanelBundle:Message:transfer }
+desport_sales_messages_setunread:
+    pattern:     /sales/client/message/setunread/{message_id}/
+    defaults: { _controller: DesportPanelBundle:Message:unread }
+
     
     
 desport_sales_site_index:
