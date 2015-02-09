@@ -1,0 +1,13 @@
+<li>
+    <!-- timeline icon -->
+    <i class="fa fa-flag bg-navy"></i>
+    <div class="timeline-item">
+        <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
+
+        <h3 class="timeline-header">Nuevo Evento de texto</h3>
+
+        <div class="timeline-body">
+            {{ event.text }}
+        </div>
+    </div>
+</li>

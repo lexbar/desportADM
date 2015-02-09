@@ -1,0 +1,18 @@
+<li>
+    <!-- timeline icon -->
+    <i class="fa fa-envelope bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
+
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_messages_view', {message_id: event.message.id}) }}">Mensaje Transferido</a></h3>
+
+        <div class="timeline-body">
+            Transferido por <strong>{{ event.user.name }}</strong><br>
+            Asignado a <strong>{{ event.userTransfered.name }}</strong>
+        </div>
+
+        <div class='timeline-footer'>
+            <a href="{{ path('desport_sales_messages_view', {message_id: event.message.id}) }}" class="btn btn-primary btn-xs">Ver mensaje</a>
+        </div>
+    </div>
+</li>

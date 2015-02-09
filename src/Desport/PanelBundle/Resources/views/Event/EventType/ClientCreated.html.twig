@@ -1,0 +1,17 @@
+<li>
+    <!-- timeline icon -->
+    <i class="fa fa-user-plus bg-yellow"></i>
+    <div class="timeline-item">
+        <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
+
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_client_view', {client_id: event.client.id}) }}">Nuevo Cliente</a></h3>
+
+        <div class="timeline-body">
+            Introducido por {{ event.user.name }}
+        </div>
+
+        <div class='timeline-footer'>
+            <a href="{{ path('desport_sales_client_view', {client_id: event.client.id}) }}" class="btn btn-warning btn-xs">Ver cliente</a>
+        </div>
+    </div>
+</li>

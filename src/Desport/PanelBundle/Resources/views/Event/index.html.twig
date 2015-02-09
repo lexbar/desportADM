@@ -1,0 +1,49 @@
+{% extends "::backend.html.twig" %}
+
+{% set active = 'events' %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>
+            Eventos
+            <small>todos los eventos</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+            <li class="active">Eventos</li>
+        </ol>
+    </section>
+    
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Escribir un nuevo evento</h3>
+                    </div>
+                    <div class="box-body">
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <ul class="timeline">
+                    {% set lastEventDate = date() %}
+                    {% for event in events %}
+                        {% if loop.first or lastEventDate | date('Yz') != event.date | date('Yz') %}
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-aqua">
+                                    {{ event.date | date('j / m / Y') }}
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+                        {% endif %}
+                        
+                        {% include 'DesportPanelBundle:Event:EventType/' ~ event.type ~ '.html.twig' with { 'event' : event } %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

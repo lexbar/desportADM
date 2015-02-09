@@ -1,0 +1,17 @@
+<li>
+    <!-- timeline icon -->
+    <i class="fa fa-envelope-square bg-red"></i>
+    <div class="timeline-item">
+        <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
+
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_messages_view', {message_id: event.message.id}) }}">Mensaje No enviado-</a></h3>
+
+        <div class="timeline-body">
+            Mensaje de error: {{ event.reason }}
+        </div>
+
+        <div class='timeline-footer'>
+            <a href="{{ path('desport_sales_messages_view', {message_id: event.message.id}) }}" class="btn btn-danger btn-xs">Ver mensaje</a>
+        </div>
+    </div>
+</li>
