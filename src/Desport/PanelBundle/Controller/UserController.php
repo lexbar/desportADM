@@ -30,7 +30,6 @@ class UserController extends Controller
         {
             $request = $this->get('request')->request;
             
-            $user->setUsername($request->get('user_username'));
             $user->setName($request->get('user_name'));
             $user->setEmail($request->get('user_email'));
             
