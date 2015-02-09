@@ -7,8 +7,8 @@
         <h3 class="timeline-header"><a href="{{ path('desport_sales_site_view', {site_id: event.site.id}) }}">Nuevo Sitio Web</a> {{ event.site.name }}</h3>
 
         <div class="timeline-body">
-            Introducido por {{ event.user.name }}
-            <br> {{ event.text }}
+            Introducido por <strong>{{ event.user.name }}</strong>
+            {% if event.text %}<p>{{ event.text }}</p>{% endif %}
         </div>
 
         <div class='timeline-footer'>
