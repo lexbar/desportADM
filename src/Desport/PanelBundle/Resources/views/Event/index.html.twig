@@ -18,12 +18,17 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Escribir un nuevo evento</h3>
-                    </div>
-                    <div class="box-body">
-                            
-                    </div>
+                    <form action="{% if client is defined %}{{ path('desport_sales_client_events', {client_id: client.id}) }}{% else %}{{ path('desport_sales_events_index') }}{% endif %}" method="post">
+                        <div class="box-header">
+                            <h3 class="box-title">Escribir un nuevo evento{% if client is defined %} de cliente "{{ client.name }}"{% endif %}</h3>
+                        </div>
+                        <div class="box-body">
+                            <textarea name="event_text" class="form-control" placeholder="Descripción del evento"></textarea>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-fw"></i> Publicar evento</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-lg-6">

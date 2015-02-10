@@ -33,7 +33,7 @@ class PlainText extends \Desport\PanelBundle\Entity\Event
      * Set text
      *
      * @param string $text
-     * @return Place
+     * @return PlainText
      */
     public function setText($text)
     {

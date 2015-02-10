@@ -20,6 +20,7 @@
         <div class="box box-solid">
             <div class="box-body">
                 <a class="btn btn-default"><i class="fa fa-bell-o"></i> Crear Ticket</a>
+                {% if message.recipientDomain(domain) %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Transferir</button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -32,6 +33,7 @@
                         {% endfor %}
                     </ul>
                 </div>
+                {% endif %}
                 <a href="{{ path('desport_sales_messages_setunread', {message_id: message.id}) }}" class="btn btn-default"><i class="fa fa-eye"></i> No leida</a>
             </div>
         </div>

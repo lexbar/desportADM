@@ -69,6 +69,9 @@ desport_sales_messages_setunread:
 desport_sales_events_index:
     pattern:     /sales/event/index/
     defaults: { _controller: DesportPanelBundle:Event:index }
+desport_sales_client_events:
+    pattern:     /sales/event/client/{client_id}/
+    defaults: { _controller: DesportPanelBundle:Event:client }
     
 desport_sales_site_index:
     path:     /sales/site/
