@@ -127,7 +127,9 @@ class ClientController extends Controller
         
         $messages = $em->getRepository('DesportPanelBundle:Message')->findBy(array('client'=>$client->getId()), array('date'=>'DESC'));
         
-        return $this->render('DesportPanelBundle:Client:view.html.twig', array('client' => $client, 'messages' => $messages));
+        $events = $em->getRepository('DesportPanelBundle:EventType\ClientRecord')->findBy(array('client'=>$client), array('date'=>'DESC'), 5);
+        
+        return $this->render('DesportPanelBundle:Client:view.html.twig', array('client' => $client, 'messages' => $messages, 'events' => $events));
     }
     
     public function contactAction($client_id)
