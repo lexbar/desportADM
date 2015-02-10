@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Desport\PanelBundle\Entity\Client;
 use Desport\PanelBundle\Entity\Message;
 use Desport\PanelBundle\Entity\EventType\ClientCreated;
+use Desport\PanelBundle\Entity\EventType\ClientRecord;
 
 class ClientController extends Controller
 {
@@ -90,6 +91,8 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
+        $user = $this->get('security.context')->getToken()->getUser();
+        
         $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
         
         if(! $client)
@@ -105,6 +108,12 @@ class ClientController extends Controller
             $client->setStage($request->get('client_stage') ?: '');
             $client->setComments($request->get('client_comments') ?: '');
             
+            $event = new ClientRecord();
+            $event->setClient($client);
+            $event->setUser($user);
+            $event->setText($request->get('client_comments'));
+            
+            $em->persist($event);
             $em->persist($client); 
             $em->flush();
             
