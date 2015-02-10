@@ -62,6 +62,8 @@
                                     <dd>{{ client.email | default('?') }}</dd>
                                     <dt>Página web</dt>
                                     <dd>{{ client.website | default('?') }}</dd>
+                                    <dt>Introducido</dt>
+                                    <dd>{{ client.date | date('j/m/Y') }}</dd>
                                 </dl>
                             </div>
                         </div>
@@ -83,6 +85,7 @@
             </div>
             
             <div class="col-lg-4">
+                {% if events | length > 0 %}
                 <ul class="timeline">
                     {% set lastEventDate = date() %}
                     {% for event in events %}
@@ -99,6 +102,7 @@
                         {% include 'DesportPanelBundle:Event:EventType/' ~ event.type ~ '.html.twig' with { 'event' : event } %}
                     {% endfor %}
                 </ul>
+                {% endif %}
                 
                 <div class="box box-info">
                     <div class="box-header">
