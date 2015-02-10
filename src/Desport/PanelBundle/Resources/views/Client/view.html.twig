@@ -5,8 +5,8 @@
 {% block content %}
     <section class="content-header">
         <h1>
-            Cliente
-            <small>{{ client.name }}</small>
+            {{ client.name }}
+            <small>Página de cliente</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -87,7 +87,7 @@
             <div class="col-lg-4">
                 <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title">Venta</h3>
+                        <h3 class="box-title">Proceso de Venta</h3>
                         <div class="box-tools pull-right">
                             <a class="btn btn-default" href="{{ path('desport_sales_site_new', {client_id:client.id}) }}"><i class="fa fa-plus fa-fw"></i> Crear Sitio</a>
                         </div>
@@ -96,7 +96,7 @@
                         {% if client.sites | length %}
                             <ul class="list-group">
                             {% for site in client.sites %}
-                                <li class="list-group-item"><a href="{{ path('desport_sales_site_view', {site_id : site.id}) }}">{{ site.name }}</a> ( <a href="http://{{ site.name }}.{{ domain }}/">{{ site.name }}.{{ domain }} <i class="fa fa-external-link"></i></a> )</li>
+                                <li class="list-group-item"><strong class="text-primary"><a href="{{ path('desport_sales_site_view', {site_id : site.id}) }}">{{ site.name }}</a></strong> ( <a href="http://{{ site.name }}.{{ domain }}/">{{ site.name }}.{{ domain }} <i class="fa fa-external-link"></i></a> )</li>
                             {% endfor %}
                             </ul>
                         {% endif %}

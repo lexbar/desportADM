@@ -19,6 +19,7 @@
                     <h3 class="box-title">Mensajes</h3>
                 </div>
                 <div class="box-body">
+                    <p class="lead">Todos los correos de entrada a cuentas internas (...@{{ domain }})  </p>
                     {% if messages | length %}
                         <table class="table table-mailbox"><tbody>
                                  
@@ -29,7 +30,7 @@
                         </tbody></table> 
                         
                     {% else %}
-                        <p class="lead">No hay mensajes de entrada</p>
+                        <p><strong>No hay mensajes de entrada</strong></p>
                     {% endif %}
                 </div>
             </div>

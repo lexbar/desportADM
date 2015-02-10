@@ -4,7 +4,7 @@
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
 
-        <h3 class="timeline-header"><a href="{{ path('desport_sales_client_view', {client_id: event.client.id}) }}">Nuevo Cliente</a></h3>
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_client_view', {client_id: event.client.id}) }}">Nuevo Cliente</a> {{ event.client.name }}</h3>
 
         <div class="timeline-body">
             Introducido por {{ event.user.name }}

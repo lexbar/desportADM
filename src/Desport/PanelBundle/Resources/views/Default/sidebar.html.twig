@@ -26,7 +26,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li{% if active == 'dashboard'%} class="active"{% endif %}>
-                <a href="{{ path('desport_admin_dashboard') }}">
+                <a href="{% if app.user.hasRole('ROLE_ADMIN') %}{{ path('desport_admin_dashboard') }}{% else %}{{ path('desport_sales_dashboard') }}{% endif %}">
                     <i class="fa fa-dashboard"></i> <span>Portada</span>
                 </a>
             </li>
@@ -43,6 +43,11 @@
             <li{% if active == 'sites'%} class="active"{% endif %}>
                 <a href="{{ path('desport_sales_site_index') }}">
                     <i class="fa fa-book"></i> <span>Sitios Web</span>
+                </a>
+            </li>
+            <li{% if active == 'events'%} class="active"{% endif %}>
+                <a href="{{ path('desport_sales_events_index') }}">
+                    <i class="fa fa-check"></i> <span>Eventos</span>
                 </a>
             </li>
             <li{% if active == 'products'%} class="active"{% endif %}>

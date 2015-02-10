@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Desport\PanelBundle\Entity\Message;
 use Desport\PanelBundle\Entity\MessageAttachment;
+use Desport\PanelBundle\Entity\Ticket;
 use Desport\PanelBundle\Entity\EventType\MessageTransfered;
+use Desport\PanelBundle\Entity\EventType\TicketCreated;
 
 class MessageController extends Controller
 {
@@ -98,11 +100,8 @@ class MessageController extends Controller
                 {
                     $response->setUserTo($message->getUserFrom());
                 }
-
-                if($message->getUserTo())
-                {
-                    $response->setUserFrom($message->getUserTo());
-                }
+                    
+                $response->setUserFrom($user);
                 
                 if($message->getTicket())
                 {
@@ -298,5 +297,96 @@ class MessageController extends Controller
         $em->flush();
         
         return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $attachment->getMessage()->getId() )));
+    }
+    
+    //TICKETS
+    
+    public function ticketAction($ticket_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $ticket = $em->getRepository('DesportPanelBundle:Ticket')->findOneById($ticket_id);
+        
+        if(!$ticket)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El ticket no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_client_index'));
+        }
+        
+        $message = $em->getRepository('DesportPanelBundle:Message')->findOneBy(array('ticket'=>$ticket), array('date'=>'DESC'));
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array('message_id' => $message->getId())));
+    }
+    
+    public function ticketCreateAction($message_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
+        
+        if(!$message)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El mensaje no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_index'));
+        }
+        
+        if($message->getTicket())
+        {
+            $this->get('session')->getFlashBag()->add('error', 'Este mensaje ya es un ticket.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
+        }
+        
+        $ticket = new Ticket();
+        $ticket->setSubject($message->getSubject());
+        $ticket->setState('new');
+        $ticket->setStateDate(new \DateTime('now'));
+        $ticket->setClient($message->getClient());
+        $ticket->setResponsible($user);
+        $message->setTicket($ticket);
+        
+        $event = new TicketCreated();
+        $event->setTicket($ticket);
+        $event->setUser($user);
+        
+        $em->persist($ticket); 
+        $em->persist($message); 
+        $em->persist($event); 
+        $em->flush();
+        
+        $this->get('session')->getFlashBag()->add('successs', 'Ticket creado correctamente.');
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
+    }
+    
+    public function ticketStateAction($message_id, $state)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
+        
+        if(!$message)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El mensaje no existe en la base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_index'));
+        }
+        
+        if(!$message->getTicket())
+        {
+            $this->get('session')->getFlashBag()->add('error', 'Este mensaje no pertenece a un ticket.');
+            return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
+        }
+        
+        $ticket = $message->getTicket();
+        $ticket->setState($state);
+        $ticket->setStateDate(new \DateTime('now'));
+        
+        $em->persist($ticket); 
+        $em->flush();
+        
+        $this->get('session')->getFlashBag()->add('successs', 'Estado del ticket modificado correctamente.');
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
     }
 }

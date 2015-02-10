@@ -1,0 +1,18 @@
+<li>
+    <!-- timeline icon -->
+    <i class="fa fa-life-ring bg-maroon"></i>
+    <div class="timeline-item">
+        <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
+
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_messages_ticket_view', {ticket_id: event.ticket.id}) }}">Nuevo Ticket</a> {{ event.ticket.client.name }}</h3>
+
+        <div class="timeline-body">
+            Creado por <strong>{{ event.user.name }}</strong>
+            <br>Asunto: {{ event.ticket.subject }}
+        </div>
+
+        <div class='timeline-footer'>
+            <a href="{{ path('desport_sales_messages_ticket_view', {ticket_id: event.ticket.id}) }}" class="btn btn-danger btn-xs">Ver ticket</a>
+        </div>
+    </div>
+</li>

@@ -19,7 +19,23 @@
     
         <div class="box box-solid">
             <div class="box-body">
-                <a class="btn btn-default"><i class="fa fa-bell-o"></i> Crear Ticket</a>
+                {% if message.ticket %}
+                    {% set ticketState = {'new': 'Nuevo', 'open': 'Abierto', 'pending reminder': 'Pendiente (recordar)', 'pending auto close-': 'Pendiente (autocierre, sin éxito)', 'pending auto close+': 'Pendiente (autocierre, con éxito', 'closed successful': 'Cerrado con éxito', 'closed unsuccessful': 'Cerrado sin éxito'} %}
+                    <div class="btn-group">
+                        <a class="btn btn-danger" href="{{ path('desport_sales_messages_ticket_view', {ticket_id: message.ticket.id}) }}"><i class="fa fa-life-ring fa-fw"></i> <strong>Ticket:</strong> {{ ticketState[message.ticket.state] }}</a>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Estados de ticket</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            {% for stateKey, stateName in ticketState %}
+                                <li><a href="{{ path('desport_sales_messages_ticketstate', {message_id: message.id, state: stateKey}) }}">{% if stateKey == message.ticket.state %}<i class="fa fa-check"></i> {% endif %}{{ stateName }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <a class="btn btn-default" href="{{ path('desport_sales_messages_ticketcreate', {message_id: message.id}) }}"><i class="fa fa-life-ring fa-fw"></i> Crear Ticket</a>
+                {% endif %}
                 {% if message.recipientDomain(domain) %}
                 <div class="btn-group">
                     <button type="button" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Transferir</button>
@@ -38,9 +54,9 @@
             </div>
         </div>
         
-        <div class="box box-primary">
+        <div class="box box-{{ message.ticket ? 'danger' : 'primary' }}">
             <div class="box-header">
-                <h3 class="box-title">{{ message.subject }}</h3>
+                <h3 class="box-title">{% if message.ticket %}<i class="fa fa-life-ring fa-fw"></i> {% endif %}{{ message.subject }}</h3>
                 <div class="box-tools pull-right">
                     <span style="padding-right:20px">{{ message.date | date("d/m/Y H:i") }}</span> <a href="#response" class="btn btn-default" onClick="$('#message_text').focus();return false;"><i class="fa fa-reply"></i></a>
                 </div>

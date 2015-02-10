@@ -50,6 +50,9 @@ desport_sales_messages_index:
 desport_sales_messages_view:
     pattern:     /sales/client/message/view/{message_id}/
     defaults: { _controller: DesportPanelBundle:Message:view }
+desport_sales_messages_ticket_view:
+    pattern:     /sales/client/message/ticket/{ticket_id}/
+    defaults: { _controller: DesportPanelBundle:Message:ticket }
 desport_sales_messages_attachment:
     pattern:     /sales/client/message/attachment/{attachment_id}/
     defaults: { _controller: DesportPanelBundle:Message:attachment }
@@ -65,6 +68,12 @@ desport_sales_messages_transfer:
 desport_sales_messages_setunread:
     pattern:     /sales/client/message/setunread/{message_id}/
     defaults: { _controller: DesportPanelBundle:Message:unread }
+desport_sales_messages_ticketcreate:
+    pattern:     /sales/client/message/ticket/create/{message_id}/
+    defaults: { _controller: DesportPanelBundle:Message:ticketCreate }
+desport_sales_messages_ticketstate:
+    pattern:     /sales/client/message/ticket/state/{message_id}/{state}
+    defaults: { _controller: DesportPanelBundle:Message:ticketState }
 
 desport_sales_events_index:
     pattern:     /sales/event/index/

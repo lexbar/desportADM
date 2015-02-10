@@ -4,7 +4,7 @@
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
 
-        <h3 class="timeline-header"><a href="{{ path('desport_sales_messages_view', {message_id: event.message.id}) }}">Mensaje Transferido</a></h3>
+        <h3 class="timeline-header"><a href="{{ path('desport_sales_messages_view', {message_id: event.message.id}) }}">Mensaje Transferido</a> de {{ event.message.client ? event.message.client.name : event.message.emailFrom }}</h3>
 
         <div class="timeline-body">
             Transferido por <strong>{{ event.user.name }}</strong><br>

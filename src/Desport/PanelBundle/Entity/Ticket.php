@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Ticket
 {
@@ -45,9 +46,9 @@ class Ticket
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pending", type="datetime")
+     * @ORM\Column(name="stateDate", type="datetime", nullable=true)
      */
-    private $pending;
+    private $stateDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="tickets")
@@ -76,6 +77,14 @@ class Ticket
     {
         return $this->id;
     }
+    
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $this->setDate(new \DateTime('now'));
+    }
 
     /**
      * Set date
@@ -101,29 +110,6 @@ class Ticket
     }
 
     /**
-     * Set responseTo
-     *
-     * @param boolean $responseTo
-     * @return Ticket
-     */
-    public function setResponseTo($responseTo)
-    {
-        $this->responseTo = $responseTo;
-
-        return $this;
-    }
-
-    /**
-     * Get responseTo
-     *
-     * @return boolean 
-     */
-    public function getResponseTo()
-    {
-        return $this->responseTo;
-    }
-
-    /**
      * Set subject
      *
      * @param string $subject
@@ -144,29 +130,6 @@ class Ticket
     public function getSubject()
     {
         return $this->subject;
-    }
-
-    /**
-     * Set text
-     *
-     * @param string $text
-     * @return Ticket
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get text
-     *
-     * @return string 
-     */
-    public function getText()
-    {
-        return $this->text;
     }
 
     /**
@@ -214,52 +177,7 @@ class Ticket
     {
         return $this->client;
     }
-
-    /**
-     * Set user
-     *
-     * @param boolean $user
-     * @return Ticket
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return boolean 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set event
-     *
-     * @param boolean $event
-     * @return Ticket
-     */
-    public function setEvent($event)
-    {
-        $this->event = $event;
-
-        return $this;
-    }
-
-    /**
-     * Get event
-     *
-     * @return boolean 
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
+    
     /**
      * Constructor
      */
@@ -269,39 +187,26 @@ class Ticket
     }
 
     /**
-     * Add events
+     * Set stateDate
      *
-     * @param \Desport\PanelBundle\Entity\Event $events
+     * @param \DateTime $stateDate
      * @return Ticket
      */
-    public function addEvent(\Desport\PanelBundle\Entity\Event $events)
+    public function setStateDate($stateDate)
     {
-        $this->events[] = $events;
+        $this->stateDate = $stateDate;
 
         return $this;
     }
 
     /**
-     * Set pending
-     *
-     * @param \DateTime $pending
-     * @return Ticket
-     */
-    public function setPending($pending)
-    {
-        $this->pending = $pending;
-
-        return $this;
-    }
-
-    /**
-     * Get pending
+     * Get stateDate
      *
      * @return \DateTime 
      */
-    public function getPending()
+    public function getStateDate()
     {
-        return $this->pending;
+        return $this->stateDate;
     }
 
     /**
@@ -325,5 +230,38 @@ class Ticket
     public function getResponsible()
     {
         return $this->responsible;
+    }
+
+    /**
+     * Add messages
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messages
+     * @return Ticket
+     */
+    public function addMessage(\Desport\PanelBundle\Entity\Message $messages)
+    {
+        $this->messages[] = $messages;
+
+        return $this;
+    }
+
+    /**
+     * Remove messages
+     *
+     * @param \Desport\PanelBundle\Entity\Message $messages
+     */
+    public function removeMessage(\Desport\PanelBundle\Entity\Message $messages)
+    {
+        $this->messages->removeElement($messages);
+    }
+
+    /**
+     * Get messages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 }
