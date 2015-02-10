@@ -56,7 +56,7 @@ class EventController extends Controller
             }
         }
         
-        $events = $em->getRepository('DesportPanelBundle:EventType\ClientRecord')->findBy(array('client'=>$client), array('date'=>'DESC'));
+        $events = $em->getRepository('DesportPanelBundle:EventType\ClientRecord')->findBy(array('client'=>$client), array('date'=>'DESC'), 15);
         
         return $this->render('DesportPanelBundle:Event:index.html.twig', array('events'=>$events, 'client'=>$client));
     }
