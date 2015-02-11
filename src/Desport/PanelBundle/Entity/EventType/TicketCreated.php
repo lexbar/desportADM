@@ -16,17 +16,15 @@ class TicketCreated extends \Desport\PanelBundle\Entity\Event
     
     protected $date;
     
+    protected $user;
+    
+    protected $client;
+    
     /**
      * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Ticket")
      * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
      */
     protected $ticket;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    protected $user;
 
 
     public function getType()
@@ -55,28 +53,5 @@ class TicketCreated extends \Desport\PanelBundle\Entity\Event
     public function getTicket()
     {
         return $this->ticket;
-    }
-    
-    /**
-     * Set user
-     *
-     * @param boolean $user
-     * @return UserCreated
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return boolean 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

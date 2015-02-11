@@ -16,16 +16,14 @@ class MessageTransfered extends \Desport\PanelBundle\Entity\Event
     
     protected $date;
     
+    protected $client;
+    
     /**
      * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Message")
      * @ORM\JoinColumn(name="message_id", referencedColumnName="id")
      */
     protected $message;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
     protected $user;
     
     /**
@@ -61,29 +59,6 @@ class MessageTransfered extends \Desport\PanelBundle\Entity\Event
     public function getMessage()
     {
         return $this->message;
-    }
-    
-    /**
-     * Set user
-     *
-     * @param boolean $user
-     * @return MessageTransfered
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return boolean 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
     
     /**

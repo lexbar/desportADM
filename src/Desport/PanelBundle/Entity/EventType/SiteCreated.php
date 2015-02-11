@@ -16,17 +16,15 @@ class SiteCreated extends \Desport\PanelBundle\Entity\Event
     
     protected $date;
     
+    protected $user;
+    
+    protected $client;
+    
     /**
      * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Site")
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
     protected $site;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    protected $user;
     
     /**
      * @var text $text
@@ -62,29 +60,6 @@ class SiteCreated extends \Desport\PanelBundle\Entity\Event
     public function getSite()
     {
         return $this->site;
-    }
-    
-    /**
-     * Set user
-     *
-     * @param boolean $user
-     * @return UserCreated
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return boolean 
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
     
     /**

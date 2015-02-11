@@ -182,6 +182,7 @@ class MessageController extends Controller
         $event = new MessageTransfered();
         $event->setMessage($message);
         $event->setUser($user);
+        $event->setClient($message->getClient());
         $event->setUserTransfered($user_transfered);
         
         $em->persist($message); 
@@ -349,6 +350,7 @@ class MessageController extends Controller
         $event = new TicketCreated();
         $event->setTicket($ticket);
         $event->setUser($user);
+        $event->setClient($ticket->getClient());
         
         $em->persist($ticket); 
         $em->persist($message); 

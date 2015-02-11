@@ -20,14 +20,14 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Listado de Clientes</h3>
-                        <div class="box-tools">
+                        {#<div class="box-tools">
                             <div class="input-group">
                                 <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Buscar">
                                 <div class="input-group-btn">
                                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
-                        </div>
+                        </div>#}
                     </div><!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
@@ -45,7 +45,10 @@
                                     <td><strong><a href="{{ path('desport_sales_client_view', {client_id:client.id}) }}">{{ client.name }}</a></strong>{% if client.website %}<br><small>(<a href="{{ client.website }}">{{ client.website }}</a>)</small>{% endif %}</td>
                                     <td><span class="label label-{{ stageLabel[client.stage] }}">{{ stages[client.stage] }}</span></td>
                                     <td class="hidden-xs">{{ client.comments }}</td>
-                                    <td><a href="{{ path('desport_sales_client_events', {client_id: client.id}) }}" class="btn btn-sm btn-default"><i class="fa fa-check-square-o"></i> Evento</a> <a href="{{ path('desport_sales_client_contact', {client_id:client.id}) }}" class="btn btn-sm btn-success"><i class="fa fa-envelope"></i> Contactar</a> <a href="{{ path('desport_sales_client_edit', {client_id:client.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Editar</a></td>
+                                    <td>
+                                        <a href="{{ path('desport_sales_client_events', {client_id: client.id}) }}" class="btn btn-sm btn-default"><i class="fa fa-check-square-o"></i> Evento</a> 
+                                        <a href="{{ path('desport_sales_client_contact', {client_id:client.id}) }}" class="btn btn-sm btn-success"><i class="fa fa-envelope"></i> Contactar</a> 
+                                        <a href="{{ path('desport_sales_client_edit', {client_id:client.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Editar</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody></table>
@@ -310,6 +313,7 @@
                             <div class="form-group">
                                 <label for="client_addressZip">Código Postal</label>
                                 <input type="text" class="form-control" id="client_addressZip" name="client_addressZip" placeholder="CP, ZIP o equivalente" onBlur="fillAddressByZip();">
+                                <p class="help-block">Introduciendo el País y CP se rellenan automáticamente los dos siguientes campos.</p>
                             </div>
                             <div class="form-group">
                                 <label for="client_addressState">Area administrativa</label>

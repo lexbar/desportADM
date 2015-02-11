@@ -126,6 +126,8 @@
                 </div>
                 
                 {% if events | length > 0 %}
+                <a href="{{ path('desport_sales_client_events', {client_id: client.id}) }}" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Evento</a>
+                <h3>Historial de Eventos</h3>
                 <ul class="timeline">
                     {% set lastEventDate = date() %}
                     {% for event in events %}

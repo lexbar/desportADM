@@ -16,6 +16,10 @@ class DroppedMessage extends \Desport\PanelBundle\Entity\Event
     
     protected $date;
     
+    protected $user;
+    
+    protected $client;
+    
     /**
      * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Message")
      * @ORM\JoinColumn(name="message_id", referencedColumnName="id")

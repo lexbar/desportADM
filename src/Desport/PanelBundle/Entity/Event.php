@@ -25,6 +25,18 @@ class Event
      */
     private $id;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="\Desport\PanelBundle\Entity\Client")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     */
+    protected $client;
+    
     protected $type;
 
     /**
@@ -74,5 +86,51 @@ class Event
     public function prePersist()
     {
         $this->setDate(new \DateTime('now'));
+    }
+    
+    /**
+     * Set client
+     *
+     * @param boolean $client
+     * @return Event
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return boolean 
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+    
+    /**
+     * Set user
+     *
+     * @param boolean $user
+     * @return Event
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return boolean 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -20,7 +20,7 @@
         <div class="box box-solid">
             <div class="box-body">
                 {% if message.ticket %}
-                    {% set ticketState = {'new': 'Nuevo', 'open': 'Abierto', 'pending reminder': 'Pendiente (recordar)', 'pending auto close-': 'Pendiente (autocierre, sin éxito)', 'pending auto close+': 'Pendiente (autocierre, con éxito', 'closed successful': 'Cerrado con éxito', 'closed unsuccessful': 'Cerrado sin éxito'} %}
+                    {% set ticketState = {'new': 'Nuevo', 'open': 'Abierto', 'pending reminder': 'Pendiente (recordar)', 'pending auto close-': 'Pendiente (autocierre, sin éxito)', 'pending auto close+': 'Pendiente (autocierre, con éxito)', 'closed successful': 'Cerrado con éxito', 'closed unsuccessful': 'Cerrado sin éxito'} %}
                     <div class="btn-group">
                         <a class="btn btn-danger" href="{{ path('desport_sales_messages_ticket_view', {ticket_id: message.ticket.id}) }}"><i class="fa fa-life-ring fa-fw"></i> <strong>Ticket:</strong> {{ ticketState[message.ticket.state] }}</a>
                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
@@ -31,6 +31,8 @@
                             {% for stateKey, stateName in ticketState %}
                                 <li><a href="{{ path('desport_sales_messages_ticketstate', {message_id: message.id, state: stateKey}) }}">{% if stateKey == message.ticket.state %}<i class="fa fa-check"></i> {% endif %}{{ stateName }}</a></li>
                             {% endfor %}
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="$('#stateInfo').toggle();"><em>Información sobre los estados</em></a></li>
                         </ul>
                     </div>
                 {% else %}
@@ -51,6 +53,26 @@
                 </div>
                 {% endif %}
                 <a href="{{ path('desport_sales_messages_setunread', {message_id: message.id}) }}" class="btn btn-default"><i class="fa fa-eye"></i> No leida</a>
+                
+                <div id="stateInfo" style="display:none;">
+                    <h3>Información sobre los estados de un ticket:</h3>
+                    <dl class="dl-horizontal">
+                        <dt>Nuevo</dt>
+                        <dd>Un ticket recién creado, sin un estado definido. Debería asignarse un estado (por ejemplo, abierto) lo antes posible.</dd>
+                        <dt>Abierto</dt>
+                        <dd>Un ticket que no se ha resuelto pero que no está pendiente de una respuesta.</dd>
+                        <dt>Pendiente (recordar)</dt>
+                        <dd>Un ticket que está pendiente de respuesta (generalmente por parte del equipo de ventas, aunque también podría ser del cliente). Se emitirá un recordatorio cada 24 horas hasta que se modifique el estado.</dd>
+                        <dt>Pendiente... sin éxito</dt>
+                        <dd>Un ticket no resuelto, que si no se modifica el estado en las próximas 72 horas se transformará en "Cerrado sin éxito".</dd>
+                        <dt>Pendiente... con éxito</dt>
+                        <dd>Un ticket no resuelto, que si no se modifica el estado en las próximas 72 horas se transformará en "Cerrado con éxito".</dd>
+                        <dt>Cerrado con éxito</dt>
+                        <dd>Un ticket resuelto y que no requiere más intervención.</dd>
+                        <dt>Cerrado sin éxito</dt>
+                        <dd>Un ticket no resuelto pero que no requiere más intervención.</dd>
+                    </dl>
+                </div>
             </div>
         </div>
         

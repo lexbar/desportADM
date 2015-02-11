@@ -16,6 +16,10 @@ class PlainText extends \Desport\PanelBundle\Entity\Event
     
     protected $date;
     
+    protected $user;
+    
+    protected $client;
+    
     /**
      * @var text $text
      *

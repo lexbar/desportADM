@@ -154,7 +154,9 @@ class APIController extends Controller
             
             $event = new DroppedMessage();
             $event->setMessage($message);
-            $event->setReason($request->get('description'));     
+            $event->setReason($request->get('description'));
+            $event->setUser($message->getUserTo());
+            $event->setClient($message->getClient());
             
             $em->persist($event); 
             $em->flush();
