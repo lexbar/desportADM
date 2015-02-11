@@ -1,5 +1,5 @@
 <tr{% if message.recipientDomain(domain) and not message.isRead %} class="unread"{% endif %}>
     <td class="small-col">{% if not message.recipientDomain(domain) %}<i class="fa fa-mail-forward"></i>{% else %}<i class="fa fa-mail-reply"></i>{% endif %}</td>
-    <td class="subject">{% if message.ticket %}<i class="fa fa-life-ring fa-fw"></i> {% endif %}<a href="{{ path('desport_sales_messages_view', {message_id:message.id}) }}">{% if message.attachments | length > 0 %}<i class="fa fa-paperclip"></i> {% endif %}<strong>{{ message.subject }}</strong> - {{ message.text[0:100] }}{{ message.text | length > 40 ? '...' : '' }}</a></td>
+    <td class="subject">{% if message.ticket %}<i class="fa fa-life-ring fa-fw"></i> {% endif %}<a href="{{ path('desport_sales_messages_view', {message_id:message.id}) }}">{% if message.attachments | length > 0 %}<i class="fa fa-paperclip"></i> {% endif %}<strong>{{ message.subject }}</strong> - {{ message.text[0:100] }}{{ message.text | length > 100 ? '...' : '' }}</a></td>
     <td class="date">{{ message.date | date("d/m/Y H:i") }}</td>
 </tr>

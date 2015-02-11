@@ -35,7 +35,13 @@ class DefaultController extends Controller
 
     public function headerNavbarAction()
     {
-        return $this->render('DesportPanelBundle:Default:headerNavbar.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $messages = $em->getRepository('DesportPanelBundle:Message')->findBy(array('userTo' => $user, 'isRead' => false), array('date' => 'DESC'), 10);
+        
+        return $this->render('DesportPanelBundle:Default:headerNavbar.html.twig', array('messages' => $messages));
     }
     public function sidebarAction($active = '')
     {
