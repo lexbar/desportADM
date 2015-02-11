@@ -90,7 +90,7 @@
                         {% if client.sites | length %}
                             <ul class="list-group">
                             {% for site in client.sites %}
-                                <li class="list-group-item"><strong class="text-primary"><a href="{{ path('desport_sales_site_view', {site_id : site.id}) }}">{{ site.name }}</a></strong> ( <a href="http://{{ site.name }}.{{ domain }}/">{{ site.name }}.{{ domain }} <i class="fa fa-external-link"></i></a> )</li>
+                                <li class="list-group-item"><strong class="text-primary"><a href="{{ path('desport_sales_site_view', {site_id : site.id}) }}">{{ site.name }}</a></strong> ( <a target="_blank" href="http://{{ site.name }}.{{ domain }}/">{{ site.name }}.{{ domain }} <i class="fa fa-external-link"></i></a> )</li>
                             {% endfor %}
                             </ul>
                         {% endif %}
