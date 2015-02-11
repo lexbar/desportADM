@@ -63,7 +63,15 @@ class APIController extends Controller
                 
                 if($parent->getTicket())
                 {
-                    $message->setTicket($parent->getTicket());
+                    $ticket = $parent->getTicket();
+                    $message->setTicket($ticket);
+                    
+                    //As a response, if it wasn't pending it is now..
+                    if(substr($ticket->getState(), 0, 7) == 'pending' )
+                    {
+                        $ticket->setState('pending reminder');
+                        $em->persist($ticket);
+                    }
                 }
             }
             
