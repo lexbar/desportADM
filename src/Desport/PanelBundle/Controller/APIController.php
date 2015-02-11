@@ -67,7 +67,7 @@ class APIController extends Controller
                     $message->setTicket($ticket);
                     
                     //As a response, if it wasn't pending it is now..
-                    if(substr($ticket->getState(), 0, 7) == 'pending' )
+                    if( ! preg_match("/pending.*/", $ticket->getState()) )
                     {
                         $ticket->setState('pending reminder');
                         $em->persist($ticket);
