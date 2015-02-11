@@ -151,6 +151,15 @@ class Message
     {
         return $this->subject;
     }
+    
+    public function getSubjectRe()
+    {
+        if(strtolower(substr($this->subject, 0, 3)) == 're:')
+        {
+            return $this->subject;
+        }
+        return 'Re: ' . $this->subject;
+    }
 
     /**
      * Set emailFrom
