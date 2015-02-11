@@ -32,7 +32,7 @@ class APIController extends Controller
             
             
             $message->setSubject($request->get('subject'));
-            $message->setText($request->get('stripped-html'));
+            $message->setText($request->get('body-plain'));
             $message->setTextHTML($request->get('body-html'));
             
             $message->setEmailFrom($request->get('from'));
