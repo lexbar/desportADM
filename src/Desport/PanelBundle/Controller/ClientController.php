@@ -81,6 +81,8 @@ class ClientController extends Controller
                 $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('success', 'El Cliente se ha modificado correctamente.');
+                
+                return new RedirectResponse($this->generateUrl('desport_sales_client_view', array('client_id' => $client->getId())));
             }
         }
         

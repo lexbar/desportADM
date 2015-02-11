@@ -16,36 +16,38 @@
     </section>
     
     <section class="content">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">{% if client.id %}Modificar datos de Cliente "{{ client.name }}"{% else %}Alta Nuevo Cliente{% endif %}</h3>
-            </div><!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" action="{% if client.id %}{{ path('desport_sales_client_edit',{client_id:client.id}) }}{% else %}{{ path('desport_sales_client_new') }}{% endif %}" method="post">
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="client_name">Nombre</label>
-                        <input type="text" class="form-control" id="client_name" name="client_name" placeholder="Nombre" value="{{ client.name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_contactName">Persona de contacto</label>
-                        <input type="text" class="form-control" id="client_contactName" name="client_contactName" placeholder="Nombre de la persona" value="{{ client.contactName }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_email">Email</label>
-                        <input type="text" class="form-control" id="client_email" name="client_email" placeholder="Email" value="{{ client.email }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_phone">Teléfono</label>
-                        <input type="text" class="form-control" id="client_phone" name="client_phone" placeholder="Teléfono" value="{{ client.phone }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_website">Web</label>
-                        <input type="text" class="form-control" id="client_website" name="client_website" placeholder="Página Web" value="{{ client.website }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_addressCountry">País</label>
-                        <select class="form-control" name="client_addressCountry" id="client_addressCountry">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">{% if client.id %}Modificar datos de Cliente "{{ client.name }}"{% else %}Alta Nuevo Cliente{% endif %}</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" action="{% if client.id %}{{ path('desport_sales_client_edit',{client_id:client.id}) }}{% else %}{{ path('desport_sales_client_new') }}{% endif %}" method="post">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="client_name">Nombre</label>
+                                <input type="text" class="form-control" id="client_name" name="client_name" placeholder="Nombre" value="{{ client.name }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_contactName">Persona de contacto</label>
+                                <input type="text" class="form-control" id="client_contactName" name="client_contactName" placeholder="Nombre de la persona" value="{{ client.contactName }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_email">Email</label>
+                                <input type="text" class="form-control" id="client_email" name="client_email" placeholder="Email" value="{{ client.email }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_phone">Teléfono</label>
+                                <input type="text" class="form-control" id="client_phone" name="client_phone" placeholder="Teléfono" value="{{ client.phone }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_website">Web</label>
+                                <input type="text" class="form-control" id="client_website" name="client_website" placeholder="Página Web" value="{{ client.website }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressCountry">País</label>
+                                <select class="form-control" name="client_addressCountry" id="client_addressCountry">
 {% set countries = {
 "Europa":{
 "AL":"Albania",
@@ -262,49 +264,51 @@
 "YE":"Yemen",
 }
 } %}
-                        {% for continent, ccountries in countries %}
-                            <optgroup label="{{ continent }}">
-                            {% for key, name in ccountries %}
-                                <option value="{{ key }}"{% if key == client.addressCountry | default('ES') %}selected="selected"{% endif %}>{{ name }}</option>
-                            {% endfor %}
-                        {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="client_addressZip">Código Postal</label>
-                        <input type="text" class="form-control" id="client_addressZip" name="client_addressZip" placeholder="CP, ZIP o equivalente" onBlur="fillAddressByZip();" value="{{ client.addressZip }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_addressState">Area administrativa</label>
-                        <input type="text" class="form-control" id="client_addressState" name="client_addressState" placeholder="Comunidad Autónoma / Estado / ..." value="{{ client.addressState }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_addressCity">Ciudad</label>
-                        <input type="text" class="form-control" id="client_addressCity" name="client_addressCity" placeholder="Ciudad" value="{{ client.addressCity }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_addressAddress">Dirección Postal</label>
-                        <input type="text" class="form-control" id="client_addressAddress" name="client_addressAddress" placeholder="Dirección" value="{{ client.addressAddress }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="client_stage">Fase de la venta</label>
-                        <select class="form-control" name="client_stage" id="client_stage">
-                            {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
-                            {% for key,stage in stages %}
-                                <option value="{{ key }}"{% if key == client.stage %} selected="selected"{% endif %}>{{ stage }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="client_comments">Comentarios</label>
-                        <textarea rows="4" class="form-control" id="client_comments" name="client_comments">{{ client.comments }}</textarea>
-                    </div>
-                </div><!-- /.box-body -->
-                
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">{% if client.id %}<i class="fa fa-edit fa-fw"></i> Guardar datos de Cliente{% else %}<i class="fa fa-plus fa-fw"></i> Crear Nuevo Cliente{% endif %}</button>
+                                {% for continent, ccountries in countries %}
+                                    <optgroup label="{{ continent }}">
+                                    {% for key, name in ccountries %}
+                                        <option value="{{ key }}"{% if key == client.addressCountry | default('ES') %}selected="selected"{% endif %}>{{ name }}</option>
+                                    {% endfor %}
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressZip">Código Postal</label>
+                                <input type="text" class="form-control" id="client_addressZip" name="client_addressZip" placeholder="CP, ZIP o equivalente" onBlur="fillAddressByZip();" value="{{ client.addressZip }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressState">Area administrativa</label>
+                                <input type="text" class="form-control" id="client_addressState" name="client_addressState" placeholder="Comunidad Autónoma / Estado / ..." value="{{ client.addressState }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressCity">Ciudad</label>
+                                <input type="text" class="form-control" id="client_addressCity" name="client_addressCity" placeholder="Ciudad" value="{{ client.addressCity }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_addressAddress">Dirección Postal</label>
+                                <input type="text" class="form-control" id="client_addressAddress" name="client_addressAddress" placeholder="Dirección" value="{{ client.addressAddress }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="client_stage">Fase de la venta</label>
+                                <select class="form-control" name="client_stage" id="client_stage">
+                                    {% set stages = {'':'Desconocido', 'contact':'En contacto', 'interest':'Muestra interés', 'no-interest':'No le interesa', 'conversion':'Conversión'} %}
+                                    {% for key,stage in stages %}
+                                        <option value="{{ key }}"{% if key == client.stage %} selected="selected"{% endif %}>{{ stage }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client_comments">Comentarios</label>
+                                <textarea rows="4" class="form-control" id="client_comments" name="client_comments">{{ client.comments }}</textarea>
+                            </div>
+                        </div><!-- /.box-body -->
+                        
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">{% if client.id %}<i class="fa fa-edit fa-fw"></i> Guardar datos de Cliente{% else %}<i class="fa fa-plus fa-fw"></i> Crear Nuevo Cliente{% endif %}</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
 {% endblock %}
