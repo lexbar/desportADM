@@ -121,7 +121,9 @@ class SiteController extends Controller
             $install->checkStatus($site->getName())
         );
         
-        return $this->render('DesportPanelBundle:Site:view.html.twig', array('site' => $site, 'installStages' => $installStages));
+        $products = $em->getRepository('DesportPanelBundle:Product')->findBy(array(), array('date'=>'DESC'));
+        
+        return $this->render('DesportPanelBundle:Site:view.html.twig', array('site' => $site, 'installStages' => $installStages, 'products' => $products));
     }
     
     public function installAction($site_id)

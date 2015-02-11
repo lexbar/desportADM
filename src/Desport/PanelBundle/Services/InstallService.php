@@ -83,7 +83,7 @@ class InstallService
 	    $sock->query('/CMD_API_SHOW_DOMAINS', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(in_array($this->clean($name,0).'.'.$domain, $result['list']))
+	    if(isset($result['list']) && in_array($this->clean($name,0).'.'.$domain, $result['list']))
 	    {
     	    return true;
 	    }
@@ -177,7 +177,7 @@ class InstallService
 	    $sock->query('/CMD_API_DATABASES', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(is_array($result['list']) && in_array($username.'_'.$this->clean($name), $result['list']))
+	    if(isset($result['list']) && is_array($result['list']) && in_array($username.'_'.$this->clean($name), $result['list']))
 	    {
     	    return true;
 	    }

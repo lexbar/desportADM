@@ -18,12 +18,9 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-6">
-                <div class="box box-info">
+                <div class="box box-default">
                     <div class="box-header">
                         <h3 class="box-title">Información del sitio</h3>
-                        <div class="box-tools pull-right">
-                            <a class="btn btn-default" href="{#{ path('desport_sales_site_edit', {site_id:site.id}) }#}"><i class="fa fa-edit fa-fw"></i> Editar</a>
-                        </div>
                     </div>
                     <div class="box-body">
                         <dl class="dl-horizontal">
@@ -38,6 +35,65 @@
                             <dt>Creado por:</dt>
                             <dd>{{ site.userCreated ? site.userCreated.name : 'desconocido' }}</dd>
                         </dl>
+                    </div>
+                </div>
+                
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Características del sitio</h3>
+                        <div class="box-tools pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default"><i class="fa fa-suitcase fa-fw"></i> Cargar Producto</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Cargar características desde producto</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    {% for product in products %}
+                                    <li><a href="">{{ product.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body clearfix">
+                        <p class="col-sm-offset-4"><strong>Nota:</strong> El valor 0 (cero) indica "ilimitado"</p>
+                        <form role="form" action="" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="site_bandwidth" class="col-sm-4 control-label">Ancho de banda</label>
+                                <div class="input-group col-sm-3">
+                                    <input type="text" class="form-control" id="site_bandwidth" name="site_bandwidth" value="{{ site.bandwidth }}">
+                                    <span class="input-group-addon">Mb</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="site_quota" class="col-sm-4 control-label">Espacio disponible</label>
+                                <div class="input-group col-sm-3">
+                                    <input type="text" class="form-control" id="site_quota" name="site_quota" value="{{ site.quota }}">
+                                    <span class="input-group-addon">Mb</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="site_maxFilespace" class="col-sm-4 control-label">Límite de archivos</label>
+                                <div class="input-group col-sm-3">
+                                    <input type="text" class="form-control" id="site_maxFilespace" name="site_maxFilespace" value="{{ site.maxFilespace }}">
+                                    <span class="input-group-addon">Mb</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="site_maxActiveusers" class="col-sm-4 control-label">Límite de usuarios</label>
+                                <div class="input-group col-sm-3">
+                                    <input type="text" class="form-control" id="site_maxActiveusers" name="site_maxActiveusers" value="{{ site.maxActiveusers }}">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Publicidad</label>
+                                <div class="checkbox col-sm-6">
+                                    <label style="padding:0"><input name="site_ads" {% if site.ads %}checked="checked"{% endif %} type="checkbox"> Activar publicidad en el sitio</input>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
