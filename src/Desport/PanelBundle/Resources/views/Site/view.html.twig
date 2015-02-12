@@ -61,6 +61,7 @@
                                     <input type="text" class="form-control" id="site_bandwidth" name="site_bandwidth" value="{{ site.bandwidth }}">
                                     <span class="input-group-addon">Mb</span>
                                 </div>
+                                <p class="help-block col-sm-offset-4">Transferencia de datos máxima cada mes. Sólo limitar en casos de abuso.</p>
                             </div>
                             <div class="form-group">
                                 <label for="site_quota" class="col-sm-4 control-label">Espacio disponible</label>
@@ -68,6 +69,7 @@
                                     <input type="text" class="form-control" id="site_quota" name="site_quota" value="{{ site.quota }}">
                                     <span class="input-group-addon">Mb</span>
                                 </div>
+                                <p class="help-block col-sm-offset-4">Espacio en disco dedicado a la instalación del software y archivos. Sólo limitar en casos de abuso.</p>
                             </div>
                             <div class="form-group">
                                 <label for="site_maxFilespace" class="col-sm-4 control-label">Límite de archivos</label>
@@ -75,6 +77,7 @@
                                     <input type="text" class="form-control" id="site_maxFilespace" name="site_maxFilespace" value="{{ site.maxFilespace }}">
                                     <span class="input-group-addon">Mb</span>
                                 </div>
+                                <p class="help-block col-sm-offset-4">Límite de espacio para archivos subidos por usuarios.</p>
                             </div>
                             <div class="form-group">
                                 <label for="site_maxActiveusers" class="col-sm-4 control-label">Límite de usuarios</label>
@@ -82,6 +85,7 @@
                                     <input type="text" class="form-control" id="site_maxActiveusers" name="site_maxActiveusers" value="{{ site.maxActiveusers }}">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 </div>
+                                <p class="help-block col-sm-offset-4">Límite de usuarios activos. Una vez superado no se permite crear nuevos usuarios activos, pero no se eliminan cuentas activas.</p>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Publicidad</label>
