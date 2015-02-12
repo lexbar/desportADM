@@ -178,6 +178,95 @@ class SiteController extends Controller
         return $this->render('DesportPanelBundle:Site:view.html.twig', array('site' => $site, 'installStages' => $installStages, 'products' => $products));
     }
     
+    public function loadProductAction($site_id, $product_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+	    
+	    $site = $em->getRepository('DesportPanelBundle:Site')->findOneById($site_id);
+        
+        if(!$site)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El sitio no existe en nuestra base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_site_index'));
+        }
+        
+        $product = $em->getRepository('DesportPanelBundle:Product')->findOneById($product_id);
+        
+        if(!$product)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'El producto no existe en nuestra base de datos.');
+            return new RedirectResponse($this->generateUrl('desport_sales_site_index'));
+        }
+        
+        $install = $this->get("desport.install");
+        
+        $properties = $product->getProperties();
+        
+        if(isset($properties['bandwidth']) || isset($properties['quota']))
+        {
+            $bandwidth = isset($properties['bandwidth']) ? $properties['bandwidth'] : $site->getBandwidth();
+            $quota = isset($properties['quota']) ? $properties['quota'] : $site->getQuota();
+            
+            if($install->modifySubdomain($site->getName(), $$bandwidth, $quota))
+            {
+                $site->setBandwidth($bandwidth);
+                $site->setQuota($quota);
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar los parámetros de Ancho de banda y Espacio disponible.');
+            }
+        }
+        
+        if(isset($properties['max_activeusers']) || isset($properties['max_filespace']))
+        {
+            $limit_users = isset($properties['max_activeusers']) ? $properties['max_activeusers'] : $site->getmaxActiveusers();
+            $limit_space = isset($properties['limit_space']) ? $properties['limit_space'] : $site->getMaxFilespace();
+            
+            $parameters_input = array('parameters'=>array('limit_users' => intval($limit_users), 'limit_space' => intval($limit_space)));
+            
+            if($install->updateParameters($site->getName(), $parameters_input))
+            {
+                $site->setMaxFilespace($request->get('site_maxFilespace'));
+                $site->setmaxActiveusers($request->get('site_maxActiveusers'));
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar los parámetros de Ancho de banda y Espacio disponible.');
+            }
+        }
+        
+        if(isset($properties['ads']))
+        {
+            if($properties['ads'])
+            {
+                $ads = true;
+                $adsense = $this->container->getParameter('adsense_code');
+            }
+            else
+            {
+                $ads = false;
+                $adsense = '';
+            }
+            
+            $web_parameters_input = array('twig'=>array('globals' => array('adsense' => $adsense) ));
+            
+            if($install->updateParameters($site->getName(), $web_parameters_input, true))
+            {
+                $site->setAds($ads);
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar el parámetro de Publicidad.');
+            }   
+        }
+        
+        $em->persist($site); 
+        $em->flush();
+        
+        return new RedirectResponse($this->generateUrl('desport_sales_site_view', array( 'site_id' => $site->getId() )));
+    }
+    
     public function installAction($site_id)
     {
 	    $em = $this->getDoctrine()->getManager();

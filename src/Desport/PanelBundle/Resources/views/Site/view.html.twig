@@ -46,7 +46,7 @@
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-suitcase fa-fw"></i> Cargar Producto <span style="margin-left:5px" class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
                                     {% for product in products %}
-                                    <li><a href="">{{ product.name }}</a></li>
+                                    <li><a href="{{ path('desport_sales_site_load_product', {site_id: site.id, product_id: product.id}) }}">{{ product.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
