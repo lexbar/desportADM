@@ -135,7 +135,7 @@ class SiteController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar los parámetros de Ancho de banda y Espacio disponible.');
             }
             
-            $parameters_input = array('parameters'=>array('limit_users' => $request->get('site_maxActiveusers'), 'limit_space' => $request->get('site_maxFilespace')));
+            $parameters_input = array('parameters'=>array('limit_users' => intval($request->get('site_maxActiveusers')), 'limit_space' => intval($request->get('site_maxFilespace'))));
             
             if($install->updateParameters($site->getName(), $parameters_input))
             {
