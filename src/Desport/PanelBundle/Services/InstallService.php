@@ -412,7 +412,7 @@ class InstallService
         }
     }
     
-    public function updateParameters($name, $parameters_input)
+    public function updateParameters($name, $parameters_input, $web = false)
     {
         #DirectAdmin Parameters
         $domain = $this->container->getParameter('directadmin_domain'); 
@@ -422,7 +422,14 @@ class InstallService
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
         
         #Config parameters locations
-        $config_parameters_location = $root . '/app/config/parameters.yml';
+        if(! $web)
+        {
+            $config_parameters_location = $root . '/app/config/parameters.yml';
+        }
+        else
+        {
+            $config_parameters_location = $root . '/app/config/web_parameters.yml';
+        }
         
         #YAML parser
         $yaml = new Parser();

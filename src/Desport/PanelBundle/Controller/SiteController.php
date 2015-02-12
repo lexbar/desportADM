@@ -147,6 +147,28 @@ class SiteController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar los parámetros de Ancho de banda y Espacio disponible.');
             }
             
+            if($request->get('site_ads') == 1)
+            {
+                $ads = true;
+                $adsense = $this->container->getParameter('adsense_code');
+            }
+            else
+            {
+                $ads = false;
+                $adsense = '';
+            }
+            
+            $web_parameters_input = array('twig'=>array('globals' => array('adsense' => $adsense) ));
+            
+            if($install->updateParameters($site->getName(), $web_parameters_input))
+            {
+                $site->setAds($ads);
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar el parámetro de Publicidad.');
+            }
+            
             $em->persist($site); 
             $em->flush();
         }
