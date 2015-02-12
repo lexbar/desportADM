@@ -121,6 +121,36 @@ class SiteController extends Controller
             $install->checkStatus($site->getName())
         );
         
+        if($this->get('request')->getMethod() == 'POST')
+        {
+            $request = $this->get('request')->request;
+            
+            if($install->modifySubdomain($site->getName(), $request->get('site_bandwidth'), $request->get('site_quota')))
+            {
+                $site->setBandwidth($request->get('site_bandwidth'));
+                $site->setQuota($request->get('site_quota'));
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar los parámetros de Ancho de banda y Espacio disponible.');
+            }
+            
+            $parameters_input = array('parameters'=>array('limit_users' => $request->get('site_maxActiveusers'), 'limit_space' => $request->get('site_maxFilespace')));
+            
+            if($install->updateParameters($site->getName(), $parameters_input))
+            {
+                $site->setMaxFilespace();
+                $site->setmaxActiveusers();
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'No se han podido modificar los parámetros de Ancho de banda y Espacio disponible.');
+            }
+            
+            $em->persist($site); 
+            $em->flush();
+        }
+        
         $products = $em->getRepository('DesportPanelBundle:Product')->findBy(array(), array('date'=>'DESC'));
         
         return $this->render('DesportPanelBundle:Site:view.html.twig', array('site' => $site, 'installStages' => $installStages, 'products' => $products));

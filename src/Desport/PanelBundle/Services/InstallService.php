@@ -64,6 +64,55 @@ class InstallService
 	    } 
     }
     
+    public function modifySubdomain($name, $bandwidth, $quota)
+    {
+	    $username = $this->container->getParameter('directadmin_username'); 
+	    $domain = $this->container->getParameter('directadmin_domain'); 
+	    $pass = $this->container->getParameter('directadmin_password'); 
+	     
+	    $sock = new HTTPSocket; 
+	     
+	    $sock->connect($domain, 2222); 
+	    $sock->set_login($username, $pass); 
+	    $sock->set_method('POST'); 
+	     
+	    $data = array( 
+	        'enctype' => "multipart/form-data", 
+	        'action' => 'modify', 
+	        'domain' => $this->clean($name,0).'.'.$domain, 
+	        'bandwidth' => $bandwidth,
+	        'quota' => $quota,
+	        'ssl' => '' ,
+	        'cgi' => 'ON' ,
+	        'php' => 'ON' 
+	    ); 
+	    
+	    if(!$bandwidth)
+	    {
+    	    unset($data['bandwidth']);
+    	    $data['ubandwidth'] = 'unlimited';
+	    }
+	    
+	    if(!$quota)
+	    {
+    	    unset($data['quota']);
+    	    $data['uquota'] = 'unlimited';
+	    }
+	     
+	    $sock->query('/CMD_API_DOMAIN', $data); 
+	    $result = $sock->fetch_parsed_body(); 
+	    
+	    if($result['error'] == 0) //SUCCESS
+	    {
+		    return true; //$result['details'];
+	    }
+	    else //ERROR
+	    {
+    	    $this->container->get('session')->getFlashBag()->add('error', $result['text'] . ': ' . $result['details']);
+		    return false;
+	    } 
+    }
+    
     public function checkDomainExists($name)
     {
         $username = $this->container->getParameter('directadmin_username'); 
@@ -352,6 +401,62 @@ class InstallService
             #Web parameters file
             $yaml = $dumper->dump($web_parameters, 4);
             file_put_contents($config_web_parameters_location, $yaml);
+            
+            #EVERYTHING OK
+            return true;
+        }
+        catch (Exception $e)
+        {
+            $this->container->get('session')->getFlashBag()->add('error', 'Ha fallado el inversor de formato de configuración.');
+            return false;
+        }
+    }
+    
+    public function updateParameters($name, $parameters_input)
+    {
+        #DirectAdmin Parameters
+        $domain = $this->container->getParameter('directadmin_domain'); 
+        $daroot = $this->container->getParameter('directadmin_root'); 
+        
+        #Root address
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
+        
+        #Config parameters locations
+        $config_parameters_location = $root . '/app/config/parameters.yml';
+        
+        #YAML parser
+        $yaml = new Parser();
+        
+        #Try to extract parameters file data 
+        if(!file_exists($config_parameters_location))
+        {
+            $this->container->get('session')->getFlashBag()->add('error', 'No se ha encontrado el archivo de configuración.');
+            return false;
+        }
+        else 
+        {
+            try
+            {
+                $parameters = $yaml->parse(file_get_contents($config_parameters_location));
+            } 
+            catch (Exception $e)
+            {
+                $this->container->get('session')->getFlashBag()->add('error', 'Ha fallado el parseador de parámetros.');
+                return false;
+            }   
+        }
+        
+        //Combine current parameters with input parameters
+        $parameters = $this->mergeProperties($parameters, $parameters_input);
+        
+        #Now back to Yaml files
+        $dumper = new Dumper();
+        
+        try
+        {
+            #Parameters file
+            $yaml = $dumper->dump($parameters, 4);
+            file_put_contents($config_parameters_location, $yaml);
             
             #EVERYTHING OK
             return true;
