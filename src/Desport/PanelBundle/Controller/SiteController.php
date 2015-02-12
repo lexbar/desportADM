@@ -160,7 +160,7 @@ class SiteController extends Controller
             
             $web_parameters_input = array('twig'=>array('globals' => array('adsense' => $adsense) ));
             
-            if($install->updateParameters($site->getName(), $web_parameters_input))
+            if($install->updateParameters($site->getName(), $web_parameters_input, true))
             {
                 $site->setAds($ads);
             }
