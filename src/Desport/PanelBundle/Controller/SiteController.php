@@ -221,7 +221,7 @@ class SiteController extends Controller
         if(isset($properties['max_activeusers']) || isset($properties['max_filespace']))
         {
             $limit_users = isset($properties['max_activeusers']) ? $properties['max_activeusers'] : $site->getmaxActiveusers();
-            $limit_space = isset($properties['limit_space']) ? $properties['limit_space'] : $site->getMaxFilespace();
+            $limit_space = isset($properties['max_filespace']) ? $properties['max_filespace'] : $site->getMaxFilespace();
             
             $parameters_input = array('parameters'=>array('limit_users' => intval($limit_users), 'limit_space' => intval($limit_space)));
             
