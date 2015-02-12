@@ -139,8 +139,8 @@ class SiteController extends Controller
             
             if($install->updateParameters($site->getName(), $parameters_input))
             {
-                $site->setMaxFilespace();
-                $site->setmaxActiveusers();
+                $site->setMaxFilespace($request->get('site_maxFilespace'));
+                $site->setmaxActiveusers($request->get('site_maxActiveusers'));
             }
             else
             {
