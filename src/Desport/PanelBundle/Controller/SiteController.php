@@ -39,6 +39,7 @@ class SiteController extends Controller
         
         $transaction = new Transaction();
         $transaction->setSite($site);
+        $transaction->setUser($user);
         
         if($this->get('request')->getMethod() == 'POST')
         {
@@ -181,6 +182,8 @@ class SiteController extends Controller
     public function loadProductAction($site_id, $product_id)
     {
         $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->get('security.context')->getToken()->getUser();
 	    
 	    $site = $em->getRepository('DesportPanelBundle:Site')->findOneById($site_id);
         
@@ -261,7 +264,13 @@ class SiteController extends Controller
             }   
         }
         
+        $transaction = new Transaction();
+        $transaction->setSite($site);
+        $transaction->setProduct($product);
+        $transaction->setUser($user);
+        
         $em->persist($site); 
+        $em->persist($transaction); 
         $em->flush();
         
         return new RedirectResponse($this->generateUrl('desport_sales_site_view', array( 'site_id' => $site->getId() )));
