@@ -62,7 +62,7 @@
                                     <dt>Email</dt>
                                     <dd>{{ client.email | default('?') }}</dd>
                                     <dt>Página web</dt>
-                                    <dd>{{ client.website | default('?') }}</dd>
+                                    <dd>{% if client.website %}<a href="{{ client.website }}" target="_blank">{{ client.website }}</a>{% else %}?{% endif %}</dd>
                                     <dt>Introducido</dt>
                                     <dd>{{ client.date | date('j/m/Y') }}</dd>
                                 </dl>

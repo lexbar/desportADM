@@ -42,7 +42,7 @@
                             
                             {% for client in clients %}
                                 <tr>
-                                    <td><strong><a href="{{ path('desport_sales_client_view', {client_id:client.id}) }}">{{ client.name }}</a></strong>{% if client.website %}<br><small>(<a href="{{ client.website }}">{{ client.website }}</a>)</small>{% endif %}</td>
+                                    <td><strong><a href="{{ path('desport_sales_client_view', {client_id:client.id}) }}">{{ client.name }}</a></strong>{% if client.website %}<br><small>(<a href="{{ client.website }}" target="_blank">{{ client.website }}</a>)</small>{% endif %}</td>
                                     <td><span class="label label-{{ stageLabel[client.stage] }}">{{ stages[client.stage] }}</span></td>
                                     <td class="hidden-xs">{{ client.comments }}</td>
                                     <td>
