@@ -264,6 +264,11 @@ class SiteController extends Controller
             }   
         }
         
+        if(isset($properties['expires']))
+        {
+            $site->setExpires(new \DateTime($properties['expires']));
+        }
+        
         $transaction = new Transaction();
         $transaction->setSite($site);
         $transaction->setProduct($product);
