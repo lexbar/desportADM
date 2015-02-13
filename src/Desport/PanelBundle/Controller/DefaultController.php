@@ -18,9 +18,9 @@ class DefaultController extends Controller
         
         $date = new \DateTime('0:00 first day of this month', new \DateTimeZone('UTC'));
         
-        $premium = $em->createQuery("SELECT COUNT(t.id) FROM DesportPanelBundle:Transaction t JOIN t.product p WHERE p.name = 'Premium' AND t.date > :date")->setParameter('date', $date)->getSingleScalarResult();
+        $premium = $em->createQuery("SELECT COUNT(s.id) FROM DesportPanelBundle:Site s JOIN s.product p WHERE p.name = 'Premium' AND s.dateCreated > :date")->setParameter('date', $date)->getSingleScalarResult();
         
-        $free = $em->createQuery("SELECT COUNT(t.id) FROM DesportPanelBundle:Transaction t JOIN t.product p WHERE (p.name = 'Periodo de Prueba' or p.name = 'Gratuito') AND t.date > :date ")->setParameter('date', $date)->getSingleScalarResult();
+        $free = $em->createQuery("SELECT COUNT(s.id) FROM DesportPanelBundle:Site s JOIN s.product p WHERE (p.name = 'Periodo de Prueba' or p.name = 'Gratuito') AND s.dateCreated > :date")->setParameter('date', $date)->getSingleScalarResult();
         
         $client = $em->createQuery("SELECT COUNT(c.id) FROM DesportPanelBundle:Client c WHERE c.date > :date")->setParameter('date', $date)->getSingleScalarResult();
         

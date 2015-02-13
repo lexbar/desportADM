@@ -112,6 +112,12 @@ class Site
     private $client;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="sites")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     */
+    private $product;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="site")
      */
      private $transactions;
@@ -503,5 +509,28 @@ class Site
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Desport\PanelBundle\Entity\Product $product
+     * @return Site
+     */
+    public function setProduct(\Desport\PanelBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Desport\PanelBundle\Entity\Product 
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }

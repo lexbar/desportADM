@@ -55,6 +55,7 @@ class SiteController extends Controller
             else
             {
                 $transaction->setProduct($product);
+                $site->setProduct($product);
                 
                 if(!$site->getName())
                 {
@@ -268,6 +269,8 @@ class SiteController extends Controller
         {
             $site->setExpires(new \DateTime($properties['expires']));
         }
+        
+        $site->setProduct($product);
         
         $transaction = new Transaction();
         $transaction->setSite($site);

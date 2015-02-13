@@ -78,6 +78,11 @@ class Product
     private $properties;
     
     /**
+     * @ORM\OneToMany(targetEntity="Site", mappedBy="client")
+     */
+    private $sites;
+    
+    /**
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="product")
      */
     private $transactions;
@@ -352,5 +357,38 @@ class Product
     public function getCoupons()
     {
         return $this->coupons;
+    }
+
+    /**
+     * Add sites
+     *
+     * @param \Desport\PanelBundle\Entity\Site $sites
+     * @return Product
+     */
+    public function addSite(\Desport\PanelBundle\Entity\Site $sites)
+    {
+        $this->sites[] = $sites;
+
+        return $this;
+    }
+
+    /**
+     * Remove sites
+     *
+     * @param \Desport\PanelBundle\Entity\Site $sites
+     */
+    public function removeSite(\Desport\PanelBundle\Entity\Site $sites)
+    {
+        $this->sites->removeElement($sites);
+    }
+
+    /**
+     * Get sites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSites()
+    {
+        return $this->sites;
     }
 }
