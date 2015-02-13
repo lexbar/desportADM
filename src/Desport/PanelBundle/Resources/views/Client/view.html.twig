@@ -126,13 +126,13 @@
                     {% set lastEventDate = date() %}
                     {% for event in events %}
                         {% if loop.first or lastEventDate | date('Yz') != event.date | date('Yz') %}
-                            <!-- timeline time label -->
                             <li class="time-label">
                                 <span class="bg-aqua">
                                     {{ event.date | date('j / m / Y') }}
                                 </span>
                             </li>
-                            <!-- /.timeline-label -->
+                            
+                            {% set lastEventDate = event.date %}
                         {% endif %}
                         
                         {% include 'DesportPanelBundle:Event:EventType/' ~ event.type ~ '.html.twig' with { 'event' : event } %}
