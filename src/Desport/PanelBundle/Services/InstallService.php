@@ -286,7 +286,6 @@ class InstallService
     
     public function checkRepositoryExists($name)
     {
-        return true;
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
