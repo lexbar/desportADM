@@ -403,6 +403,12 @@ class SiteController extends Controller
                     $this->get('session')->getFlashBag()->add('error', 'No se han podido cargar los datos de arranque.');
                 }
             break;
+            
+            case 4:
+                $install->updateRepository($site->getName());
+                
+                $this->get('session')->getFlashBag()->add('success', 'Repositorio actualizado.');
+            break;
         }
         
         return new RedirectResponse($this->generateUrl('desport_sales_site_view', array( 'site_id' => $site->getId() )));

@@ -286,6 +286,7 @@ class InstallService
     
     public function checkRepositoryExists($name)
     {
+        return true;
         $domain = $this->container->getParameter('directadmin_domain'); 
         $daroot = $this->container->getParameter('directadmin_root'); 
         
@@ -309,6 +310,18 @@ class InstallService
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
     	
     	shell_exec("rm -rf $root"); // clean all files (REMOVE)
+    	
+    	return true;
+    }
+    
+    public function updateRepository($name)
+    {
+        $domain = $this->container->getParameter('directadmin_domain'); 
+        $daroot = $this->container->getParameter('directadmin_root'); 
+        
+        $root = $daroot.'/'.$this->clean($name).'.'.$domain;
+    	
+    	shell_exec("git pull https://github.com/lexbar/colecta $root"); // update repository from github
     	
     	return true;
     }
