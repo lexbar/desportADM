@@ -191,7 +191,7 @@
                                         {% if installStages[2] %}
                                             <p class="text-success">El repositorio está cargado <i class="fa fa-check"></i></p>
                                             <p class="text-warning">(Aunque no se puede garantizar que no esté corrupto.)</p>
-                                            <p>Actualizar repositorio a la última versión: <a href="{{ path('desport_sales_site_install_undo', {site_id : site.id, stage_id : 4}) }}" class="btn btn-xs btn-primary">Actualizar <i class="fa fa-refresh"></i></a></p>
+                                            <p>Actualizar repositorio a la última versión: <a href="{{ path('desport_sales_site_install_stage', {site_id : site.id, stage_id : 4}) }}" class="btn btn-xs btn-primary">Actualizar <i class="fa fa-refresh"></i></a></p>
                                         {% else %}
                                             <p class="text-danger">No se ha cargado el repositorio <i class="fa fa-times"></i></p>
                                         {% endif %}
