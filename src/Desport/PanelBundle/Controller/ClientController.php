@@ -176,7 +176,7 @@ class ClientController extends Controller
                 
                 $message->setEmailTo($client->getEmail());
                 
-                $message->setTextHTML($request->get('message_text'));
+                $message->setTextHTML(nl2br($request->get('message_text')));
                 //$message->setAttachments('');
                 
                 $message->setUserFrom($user);
@@ -184,17 +184,28 @@ class ClientController extends Controller
                 
                 
                 // SEND EMAIL
-                $email = \Swift_Message::newInstance()
-                    ->setSubject($message->getSubject())
+                $email = \Swift_Message::newInstance();
+                
+                $logo = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header.png'));
+                
+                $email->setSubject($message->getSubject())
                     ->setFrom(array( $message->getEmailFrom() => $this->container->getParameter('site_name') ))
                     ->setTo(array($message->getEmailTo() => $client->getContactName()))
                     ->setBody(
                         $this->renderView(
+                            'DesportPanelBundle:Client:email.html.twig',
+                            array('message' => $message, 'logo' => $logo)
+                        )
+                        , 'text/html'
+                        
+                    )
+                    ->addPart(
+                        $this->renderView(
                             'DesportPanelBundle:Client:email.txt.twig',
                             array('message' => $message)
                         )
-                    )
-                ;
+                        , 'text/plain'
+                );
                 
                 $mailgun = $this->container->get("mailgun.swift_transport.transport");
                 
