@@ -132,7 +132,7 @@ class InstallService
 	    $sock->query('/CMD_API_SHOW_DOMAINS', $data); 
 	    $result = $sock->fetch_parsed_body(); 
 	    
-	    if(isset($result['list']) && in_array($this->clean($name,0).'.'.$domain, $result['list']))
+	    if(isset($result['list']) && in_array($this->clean($name).'.'.$domain, $result['list']))
 	    {
     	    return true;
 	    }
@@ -682,7 +682,7 @@ class InstallService
     
     public function clean($name, $shorten = 0)
     {
-        $clean = preg_replace("/[^[:alnum:][:space:]]/ui", '', $name);
+        $clean = strtolower(preg_replace("/[^[:alnum:][:space:]]/ui", '', $name));
         
         if($shorten) //this is a restriction for database names
         {
