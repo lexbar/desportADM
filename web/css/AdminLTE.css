@@ -3546,7 +3546,13 @@ fieldset[disabled] .btn-vk.active {
 /* ADDED FOR DESPORT CONTROL PANEL */
 body > .header .logo {
     font-family: inherit;
-    font-size: 18px;    
+    font-size: 18px;  
+    text-transform: capitalize;
+    font-weight: bold;  
+}
+body > .header .logo img {
+    vertical-align: middle;
+    padding-bottom: 2px;
 }
 .email-body {
     font-size: 17px;
