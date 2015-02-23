@@ -75,7 +75,7 @@ desport_sales_messages_ticketstate:
     pattern:     /sales/client/message/ticket/state/{message_id}/{state}
     defaults: { _controller: DesportPanelBundle:Message:ticketState }
 desport_sales_messages_automessage_load_level:
-    pattern:     /sales/client/message/automessage/{message_id}/loadlevel
+    pattern:     /sales/client/message/automessage/{client_id}/loadlevel
     defaults: { _controller: DesportPanelBundle:Message:automessageLoadLevel }
 desport_sales_messages_automessage_fill:
     pattern:     /sales/client/message/fill/{automessage_id}

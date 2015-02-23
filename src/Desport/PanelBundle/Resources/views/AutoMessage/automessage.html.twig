@@ -1,4 +1,4 @@
-{% set PREKEYS = {'%APP_USER_NAME%':app.user.name, '%CLIENT_NAME%':message.client ? message.client.name : ''} %}
+{% set PREKEYS = {'%APP_USER_NAME%':app.user.name, '%CLIENT_NAME%':client ? client.name : ''} %}
 
 <hr>
 <form method="post" id="AutoMessage{{ automessage.id }}">

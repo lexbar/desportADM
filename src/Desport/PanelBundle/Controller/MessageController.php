@@ -392,7 +392,7 @@ class MessageController extends Controller
         return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
     }
     
-    public function automessageLoadLevelAction($message_id)
+    public function automessageLoadLevelAction($client_id)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -400,11 +400,11 @@ class MessageController extends Controller
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/html');
         
-        $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
+        $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
         
-        if(!$message)
+        if(!$client)
         {
-            $response->setContent('Error, no se ha encontrado el mensaje original.');
+            $response->setContent('Error, no se ha encontrado el cliente.');
             return $response;
         }
         
@@ -415,7 +415,7 @@ class MessageController extends Controller
             $subcategories = $em->getRepository('DesportPanelBundle:AutoMessageCategory')->findBy(array('parent'=>null));
             $automessages = $em->getRepository('DesportPanelBundle:AutoMessage')->findBy(array('category'=>null));
             
-            return $this->render('DesportPanelBundle:AutoMessage:category.html.twig', array('category' => null, 'subcategories' => $subcategories, 'automessages' => $automessages, 'message' => $message));
+            return $this->render('DesportPanelBundle:AutoMessage:category.html.twig', array('category' => null, 'subcategories' => $subcategories, 'automessages' => $automessages, 'client' => $client));
         }
         
         list($type, $id) = $level;
@@ -433,7 +433,7 @@ class MessageController extends Controller
             $subcategories = $em->getRepository('DesportPanelBundle:AutoMessageCategory')->findBy(array('parent'=>$category));
             $automessages = $em->getRepository('DesportPanelBundle:AutoMessage')->findBy(array('category'=>$category));
             
-            return $this->render('DesportPanelBundle:AutoMessage:category.html.twig', array('category' => $category, 'subcategories' => $subcategories, 'automessages' => $automessages, 'message' => $message));
+            return $this->render('DesportPanelBundle:AutoMessage:category.html.twig', array('category' => $category, 'subcategories' => $subcategories, 'automessages' => $automessages, 'client' => $client));
         }
         else //AutoMessage
         {
@@ -445,7 +445,7 @@ class MessageController extends Controller
                 return $response;
             }
             
-            return $this->render('DesportPanelBundle:AutoMessage:automessage.html.twig', array('automessage' => $automessage, 'message' => $message));
+            return $this->render('DesportPanelBundle:AutoMessage:automessage.html.twig', array('automessage' => $automessage, 'client' => $client));
         }
     }
     
