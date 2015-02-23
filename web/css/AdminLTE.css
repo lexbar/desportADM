@@ -3548,11 +3548,11 @@ body > .header .logo {
     font-family: inherit;
     font-size: 18px;  
     text-transform: capitalize;
-    font-weight: bold;  
 }
 body > .header .logo img {
     vertical-align: middle;
-    padding-bottom: 2px;
+    padding-bottom: 3px;
+    width: 14px;
 }
 .email-body {
     font-size: 17px;

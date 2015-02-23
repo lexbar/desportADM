@@ -22,7 +22,7 @@
                 {% if message.ticket %}
                     {% set ticketState = {'new': 'Nuevo', 'open': 'Abierto', 'pending reminder': 'Pendiente (recordar)', 'pending auto close-': 'Pendiente (autocierre, sin éxito)', 'pending auto close+': 'Pendiente (autocierre, con éxito)', 'closed successful': 'Cerrado con éxito', 'closed unsuccessful': 'Cerrado sin éxito'} %}
                     <div class="btn-group">
-                        <a class="btn btn-danger" href="{{ path('desport_sales_messages_ticket_view', {ticket_id: message.ticket.id}) }}"><i class="fa fa-life-ring fa-fw"></i> <strong>Ticket:</strong> {{ ticketState[message.ticket.state] }}</a>
+                        <a class="btn btn-danger" href="{{ path('desport_sales_messages_ticket_view', {ticket_id: message.ticket.id}) }}"><i class="fa fa-life-ring fa-fw"></i> <strong>Ticket #{{ message.ticket.id }}:</strong> {{ ticketState[message.ticket.state] }}</a>
                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">Estados de ticket</span>
@@ -124,21 +124,64 @@
                 </div>
             </div>
         </div>
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title">Responder</h3>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Responder</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="email-response">
+                            <form role="form" action="{#{ path('desport_sales_client_contact', {client_id:client.id}) }#}" method="post">
+                                <a name="response" id="response"></a>
+                                <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="{{ response.subject | default(message.subjectRe) }}"><br>
+                                <textarea rows="12" class="form-control" id="message_text" name="message_text">{{ response.text }}</textarea>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="box-body">
-                <div class="email-response">
-                    <form role="form" action="{#{ path('desport_sales_client_contact', {client_id:client.id}) }#}" method="post">
-                        <a name="response" id="response"></a>
-                        <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="{{ response.subject | default(message.subjectRe) }}"><br>
-                        <textarea rows="4" class="form-control" id="message_text" name="message_text">{{ response.text }}</textarea>
-                        <br>
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                    </form>
+            <div class="col-lg-4">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Autorespuesta</h3>
+                    </div>
+                    <div class="box-body" id="autoresponseContainer">
+                        <div id="autoresponseLevel0">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        
     </section>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function loadLevel(l) {
+        if($('#autoresponseLevel' + l + ' select').val() == 'NONE') { return; }
+        removeLevelR(l+1);
+        
+        $('#autoresponseLevel' + l).after('<div id="autoresponseLevel'+ (l + 1) +'"></div>');
+        
+        $('#autoresponseLevel' + (l + 1)).load('{{ path('desport_sales_messages_automessage_load_level', {message_id:message.id}) }}?l=' + $('#autoresponseLevel' + l + ' select').val());
+    }
+    function removeLevelR(l) { //Remove recursively from level l onward
+        if($('#autoresponseLevel'+l).length > 0) {
+            removeLevelR(l+1);
+            $('#autoresponseLevel'+l).remove();
+        }
+    }
+    function FillAutomessage(id) {
+        $.ajax( "/sales/client/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} ).done(function( data ) { $('#message_text').val(data) });
+        
+    }
+    
+    $('#autoresponseLevel0').load('{{ path('desport_sales_messages_automessage_load_level', {message_id:message.id}) }}?l=0');
+</script>
 {% endblock %}

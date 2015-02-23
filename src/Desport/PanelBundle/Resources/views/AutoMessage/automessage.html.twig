@@ -1,0 +1,15 @@
+{% set PREKEYS = {'%APP_USER_NAME%':app.user.name, '%CLIENT_NAME%':message.client ? message.client.name : ''} %}
+
+<hr>
+<form method="post" id="AutoMessage{{ automessage.id }}">
+<p class="lead">{{ automessage.name }}</p>
+
+{% for key,name in automessage.fields %}
+<div class="form-group">
+    <label>{{ name }}</label>
+    <input type="text" class="form-control" name="{{ key | replace({'%':''}) }}" id="" value="{{ PREKEYS[key] | default('') }}">
+</div>
+{% endfor %}
+
+<button onClick="FillAutomessage({{ automessage.id }})" type="button" class="btn btn-primary">Cargar mensaje</button>
+</form>

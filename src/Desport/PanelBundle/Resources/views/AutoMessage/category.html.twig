@@ -1,0 +1,12 @@
+<div class="form-group">
+    <label>{{ category.name | default('Selecciona una categoría') }}</label>
+    <select class="form-control" onChange="loadLevel({{ category.id | default(0) }})">
+        <option value="NONE">- -</option>
+        {% for subcategory in subcategories %}
+        <option value="C_{{ subcategory.id }}">{{ subcategory.name }}</option>
+        {% endfor %}
+        {% for automessage in automessages %}
+        <option value="A_{{ automessage.id }}">{{ automessage.name }}</option>
+        {% endfor %}
+    </select>
+</div>

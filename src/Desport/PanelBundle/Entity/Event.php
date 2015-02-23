@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"PlainText" = "\Desport\PanelBundle\Entity\EventType\PlainText","ClientCreated" = "\Desport\PanelBundle\Entity\EventType\ClientCreated","SiteCreated" = "\Desport\PanelBundle\Entity\EventType\SiteCreated","TicketCreated" = "\Desport\PanelBundle\Entity\EventType\TicketCreated","DroppedMessage" = "\Desport\PanelBundle\Entity\EventType\DroppedMessage", "MessageTransfered" = "\Desport\PanelBundle\Entity\EventType\MessageTransfered", "ClientRecord" = "\Desport\PanelBundle\Entity\EventType\ClientRecord"})
+ * @ORM\DiscriminatorMap({"PlainText" = "\Desport\PanelBundle\Entity\EventType\PlainText","ClientCreated" = "\Desport\PanelBundle\Entity\EventType\ClientCreated","SiteCreated" = "\Desport\PanelBundle\Entity\EventType\SiteCreated","TicketCreated" = "\Desport\PanelBundle\Entity\EventType\TicketCreated","DroppedMessage" = "\Desport\PanelBundle\Entity\EventType\DroppedMessage", "MessageTransfered" = "\Desport\PanelBundle\Entity\EventType\MessageTransfered", "ClientRecord" = "\Desport\PanelBundle\Entity\EventType\ClientRecord", "TicketReminder" = "\Desport\PanelBundle\Entity\EventType\TicketReminder"})
  */
 class Event
 {

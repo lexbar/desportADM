@@ -77,7 +77,7 @@ class MessageController extends Controller
             
             $response->setSubject($request->get('message_subject'));
             $response->setText($request->get('message_text'));
-            $response->setTextHTML($request->get('message_text'));
+            $response->setTextHTML(nl2br($request->get('message_text')));
             
             if(! $response->getSubject() || ! $response->getText())
             {
@@ -205,7 +205,7 @@ class MessageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         
         $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
         
@@ -390,5 +390,93 @@ class MessageController extends Controller
         $this->get('session')->getFlashBag()->add('successs', 'Estado del ticket modificado correctamente.');
         
         return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array( 'message_id' => $message->getId() )));
+    }
+    
+    public function automessageLoadLevelAction($message_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/html');
+        
+        $message = $em->getRepository('DesportPanelBundle:Message')->findOneById($message_id);
+        
+        if(!$message)
+        {
+            $response->setContent('Error, no se ha encontrado el mensaje original.');
+            return $response;
+        }
+        
+        $level = explode('_', $this->getRequest()->query->get('l'));
+        
+        if(count($level) != 2)
+        {
+            $subcategories = $em->getRepository('DesportPanelBundle:AutoMessageCategory')->findBy(array('parent'=>null));
+            $automessages = $em->getRepository('DesportPanelBundle:AutoMessage')->findBy(array('category'=>null));
+            
+            return $this->render('DesportPanelBundle:AutoMessage:category.html.twig', array('category' => null, 'subcategories' => $subcategories, 'automessages' => $automessages, 'message' => $message));
+        }
+        
+        list($type, $id) = $level;
+        
+        if($type == 'C') // Category
+        {
+            $category = $em->getRepository('DesportPanelBundle:AutoMessageCategory')->findOneById($id);
+            
+            if(!$category)
+            {
+                $response->setContent('Error, no se ha encontrado la categoría solicitada.');
+                return $response;
+            }
+            
+            $subcategories = $em->getRepository('DesportPanelBundle:AutoMessageCategory')->findBy(array('parent'=>$category));
+            $automessages = $em->getRepository('DesportPanelBundle:AutoMessage')->findBy(array('category'=>$category));
+            
+            return $this->render('DesportPanelBundle:AutoMessage:category.html.twig', array('category' => $category, 'subcategories' => $subcategories, 'automessages' => $automessages, 'message' => $message));
+        }
+        else //AutoMessage
+        {
+            $automessage = $em->getRepository('DesportPanelBundle:AutoMessage')->findOneById($id);
+            
+            if(!$automessage)
+            {
+                $response->setContent('Error, no se ha encontrado el mensaje solicitado.');
+                return $response;
+            }
+            
+            return $this->render('DesportPanelBundle:AutoMessage:automessage.html.twig', array('automessage' => $automessage, 'message' => $message));
+        }
+    }
+    
+    public function automessageFillAction($automessage_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/html');
+        
+        $automessage = $em->getRepository('DesportPanelBundle:AutoMessage')->findOneById($automessage_id);
+        
+        if($this->get('request')->getMethod() == 'POST') // Response
+        {
+            $text = $automessage->getText();
+            
+            $fields = $this->get('request')->request->all();
+            
+            foreach($fields as $k=>$v)
+            {
+                $text = str_replace('%'.$k.'%', $v, $text);
+            }
+            
+            $response->setContent($text);
+        }
+        else
+        {
+            $response->setContent($automessage->getText());
+        }
+        
+        return $response;
     }
 }

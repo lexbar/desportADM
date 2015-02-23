@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Autoresponse
+class AutoMessage
 {
     /**
      * @var integer
@@ -34,6 +34,13 @@ class Autoresponse
      * @ORM\Column(name="text", type="text")
      */
     private $text;
+    
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="fields", type="array")
+     */
+    private $fields;
 
     /**
      * @var \DateTime
@@ -50,9 +57,8 @@ class Autoresponse
     private $used;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="category", type="boolean")
+     * @ORM\ManyToOne(targetEntity="AutoMessageCategory", inversedBy="automessages")
+     * @ORM\JoinColumn(name="category", referencedColumnName="id")
      */
     private $category;
 
@@ -111,6 +117,29 @@ class Autoresponse
     public function getText()
     {
         return $this->text;
+    }
+    
+    /**
+     * Set fields
+     *
+     * @param array $fields
+     * @return AutoMessage
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    /**
+     * Get fields
+     *
+     * @return array 
+     */
+    public function getFields()
+    {
+        return $this->fields;
     }
 
     /**
