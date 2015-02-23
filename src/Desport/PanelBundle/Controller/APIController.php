@@ -89,19 +89,41 @@ class APIController extends Controller
             
             if( ! $message->getUserTo() )
             {
-                $userTo = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($this->cleanEmail($request->get('recipient')));
+                $domain = $this->container->getParameter('mailgun_domain');
+                $clean_recipient = $this->cleanEmail($request->get('recipient'));
+                
+                $userTo = $em->getRepository('DesportPanelBundle:User')->findOneByUsernameCanonical(str_replace('@'.$domain, '', $clean_recipient));
                 if($userTo)
                 {
                     $message->setUserTo($userTo);
+                }
+                else
+                {
+                    $userTo = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($clean_recipient);
+                    if($userTo)
+                    {
+                        $message->setUserFrom($userFrom);
+                    }
                 }
             }
             
             if( ! $message->getUserFrom() )
             {
-                $userFrom = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($this->cleanEmail($request->get('from')));
-                if($userTo)
+                $clean_from = $this->cleanEmail($request->get('from'));
+                
+                $userFrom = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($clean_from);
+                if($userFrom)
                 {
-                    $message->setUserFrom($userFrom);
+                    $message->setUserTo($userFrom);
+                }
+                else
+                {
+                    $domain = $this->container->getParameter('mailgun_domain');
+                    $userFrom = $em->getRepository('DesportPanelBundle:User')->findOneByUsernameCanonical(str_replace('@'.$domain, '', $clean_from));
+                    if($userFrom)
+                    {
+                        $message->setUserFrom($userFrom);
+                    }
                 }
             }
             
@@ -188,7 +210,7 @@ class APIController extends Controller
         {
             if(filter_var($part, FILTER_VALIDATE_EMAIL))
             {
-                return $part;
+                return trim($part);
             }
         }
         
@@ -197,10 +219,10 @@ class APIController extends Controller
         {
             if(preg_match("/.*@.*/i", $part))
             {
-                return $part;
+                return trim($part);
             }
         }
         
-        return $address;
+        return trim($address);
     }
 }
