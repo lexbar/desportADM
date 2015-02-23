@@ -40,8 +40,6 @@ class APIController extends Controller
             
             $message->setMailgunId($request->get('Message-Id'));
             
-            $message->setContentIdMap(json_decode($request->get('content-id-map')));
-            
             //if it is a response...
             $parent = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('In-Reply-To'));
             if( $parent )
@@ -106,9 +104,13 @@ class APIController extends Controller
                 }
             }
             
-            //TODO: Ticket infering
+            $em->persist($message); 
+            $em->flush();
             
             //Manage attachments
+            
+            $contentIdMapArray = json_decode($request->get('content-id-map'), 1);
+            $contentIdMap = array();
             
             $attachment_count = $request->get('attachment-count');
             
@@ -120,8 +122,14 @@ class APIController extends Controller
                 $attachment->setMessage($message);
                 
                 $em->persist($attachment);
+                $em->flush();
+                
+                $cid = array_search('attachment-' . $i, $contentIdMapArray);
+                $contentIdMap[$attachment->getId()] = $cid;
             }
             
+            //Update Message with contentIdMap
+            $message->setContentIdMap();
             $em->persist($message); 
             $em->flush();
             
