@@ -89,8 +89,16 @@
                 
                 
                 <div class="email-body">
-                    {{ message.textHTML | raw }}
-                    
+                    {# BUILD ATTACHMENT MAP REPLACEMENT ARRAY #}
+                    {% if message.contentIdMap | length %}
+                        {% set replaceAttachments = {} %}
+                        {% for attachment_id,cid in message.contentIdMap %}
+                            {% set replaceAttachments = replaceAttachments | merge({('cid:' ~ cid): path('desport_sales_messages_attachment', {attachment_id:attachment_id})}) %}
+                        {% endfor %}
+                        {{ message.textHTML() | replace(replaceAttachments) | raw }}
+                    {% else %}
+                        {{ message.textHTML() | raw }}
+                    {% endif %}
                     
                     {% if message.attachments | length > 0 %}
                         <hr>

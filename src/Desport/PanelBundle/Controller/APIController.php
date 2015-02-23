@@ -125,7 +125,7 @@ class APIController extends Controller
                 $em->persist($attachment);
                 $em->flush();
                 
-                $cid = array_search('attachment-' . $i, $contentIdMapArray);
+                $cid = str_replace(array('<', '>'), '', array_search('attachment-' . $i, $contentIdMapArray));
                 $contentIdMap[$attachment->getId()] = $cid;
             }
             
