@@ -95,6 +95,13 @@ class Message
     private $attachments;
     
     /**
+     * @var array
+     *
+     * @ORM\Column(name="contentIdMap", type="array")
+     */
+    private $contentIdMap;
+    
+    /**
      * @var string
      *
      * @ORM\Column(name="mailgunId", type="string", length=255)
@@ -561,5 +568,28 @@ class Message
         }
         
         return $addr;
+    }
+
+    /**
+     * Set contentIdMap
+     *
+     * @param array $contentIdMap
+     * @return Message
+     */
+    public function setContentIdMap($contentIdMap)
+    {
+        $this->contentIdMap = $contentIdMap;
+
+        return $this;
+    }
+
+    /**
+     * Get contentIdMap
+     *
+     * @return array 
+     */
+    public function getContentIdMap()
+    {
+        return $this->contentIdMap;
     }
 }

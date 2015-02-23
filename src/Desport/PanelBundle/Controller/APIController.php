@@ -40,6 +40,8 @@ class APIController extends Controller
             
             $message->setMailgunId($request->get('Message-Id'));
             
+            $message->setContentIdMap(json_decode($request->get('content-id-map')));
+            
             //if it is a response...
             $parent = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('In-Reply-To'));
             if( $parent )
