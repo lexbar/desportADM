@@ -39,6 +39,7 @@ class APIController extends Controller
             $message->setEmailTo($request->get('recipient'));
             
             $message->setMailgunId($request->get('Message-Id'));
+            $message->setContentIdMap(array());
             
             //if it is a response...
             $parent = $em->getRepository('DesportPanelBundle:Message')->findOneByMailgunId($request->get('In-Reply-To'));
@@ -129,7 +130,7 @@ class APIController extends Controller
             }
             
             //Update Message with contentIdMap
-            $message->setContentIdMap();
+            $message->setContentIdMap($contentIdMap);
             $em->persist($message); 
             $em->flush();
             
