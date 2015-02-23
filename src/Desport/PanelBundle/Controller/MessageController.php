@@ -76,8 +76,8 @@ class MessageController extends Controller
             $request = $this->get('request')->request;
             
             $response->setSubject($request->get('message_subject'));
-            $response->setText($request->get('message_text'));
-            $response->setTextHTML(nl2br($request->get('message_text')));
+            $response->setText(strip_tags($request->get('message_text')));
+            $response->setTextHTML($request->get('message_text'));
             
             if(! $response->getSubject() || ! $response->getText())
             {
@@ -470,7 +470,7 @@ class MessageController extends Controller
                 $text = str_replace('%'.$k.'%', $v, $text);
             }
             
-            $response->setContent($text);
+            $response->setContent(nl2br($text));
         }
         else
         {

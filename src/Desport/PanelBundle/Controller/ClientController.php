@@ -164,7 +164,7 @@ class ClientController extends Controller
             $request = $this->get('request')->request;
             
             $message->setSubject($request->get('message_subject'));
-            $message->setText($request->get('message_text'));
+            $message->setText(strip_tags($request->get('message_text')));
             
             if(! $message->getSubject() || ! $message->getText())
             {
@@ -176,7 +176,7 @@ class ClientController extends Controller
                 
                 $message->setEmailTo($client->getEmail());
                 
-                $message->setTextHTML(nl2br($request->get('message_text')));
+                $message->setTextHTML($request->get('message_text'));
                 //$message->setAttachments('');
                 
                 $message->setUserFrom($user);

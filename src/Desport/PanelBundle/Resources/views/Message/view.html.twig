@@ -144,7 +144,18 @@
                             <form role="form" action="{#{ path('desport_sales_client_contact', {client_id:client.id}) }#}" method="post">
                                 <a name="response" id="response"></a>
                                 <input type="text" class="form-control" id="message_subject" name="message_subject" placeholder="Asunto..." value="{{ response.subject | default(message.subjectRe) }}"><br>
-                                <textarea rows="12" class="form-control" id="message_text" name="message_text">{{ response.text }}</textarea>
+                                <p id="toolbar">
+                                    <a data-wysihtml5-command="bold" class="btn btn-default" title="Negrilla"><i class="fa fa-bold fa-fw"></i></a>
+                                    <a data-wysihtml5-command="italic" class="btn btn-default" title="Cursiva"><i class="fa fa-italic fa-fw"></i></a>
+                                    <a data-wysihtml5-command="underline" class="btn btn-default" title="Subrayar"><i class="fa fa-underline fa-fw"></i></a>
+                                     - 
+                                    <a data-wysihtml5-command="insertUnorderedList" class="btn btn-default" title="Lista desordenada"><i class="fa fa-list-ul fa-fw"></i></a>
+                                    <a data-wysihtml5-command="insertOrderedList" class="btn btn-default" title="Lista ordenada"><i class="fa fa-list-ol fa-fw"></i></a>
+                                     - 
+                                    <a data-wysihtml5-command="undo" class="btn btn-default" title="Deshacer"><i class="fa fa-undo fa-fw"></i></a>
+                                    <a data-wysihtml5-command="redo" class="btn btn-default" title="Rehacer"><i class="fa fa-repeat fa-fw"></i></a>
+                                </p>
+                                <textarea rows="14" class="form-control" id="message_text" name="message_text">{{ response.text }}</textarea>
                                 <br>
                                 <button type="submit" class="btn btn-primary">Enviar</button>
                             </form>
@@ -170,6 +181,8 @@
 {% endblock %}
 
 {% block javascripts %}
+<script src="/js/wysihtml5x/wysihtml5x-toolbar.min.js"></script>
+<script src="/js/wysihtml5x/parser_rules/advanced_and_extended.js"></script>
 <script>
     function loadLevel(l) {
         if($('#autoresponseLevel' + l + ' select').val() == 'NONE') { return; }
@@ -186,10 +199,14 @@
         }
     }
     function FillAutomessage(id) {
-        $.ajax( "/sales/client/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} ).done(function( data ) { $('#message_text').val(data) });
-        
+        $.ajax( "/sales/client/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} ).done(function( data ) { editor.setValue(data); });
     }
     
     $('#autoresponseLevel0').load('{{ path('desport_sales_messages_automessage_load_level', {client_id:message.client.id}) }}?l=0');
+    
+    var editor = new wysihtml5.Editor('message_text', {
+        toolbar: 'toolbar',
+        parserRules:  wysihtml5ParserRules
+    });
 </script>
 {% endblock %}
