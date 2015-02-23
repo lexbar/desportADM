@@ -71,6 +71,11 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Message", mappedBy="userTo")
      */
     private $messagesReceived;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Client", mappedBy="salesPerson")
+     */
+    private $clients;
 
 
     /**
@@ -371,5 +376,38 @@ class User extends BaseUser
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Add clients
+     *
+     * @param \Desport\PanelBundle\Entity\Client $clients
+     * @return User
+     */
+    public function addClient(\Desport\PanelBundle\Entity\Client $clients)
+    {
+        $this->clients[] = $clients;
+
+        return $this;
+    }
+
+    /**
+     * Remove clients
+     *
+     * @param \Desport\PanelBundle\Entity\Client $clients
+     */
+    public function removeClient(\Desport\PanelBundle\Entity\Client $clients)
+    {
+        $this->clients->removeElement($clients);
+    }
+
+    /**
+     * Get clients
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClients()
+    {
+        return $this->clients;
     }
 }

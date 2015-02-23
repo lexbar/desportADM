@@ -137,6 +137,12 @@ class Client
      * @ORM\OneToMany(targetEntity="Message", mappedBy="client")
      */
     private $messages;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="clients")
+     * @ORM\JoinColumn(name="sales_user_id", referencedColumnName="id")
+     */
+    private $salesPerson;
 
 
     /**
@@ -952,5 +958,34 @@ class Client
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Set salesPerson
+     *
+     * @param \Desport\PanelBundle\Entity\User $salesPerson
+     * @return Client
+     */
+    public function setSalesPerson(\Desport\PanelBundle\Entity\User $salesPerson = null)
+    {
+        $this->salesPerson = $salesPerson;
+
+        return $this;
+    }
+
+    /**
+     * Get salesPerson
+     *
+     * @return \Desport\PanelBundle\Entity\User 
+     */
+    public function getSalesPerson()
+    {
+        return $this->salesPerson;
+    }
+    
+    public function isOwnedBy($user)
+    {
+        $salesperson = $this->getSalesPerson();
+        return !empty($salesperson) && $salesperson->getId() == $user->getId();
     }
 }
