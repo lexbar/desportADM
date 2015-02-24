@@ -3,8 +3,9 @@
     </head>
     <body style="background-color:#F8F8F8; padding: 6px;">
         <div style="border: 1px solid #e8e8e8; background-color:#FFF; max-width: 700px; margin: 10px auto 20px; padding:8px 15px;">
-            <div style="">
-                <a href="http://deporde.com"><img src="{{ logo }}" alt="Deporde.com"/></a>
+            <div style="min-height:50px; overflow:hidden;">
+                <a href="http://deporde.com" style="float:left;"><img src="{{ logo }}" alt="Deporde.com"/></a>
+                <img style="float:right;" src="{{ logo_sub }}" alt="Disfruta x Deporte"/>
             </div>
             <div style="border-top: 1px solid #e8e8e8; margin-top: 5px; padding-top: 10px;">
             {{ message.textHTML | raw }}

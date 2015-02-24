@@ -114,6 +114,7 @@ class MessageController extends Controller
                 $email = \Swift_Message::newInstance();
                 
                 $logo = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header.png'));
+                $logo_sub = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header_sub.png'));
                 
                 $email->setSubject($response->getSubject())
                     ->setFrom(array( $response->getEmailFrom() => $this->container->getParameter('site_name') ))
@@ -121,7 +122,7 @@ class MessageController extends Controller
                     ->setBody(
                         $this->renderView(
                             'DesportPanelBundle:Client:email.html.twig',
-                            array('message' => $response, 'logo' => $logo)
+                            array('message' => $response, 'logo' => $logo, 'logo_sub' => $logo_sub)
                         )
                         , 'text/html'
                         
