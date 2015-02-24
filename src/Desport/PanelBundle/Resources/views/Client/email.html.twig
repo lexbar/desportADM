@@ -1,17 +1,19 @@
 <html>
     <head>
     </head>
-    <body>
-        <div style="max-width: 700px; margin: 0 auto 20px auto;text-align:center;">
-            <img src="{{ logo }}" alt="Deporde.com" style="width:100%; max-width:500px; max-height:140px;" />
-        </div>
-        <div style="max-width:700px;margin:10px auto;border-top: 1px solid #EEE;font-size: 18px;padding: 15px;">
-        {{ message.textHTML | raw }}
-        </div>
-        <div style="max-width:700px;margin:10px auto;font-size: 18px;padding: 15px;color:#999">
-            --<br>
-            {{ app.user.name }}<br>
-            {{ domain }}
+    <body style="background-color:#F8F8F8; padding: 6px;">
+        <div style="border: 1px solid #e8e8e8; background-color:#FFF; max-width: 700px; margin: 10px auto 20px; padding:8px 15px;">
+            <div style="">
+                <img src="{{ logo }}" alt="Deporde.com" style="width:100%; max-width:200px; max-height:140px;" />
+            </div>
+            <div style="border-top: 1px solid #e8e8e8; margin-top: 5px; padding-top: 10px;">
+            {{ message.textHTML | raw }}
+            </div>
+            <div style="margin-top: 15px;color:#999">
+                --<br>
+                {{ app.user.name }}<br>
+                {{ domain }}
+            </div>
         </div>
     </body>
 </html>

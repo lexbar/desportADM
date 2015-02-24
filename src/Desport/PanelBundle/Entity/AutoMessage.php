@@ -27,6 +27,13 @@ class AutoMessage
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", length=255)
+     */
+    private $subject;
 
     /**
      * @var string
@@ -209,5 +216,28 @@ class AutoMessage
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set subject
+     *
+     * @param string $subject
+     * @return AutoMessage
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string 
+     */
+    public function getSubject()
+    {
+        return $this->subject;
     }
 }

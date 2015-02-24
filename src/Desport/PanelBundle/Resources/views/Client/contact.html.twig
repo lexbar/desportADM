@@ -86,8 +86,10 @@
             $('#autoresponseLevel'+l).remove();
         }
     }
-    function FillAutomessage(id) {
-        $.ajax( "/sales/client/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} ).done(function( data ) { editor.setValue(data); });
+    function FillAutomessage(id, subject) {
+        if(subject != ''){$('#message_subject').val(subject);}
+        $.ajax( "/sales/client/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} )
+        .done(function( data ) { editor.setValue(data); });
     }
     
     $('#autoresponseLevel0').load('{{ path('desport_sales_messages_automessage_load_level', {client_id:client.id}) }}?l=0');

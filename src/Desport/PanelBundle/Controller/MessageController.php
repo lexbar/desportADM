@@ -470,7 +470,7 @@ class MessageController extends Controller
                 $text = str_replace('%'.$k.'%', $v, $text);
             }
             
-            $response->setContent(nl2br($text));
+            $response->setContent($text);
         }
         else
         {
