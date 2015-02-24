@@ -111,17 +111,28 @@ class MessageController extends Controller
                 $response->setParentMessage($message);
                 
                 // SEND EMAIL
-                $email = \Swift_Message::newInstance()
-                    ->setSubject($response->getSubject())
+                $email = \Swift_Message::newInstance();
+                
+                $logo = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header.png'));
+                
+                $email->setSubject($response->getSubject())
                     ->setFrom(array( $response->getEmailFrom() => $this->container->getParameter('site_name') ))
                     ->setTo($response->getSwiftEmailTo())
                     ->setBody(
                         $this->renderView(
+                            'DesportPanelBundle:Client:email.html.twig',
+                            array('message' => $response, 'logo' => $logo)
+                        )
+                        , 'text/html'
+                        
+                    )
+                    ->addPart(
+                        $this->renderView(
                             'DesportPanelBundle:Client:email.txt.twig',
                             array('message' => $response)
                         )
-                    )
-                ;
+                        , 'text/plain'
+                );
                 
                 $mailgun = $this->container->get("mailgun.swift_transport.transport");
                 
