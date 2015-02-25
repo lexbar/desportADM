@@ -983,6 +983,18 @@ class Client
         return $this->salesPerson;
     }
     
+    public function getHttpWebsite()
+    {
+        $website = $this->getWebsite();
+        
+        if(!preg_match("#http://.*#", $website))
+        {
+            $website = 'http://'.$website;
+        }
+        
+        return $website;
+    }
+    
     public function isOwnedBy($user)
     {
         $salesperson = $this->getSalesPerson();

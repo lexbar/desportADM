@@ -15,9 +15,27 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'));
+        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), 10, 0);
                 
         return $this->render('DesportPanelBundle:Client:index.html.twig', array('clients'=>$clients));
+    }
+    
+    public function loadTableAction($page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), 10, $page * 10);
+                
+        return $this->render('DesportPanelBundle:Client:clientsTable.html.twig', array('clients'=>$clients));
+    }
+    
+    public function loadTableSelfAction($page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array('salesPerson'=>$this->getUser()), array('date'=>'DESC'), 10, $page * 10);
+                
+        return $this->render('DesportPanelBundle:Client:clientsTable.html.twig', array('clients'=>$clients));
     }
     
     public function newAction()
@@ -108,14 +126,19 @@ class ClientController extends Controller
             $request = $this->get('request')->request;
             
             $client->setStage($request->get('client_stage') ?: '');
-            $client->setComments($request->get('client_comments') ?: '');
             
-            $event = new ClientRecord();
-            $event->setClient($client);
-            $event->setUser($user);
-            $event->setText($request->get('client_comments'));
+            if($client->getComments() != $request->get('client_comments'))
+            {
+                $client->setComments($request->get('client_comments') ?: '');
+                
+                $event = new ClientRecord();
+                $event->setClient($client);
+                $event->setUser($user);
+                $event->setText($request->get('client_comments'));
+                
+                $em->persist($event);
+            }
             
-            $em->persist($event);
             $em->persist($client); 
             $em->flush();
             
@@ -213,6 +236,14 @@ class ClientController extends Controller
                 $mailgun_id = $mailgun->send($email);
                 
                 $message->setMailgunId($mailgun_id);
+                
+                
+                
+                if($client->getStage() == '')
+                {
+                    $client->setStage('contact');
+                    $em->persist($client); 
+                }
                 
                 $em->persist($message); 
                 $em->flush();
