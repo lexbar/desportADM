@@ -1001,7 +1001,9 @@ class Client
         
         if(!$email) return false;
         
-        return preg_match("/.*@.*/", $email);
+        $parts = explode('@', $email);
+        
+        return count($parts) == 2;
     }
     
     public function isOwnedBy($user)
