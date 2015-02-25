@@ -995,6 +995,15 @@ class Client
         return $website;
     }
     
+    public function hasEmail()
+    {
+        $email = $this->getEmail();
+        
+        if(!$email) return false;
+        
+        return preg_match("/.*@.*/", $email);
+    }
+    
     public function isOwnedBy($user)
     {
         $salesperson = $this->getSalesPerson();

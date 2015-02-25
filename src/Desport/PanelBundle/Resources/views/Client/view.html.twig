@@ -21,9 +21,9 @@
                 <div class="box box-success mailbox">
                     <div class="box-header">
                         <h3 class="box-title">Mensajes</h3>
-                        <div class="box-tools pull-right">
+                        {% if client.hasEmail %}<div class="box-tools pull-right">
                             <a href="{{ path('desport_sales_client_contact', {client_id:client.id}) }}" class="btn btn-sm btn-success"><i class="fa fa-envelope"></i> Contactar</a>
-                        </div>
+                        </div>{% endif %}
                     </div>
                     <div class="box-body">
                         {% if messages | length %}
