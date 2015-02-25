@@ -181,7 +181,7 @@ class DefaultController extends Controller
         return $this->render('DesportPanelBundle:Default:newSite.html.twig');
     }
     
-    public function loadCSVClientsAction()
+    /*public function loadCSVClientsAction()
     {
         //set_time_limit(180);
         
@@ -303,5 +303,5 @@ Tracks: $tracks");
         }
         
         return new Response($out);
-    }
+    }*/
 }
