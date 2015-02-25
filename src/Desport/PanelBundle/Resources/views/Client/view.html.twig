@@ -65,6 +65,8 @@
                                     <dd>{% if client.website %}<a href="{{ client.httpWebsite }}" target="_blank">{{ client.website }}</a>{% else %}?{% endif %}</dd>
                                     <dt>Introducido</dt>
                                     <dd>{{ client.date | date('j/m/Y') }}</dd>
+                                    <dt>Comercial responsable</dt>
+                                    <dd>{{ client.salesPerson ? client.salesPerson.name : '?' }}</dd>
                                 </dl>
                             </div>
                             <div class="col-lg-6">
