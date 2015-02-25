@@ -183,11 +183,13 @@ class DefaultController extends Controller
     
     public function loadCSVClientsAction()
     {
+        //set_time_limit(180);
+        
         $em = $this->getDoctrine()->getManager();
         
         $out = '';
         
-        if ( $file = fopen( $this->get('kernel')->getRootDir() . "/../web/hoja1.tsv" , 'r' ) ) {
+        if ( $file = fopen( $this->get('kernel')->getRootDir() . "/../web/hoja2.tsv" , 'r' ) ) {
         
             $firstline = fgets ($file, 4096 );
                 //Gets the number of fields, in CSV-files the names of the fields are mostly given in the first line
@@ -204,7 +206,7 @@ class DefaultController extends Controller
                 //so $dsatz is an two dimensional array saving the records like this: $dsatz[number of record][number of cell]
             while ( $line[$i] = fgets ($file, 4096) ) {
                 
-                if($i > 2)
+                if($i > 1)
                 {
                     $dsatz[$i] = array();
                     $dsatz[$i] = explode( ";", $line[$i], ($num+1) );   
@@ -213,11 +215,15 @@ class DefaultController extends Controller
                 $i++;
             }
             
-            $keynames = array('Nombre del club','Num. Socios','Pais','Provincia','Poblacion','Direccion','CP','Tlf','Persona contacto','email','web','valoracion','comentarios','fotos','calendario','tracks','observaciones');
+            $keynames = array('Nombre del club','Num. Socios','Provincia','Poblacion','Direccion','CP','Tlf','Persona contacto','email','web','valoracion','comentarios','fotos','calendario','tracks','observaciones');
+            
+            $count = 0;
             
             foreach ($dsatz as $key => $number) {
                         //new table row for every record
                 $out .= "<hr>";
+                
+                $count++;
                 
                 $client = new Client();
                 
@@ -230,59 +236,56 @@ class DefaultController extends Controller
                     switch($k)
                     {
                         case 0: //Nombre del club
-                            $client->setName($content ?: '');
+                            $client->setName(ucwords(strtolower($content)) ?: '');
                         break;
                         case 1: //Num. Socios
                             $num_socios = $content;
                         break;
-                        case 2: //Pais
-                            $client->setAddressCountry('ES');
+                        case 2: //Provincia
+                            $client->setAddressState(ucwords(strtolower($content)) ?: '');
                         break;
-                        case 3: //Provincia
-                            $client->setAddressState($content ?: '');
+                        case 3: //Poblacion
+                            $client->setAddressCity(ucwords(strtolower($content)) ?: '');
                         break;
-                        case 4: //Poblacion
-                            $client->setAddressCity($content ?: '');
-                        break;
-                        case 5: //Direccion
+                        case 4: //Direccion
                             $client->setAddressAddress($content ?: '');
                         break;
-                        case 6: //CP
+                        case 5: //CP
                             $client->setAddressZip($content ?: '');
                         break;
-                        case 7: //Tlf
+                        case 6: //Tlf
                             $client->setPhone($content ?: '');
                         break;
-                        case 8: //Persona contacto
-                            $client->setContactName($content ?: '');
+                        case 7: //Persona contacto
+                            $client->setContactName(ucwords(strtolower($content)) ?: '');
                         break;
-                        case 9: //email
+                        case 8: //email
                             $client->setEmail($content ?: '');
                         break;
-                        case 10: //web
+                        case 9: //web
                             $client->setWebsite($content ?: '');
                         break;
-                        case 11: //valoracion
+                        case 10: //valoracion
                             $valoracion = $content;
                         break;
-                        case 12: //comentarios
+                        case 11: //comentarios
                             $comentarios = $content;
                         break;
-                        case 13: //fotos
+                        case 12: //fotos
                             $fotos = $content;
                         break;
-                        case 14: //calendario
+                        case 13: //calendario
                             $calendario = $content;
                         break;
-                        case 15: //tracks
+                        case 14: //tracks
                             $tracks = $content;
                         break;
-                        case 16: //observaciones
+                        case 15: //observaciones
                             $observaciones = $content;
                         break;
                     }
                     
-                    
+                    $client->setAddressCountry('ES');
                     $client->setComments("$observaciones ($valoracion)
 Num. socios: $num_socios
 Comuniacion: $comentarios
