@@ -55,40 +55,46 @@ desport_sales_client_messages_page_max:
     defaults: { _controller: DesportPanelBundle:Message:client }
     
 desport_sales_messages_index:
-    pattern:     /sales/client/message/
+    pattern:     /sales/messages/inbox/
     defaults: { _controller: DesportPanelBundle:Message:index }
+desport_sales_messages_inbox_page:
+    pattern:     /sales/messages/inbox/{page}/
+    defaults: { _controller: DesportPanelBundle:Message:inboxPage }
+desport_sales_messages_sent_page:
+    pattern:     /sales/messages/sent/{page}/
+    defaults: { _controller: DesportPanelBundle:Message:sentPage }
 desport_sales_messages_view:
-    pattern:     /sales/client/message/view/{message_id}/
+    pattern:     /sales/messages/view/{message_id}/
     defaults: { _controller: DesportPanelBundle:Message:view }
 desport_sales_messages_ticket_view:
-    pattern:     /sales/client/message/ticket/{ticket_id}/
+    pattern:     /sales/messages/ticket/{ticket_id}/
     defaults: { _controller: DesportPanelBundle:Message:ticket }
 desport_sales_messages_attachment:
-    pattern:     /sales/client/message/attachment/{attachment_id}/
+    pattern:     /sales/messages/message/attachment/{attachment_id}/
     defaults: { _controller: DesportPanelBundle:Message:attachment }
 desport_sales_messages_attachment_keep:
-    pattern:     /sales/client/message/attachment/{attachment_id}/keep/
+    pattern:     /sales/messages/message/attachment/{attachment_id}/keep/
     defaults: { _controller: DesportPanelBundle:Message:attachmentKeep }
 desport_sales_messages_attachment_unkeep:
-    pattern:     /sales/client/message/attachment/{attachment_id}/unkeep/
+    pattern:     /sales/messages/message/attachment/{attachment_id}/unkeep/
     defaults: { _controller: DesportPanelBundle:Message:attachmentUnkeep }
 desport_sales_messages_transfer:
-    pattern:     /sales/client/message/transfer/{message_id}/{user_id}/
+    pattern:     /sales/messages/message/transfer/{message_id}/{user_id}/
     defaults: { _controller: DesportPanelBundle:Message:transfer }
 desport_sales_messages_setunread:
-    pattern:     /sales/client/message/setunread/{message_id}/
+    pattern:     /sales/messages/message/setunread/{message_id}/
     defaults: { _controller: DesportPanelBundle:Message:unread }
 desport_sales_messages_ticketcreate:
-    pattern:     /sales/client/message/ticket/create/{message_id}/
+    pattern:     /sales/messages/message/ticket/create/{message_id}/
     defaults: { _controller: DesportPanelBundle:Message:ticketCreate }
 desport_sales_messages_ticketstate:
-    pattern:     /sales/client/message/ticket/state/{message_id}/{state}
+    pattern:     /sales/messages/message/ticket/state/{message_id}/{state}
     defaults: { _controller: DesportPanelBundle:Message:ticketState }
 desport_sales_messages_automessage_load_level:
-    pattern:     /sales/client/message/automessage/{client_id}/loadlevel
+    pattern:     /sales/messages/message/automessage/{client_id}/loadlevel
     defaults: { _controller: DesportPanelBundle:Message:automessageLoadLevel }
 desport_sales_messages_automessage_fill:
-    pattern:     /sales/client/message/fill/{automessage_id}
+    pattern:     /sales/messages/message/fill/{automessage_id}
     defaults: { _controller: DesportPanelBundle:Message:automessageFill }
 
 desport_sales_events_index:

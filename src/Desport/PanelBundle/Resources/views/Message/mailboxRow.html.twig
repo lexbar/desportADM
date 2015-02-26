@@ -1,5 +1,6 @@
-<tr{% if message.recipientDomain(domain) and not message.isRead %} class="unread"{% endif %}>
+<tr{% if not message.recipientDomain(domain) or message.isRead %} class="active"{% endif %}>
     <td class="small-col"><i class="fa fa-sign-{{ message.recipientDomain(domain) ? 'in' : 'out' }}"></i></td>
-    <td class="subject">{% if message.ticket %}<i class="fa fa-life-ring fa-fw"></i> {% endif %}<a href="{{ path('desport_sales_messages_view', {message_id:message.id}) }}">{% if message.attachments | length > 0 %}<i class="fa fa-paperclip"></i> {% endif %}<strong>{{ message.subject }}</strong> - {{ message.text[0:100] }}{{ message.text | length > 100 ? '...' : '' }}</a></td>
-    <td class="date">{{ message.date | date("d/m/Y H:i") }}</td>
+    <td class="small-col">{% if message.client and message.client.ownedBy(app.user) %}<a href="{{ path('desport_sales_client_view', {client_id:message.client.id}) }}"><i class="fa fa-star text-yellow"></i></a>{% endif %}</td>
+    <td class="mailbox-subject">{% if message.ticket %}<i class="fa fa-life-ring fa-fw text-red"></i> {% endif %}<a href="{{ path('desport_sales_messages_view', {message_id:message.id}) }}">{% if message.attachments | length > 0 %}<i class="fa fa-paperclip"></i> {% endif %}<strong>{{ message.subject }}</strong></a> - {{ message.text[0:100] }}{{ message.text | length > 100 ? '...' : '' }}</td>
+    <td class="mailbox-date"><small>{{ message.date | date("d/m/Y H:i") }}</small></td>
 </tr>

@@ -13,7 +13,14 @@ use Desport\PanelBundle\Entity\EventType\TicketCreated;
 
 class MessageController extends Controller
 {
+    private $messagesPerPage = 20;
+    
     public function indexAction()
+    {
+        return $this->inboxPageAction(0);
+    }
+    
+    public function inboxPageAction($page)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -22,11 +29,39 @@ class MessageController extends Controller
             FROM DesportPanelBundle:Message m
             WHERE m.emailTo LIKE :domain
             ORDER BY m.date DESC'
-        )->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%');
+        )->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')
+        ->setFirstResult($page * $this->messagesPerPage)
+        ->setMaxResults($this->messagesPerPage);
         
         $messages = $query->getResult();
         
-        return $this->render('DesportPanelBundle:Message:index.html.twig', array('messages'=>$messages));
+        $total = $em->createQuery("SELECT COUNT(m.id) FROM DesportPanelBundle:Message m WHERE m.emailTo LIKE :domain")->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')->getSingleScalarResult();
+        
+        $unread = $em->createQuery("SELECT COUNT(m.id) FROM DesportPanelBundle:Message m WHERE m.emailTo LIKE :domain AND m.isRead = 0")->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')->getSingleScalarResult();
+        
+        return $this->render('DesportPanelBundle:Message:index.html.twig', array('folder' => 'inbox', 'messages' => $messages, 'total' => $total, 'unread' => $unread, 'page' => $page, 'mpp' => $this->messagesPerPage));
+    }
+    
+    public function sentPageAction($page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $query = $em->createQuery(
+            'SELECT m
+            FROM DesportPanelBundle:Message m
+            WHERE m.emailFrom LIKE :domain
+            ORDER BY m.date DESC'
+        )->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')
+        ->setFirstResult($page * $this->messagesPerPage)
+        ->setMaxResults($this->messagesPerPage);
+        
+        $messages = $query->getResult();
+        
+        $total = $em->createQuery("SELECT COUNT(m.id) FROM DesportPanelBundle:Message m WHERE m.emailFrom LIKE :domain")->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')->getSingleScalarResult();
+        
+        $unread = $em->createQuery("SELECT COUNT(m.id) FROM DesportPanelBundle:Message m WHERE m.emailTo LIKE :domain AND m.isRead = 0")->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')->getSingleScalarResult();
+        
+        return $this->render('DesportPanelBundle:Message:index.html.twig', array('folder' => 'sent', 'messages' => $messages, 'total' => $total, 'unread' => $unread, 'page' => $page, 'mpp' => $this->messagesPerPage));
     }
     
     public function clientAction($client_id, $page_number = 0, $max_results = 25)

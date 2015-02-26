@@ -5,7 +5,7 @@
 {% block content %}
     <section class="content-header">
         <h1>
-            Mensajes de entrada
+            Mensajes
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -14,26 +14,74 @@
     </section>
     
     <section class="content">
-            <div class="box box-success mailbox">
-                <div class="box-header">
-                    <h3 class="box-title">Mensajes</h3>
-                </div>
-                <div class="box-body">
-                    <p class="lead">Todos los correos de entrada a cuentas internas (...@{{ domain }})  </p>
-                    {% if messages | length %}
-                        <table class="table table-mailbox"><tbody>
-                                 
-                        {% for message in messages %}
-                            {{ include('DesportPanelBundle:Message:mailboxRow.html.twig',{message:message}) }}
-                        {% endfor %}   
-                        
-                        </tbody></table> 
-                        
-                    {% else %}
-                        <p><strong>No hay mensajes de entrada</strong></p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Carpetas</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li{% if folder == 'inbox' %} class="active"{% endif %}><a href="{{ path('desport_sales_messages_index') }}"><i class="fa fa-inbox"></i> Recibidos <span class="label label-primary pull-right">{{ unread }}</span></a></li>
+                            <li{% if folder == 'sent' %} class="active"{% endif %}><a href="{{ path('desport_sales_messages_sent_page', {page:0}) }}"><i class="fa fa-envelope-o"></i> Enviados</a></li>
+                            {#<li><a href="#"><i class="fa fa-trash-o"></i> No enviados</a></li>#}
+                        </ul>
+                    </div><!-- /.box-body -->
+                </div><!-- /. box -->
+                {#}
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Filtros</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#"><i class="fa fa-star text-yellow"></i> Mis clientes</a></li>
+                            <li><a href="#"><i class="fa fa-life-ring text-red"></i> Tickets</a></li>
+                        </ul>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->#}
+            </div><!-- /.col -->
+            
+            
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Recibidos</h3>
+                        <div class="box-tools pull-right">
+                            {{ page * mpp + 1 }}-{{ page * mpp + messages | length }}/{{ total }}
+                            <div class=" btn-group">
+                                <a class="btn btn-default btn-sm" href="{{ page > 0 ? path('desport_sales_messages_'~ folder ~'_page', {page:page-1}) : '#' }}"><i class="fa fa-chevron-left"></i></a>
+                                <a class="btn btn-default btn-sm" href="{{ path('desport_sales_messages_'~ folder ~'_page', {page:page+1}) }}"><i class="fa fa-chevron-right"></i></a>
+                            </div><!-- /.btn-group -->
+                        </div><!-- /.pull-right -->
+                        {#<div class="box-tools pull-right">
+                            <div class="has-feedback">
+                                <input type="text" class="form-control input-sm" placeholder="Search Mail"/>
+                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            </div>
+                        </div><!-- /.box-tools -->#}
+                    </div><!-- /.box-header -->
+                
+                    <div class="box-body no-padding">
+                        {% if messages | length %}
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover"><tbody>
+                                
+                                {% for message in messages %}
+                                {{ include('DesportPanelBundle:Message:mailboxRow.html.twig',{message:message}) }}
+                                {% endfor %}   
+                                
+                            </tbody></table> 
+                        </div><!-- /.mail-box-messages -->        
+                        {% else %}
+                        <div class="box-body">
+                            <p class="lead">No hay ningún mensaje</p>
+                        </div>
+                        {% endif %}
+                    
+                    </div><!-- /.box-body -->
+                </div><!-- /. box -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
     </section>
 {% endblock %}

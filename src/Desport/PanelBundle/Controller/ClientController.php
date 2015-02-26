@@ -170,7 +170,7 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         
         $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
         
@@ -213,7 +213,7 @@ class ClientController extends Controller
                 $logo_sub = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header_sub.png'));
                 
                 $email->setSubject($message->getSubject())
-                    ->setFrom(array( $message->getEmailFrom() => $this->container->getParameter('site_name') ))
+                    ->setFrom(array( $message->getEmailFrom() => $user->getName() ))
                     ->setTo(array($message->getEmailTo() => $client->getContactName()))
                     ->setBody(
                         $this->renderView(

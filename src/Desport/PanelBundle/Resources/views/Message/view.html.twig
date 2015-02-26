@@ -123,11 +123,9 @@
                     
                     {% if message.parentMessage %}
                         <h3>En respuesta a:</h3>
-                        <div class="mailbox">
                         <table class="table table-mailbox"><tbody>
                         {{ include('DesportPanelBundle:Message:mailboxRowRecursive.html.twig',{message:message.parentMessage}) }}
                         </table>
-                        </div>
                     {% endif %}
                 </div>
             </div>
