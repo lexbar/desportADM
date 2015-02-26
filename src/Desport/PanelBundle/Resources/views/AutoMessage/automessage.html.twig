@@ -10,5 +10,5 @@
 </div>
 {% endfor %}
 
-<button onClick="FillAutomessage({{ automessage.id }}, '{{ automessage.subject }}')" type="button" class="btn btn-primary">Cargar mensaje</button>
+<button onClick="FillAutomessage({{ automessage.id }}, '{{ automessage.subject | replace(PREKEYS) }}')" type="button" class="btn btn-primary">Cargar mensaje</button>
 </form>

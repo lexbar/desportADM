@@ -198,7 +198,7 @@
     }
     function FillAutomessage(id, subject) {
         if(subject != ''){$('#message_subject').val(subject);}
-        $.ajax( "/sales/client/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} )
+        $.ajax( "/sales/messages/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} )
         .done(function( data ) { editor.setValue(data); });
     }
     

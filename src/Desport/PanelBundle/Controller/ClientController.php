@@ -11,11 +11,13 @@ use Desport\PanelBundle\Entity\EventType\ClientRecord;
 
 class ClientController extends Controller
 {
+    private $clientsPerPage = 20;
+    
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         
-        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), 10, 0);
+        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), $this->clientsPerPage, 0);
                 
         return $this->render('DesportPanelBundle:Client:index.html.twig', array('clients'=>$clients));
     }
@@ -24,7 +26,7 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), 10, $page * 10);
+        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), $this->clientsPerPage, $page * $this->clientsPerPage);
                 
         return $this->render('DesportPanelBundle:Client:clientsTable.html.twig', array('clients'=>$clients));
     }
@@ -33,7 +35,7 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array('salesPerson'=>$this->getUser()), array('date'=>'DESC'), 10, $page * 10);
+        $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array('salesPerson'=>$this->getUser()), array('date'=>'DESC'), $this->clientsPerPage, $page * $this->clientsPerPage);
                 
         return $this->render('DesportPanelBundle:Client:clientsTable.html.twig', array('clients'=>$clients));
     }

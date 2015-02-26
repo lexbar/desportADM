@@ -11,9 +11,8 @@
     {% for client in clients %}
         <tr>
             <td>
-                <strong><a href="{{ path('desport_sales_client_view', {client_id:client.id}) }}">
-                    {% if client.ownedBy(app.user) %}<i class="fa fa-star"></i> {% endif %}{{ client.name }}
-                </a></strong>
+                {% if client.ownedBy(app.user) %}<i class="fa fa-star text-yellow"></i> {% endif %}
+                <strong><a href="{{ path('desport_sales_client_view', {client_id:client.id}) }}">{{ client.name }}</a></strong>
                 {% if client.website %}
                     <br><small>(<a href="{{ client.httpWebsite }}" target="_blank">{{ client.website }}</a>)</small>
                 {% endif %}
