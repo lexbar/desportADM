@@ -5,22 +5,51 @@
         <title>Deporde.com | Crea tu web para el deporte</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <link href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700" rel="stylesheet" type="text/css">
         <style>
-            body{font-family:Roboto,Arial,Helvetica,sans-serif;font-weight:400;}
-            h2 {
-                font-size: 3.4em;
+            .head_logo {
+                width:100%;
+                max-width:500px;
+                margin: 50px auto;
+            }
+            h1 {
+                font-size: 44px;
+            }
+            h1 small {
                 font-weight: 100;
-                margin-bottom: 20px;
+            }
+            
+            .signup {
+                margin-top: 50px;
+                background-color: #51A951;
+                border: 1px solid #CCC;
+                border-width: 1px 0;
+                padding: 20px 5px 40px;
+            }
+            .signup h2 {
+                color: #FFF;
+                margin: 10px 0 30px; 
             }
         </style>
     </head>
     
     <body>
-    
-    <div style="margin:50px auto;max-width:700px;">
-        <img src="/logo.png" style="width:100%;">
-    </div>
-    
+        <div class="container text-center">
+            <img src="/logo.png" class="head_logo">
+            
+            <h1>Crea tu web para el deporte en equipo. <br><small>Rápido, fácil y personalizable</small></h1>
+        </div> 
+        {#<div class="signup">
+            <div class="container text-center">
+                <h2>Crea tu cuenta gratuita</h2>
+                <form class="row">
+                    <div class="col-sm-5 col-sm-offset-2 col-md-4 col-md-offset-3">
+                        <input type="text" class="form-control input-lg" placeholder="Escribe tu email...">
+                    </div>
+                    <div class="col-sm-3 col-md-2">
+                        <button type="button" class="btn btn-warning btn-block btn-lg">Empezar</button>
+                    </div>
+                </form>
+            </div>
+        </div>#}
     </body>
 </html>
