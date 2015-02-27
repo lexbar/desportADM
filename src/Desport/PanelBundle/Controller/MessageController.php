@@ -183,6 +183,22 @@ class MessageController extends Controller
                 return new RedirectResponse($this->generateUrl('desport_sales_messages_view', array('message_id' => $response->getId())));
             }
         }
+        elseif($this->get('request')->query->get('stage') && $message->getClient())
+        {
+            $client = $message->getClient();
+            
+            if($this->get('request')->query->get('stage') == 'interest')
+            {
+                $client->setStage('interest');
+            }
+            elseif($this->get('request')->query->get('stage') == 'no-interest')
+            {
+                $client->setStage('no-interest');
+            }
+            
+            $em->persist($client); 
+            $em->flush();
+        }
         
         if(!$message->getIsRead() && $message->getUserTo() && $message->getUserTo()->getId() == $user->getId()) // if is not read, and the user reading it is the recipient
         {
