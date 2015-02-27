@@ -2,9 +2,9 @@ desport_site_index:
     path:     /
     defaults: { _controller: DesportPanelBundle:Default:index }
     
-desport_csv:
-    path:     /csv/
-    defaults: { _controller: DesportPanelBundle:Default:loadCSVClients }
+desport_signup:
+    path:     /signup/
+    defaults: { _controller: DesportPanelBundle:Default:signup }
     
 desport_login_success:
     path:     /loginsuccess

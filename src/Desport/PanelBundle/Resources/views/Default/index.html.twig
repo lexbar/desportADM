@@ -8,6 +8,7 @@
         <title>Deporde.com | Crea tu web para el deporte</title>
         
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/animate.css" rel="stylesheet" type="text/css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <style>
             .head_logo {
@@ -35,6 +36,9 @@
                 font-size: 40px;
                 font-weight: 300;
             }
+            .signup p {
+                color: #FFF;
+            }
             
             @media (max-width: 767px) { /* Extra Small devices */
                 h1 {
@@ -51,20 +55,38 @@
         <div class="container text-center">
             <img src="/logo.png" class="head_logo">
             
-            <h1>Crea tu web para el deporte en equipo. <br><small>Rápido, fácil y personalizable</small></h1>
+            <h1>Crea tu web para el <strong>deporte en equipo.</strong> <br><small>Rápido, fácil y personalizable</small></h1>
         </div> 
-        {#<div class="signup">
+        <div class="signup">
             <div class="container text-center">
                 <h2>Crear ahora una cuenta gratuita</h2>
-                <form class="row">
+                <form class="row" id="step1">
                     <div class="col-sm-5 col-sm-offset-2 col-md-4 col-md-offset-3">
-                        <input type="text" class="form-control input-lg" placeholder="Escribe tu email...">
+                        <input type="text" class="form-control input-lg" placeholder="Escribe tu email..." id="signup_email" name="client_email">
                     </div>
                     <div class="col-sm-3 col-md-2">
-                        <button type="button" class="btn btn-warning btn-block btn-lg">Empezar</button>
+                        <button type="button" class="btn btn-warning btn-block btn-lg" onClick="submitEmail()">Empezar</button>
                     </div>
                 </form>
+                <div id="step2" style="display:none">
+                    <p class="lead">Muchas gracias. En breve nos pondremos en contacto contigo.</p>
+                </div>
             </div>
-        </div>#}
+        </div>
+        
+        <script>
+            function submitEmail() {
+                $('#step1').addClass('animated fadeOutUp');
+                
+                $.ajax( "{{ path('desport_signup') }}", {type:'post', data:$( "#step1").serialize()} )
+                .done(function( data ) { loadStep2(data); });
+            }
+            
+            function loadStep2(data) {
+                $('#step1').css('display','none');
+                $('#step2').css('display','block').addClass('animated fadeInUp');
+            }
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </body>
 </html>

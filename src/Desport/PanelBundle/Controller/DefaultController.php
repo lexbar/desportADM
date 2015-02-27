@@ -6,7 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Desport\PanelBundle\Entity\Client;
+use Desport\PanelBundle\Entity\EventType\ClientCreated;
 
 class DefaultController extends Controller
 {
@@ -31,6 +33,39 @@ class DefaultController extends Controller
         $events = $em->getRepository('DesportPanelBundle:Event')->findBy(array(), array('date'=>'DESC'), 5);
         
         return $this->render('DesportPanelBundle:Default:dashboard.html.twig', array('premium' => $premium, 'free' => $free, 'client' => $client, 'ticket' => $ticket, 'events' => $events ));
+    }
+    public function signupAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $client = new Client();
+        
+        $client->setName('(nombre sin especificar)');
+        $client->setContactName('');
+        $client->setAddressCountry('');
+        $client->setAddressState('');
+        $client->setAddressCity('');
+        $client->setAddressZip('');
+        $client->setAddressAddress('');
+        $client->setPhone('');
+        $client->setEmail($this->get('request')->request->get('client_email') ?: '');
+        $client->setWebsite('');
+        $client->setComments('');
+        $client->setStage('interest');
+        
+        $event = new ClientCreated();
+        $event->setClient($client);
+        
+        $em->persist($event);
+        $em->persist($client);
+        $em->flush();
+        
+        
+        $response = new JsonResponse();
+        
+        $response->setData(array('client_id'=>$client->getId()));
+        
+        return $response;
     }
     public function loginSuccessAction()
     {

@@ -7,7 +7,7 @@
         <h3 class="timeline-header"><a href="{{ path('desport_sales_client_view', {client_id: event.client.id}) }}">Nuevo Cliente</a> {{ event.client.name }}</h3>
 
         <div class="timeline-body">
-            Introducido por <strong>{{ event.user.name }}</strong>
+            Introducido por <strong>{{ event.user.name | default('web') }}</strong>
         </div>
 
         <div class='timeline-footer'>
