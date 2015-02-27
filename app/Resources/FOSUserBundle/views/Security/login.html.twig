@@ -3,7 +3,11 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
-    <div class="form-box" id="login-box">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/"><b>Deporde</b>.com</a>
+    </div>
+    <div class="login-box-body" id="login-box">
     
         {% if error %}
             <div class="callout callout-warning">
@@ -12,27 +16,36 @@
             </div>
         {% endif %}
 
-        <div class="header">Iniciar sesión</div>
+        <p class="login-box-msg">Inicia sesión</p>
         <form action="{{ path("fos_user_security_check") }}" method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            <div class="body bg-gray">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Nombre de usuario" />
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="password" name="_password" required="required" placeholder="Contraseña" />
-                </div>
-                <div class="form-group">
-                    <label><input type="checkbox" id="remember_me" name="_remember_me" value="on" /> Recuérdame</label>
-                </div>
+            
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Nombre de usuario" />
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
-            <div class="footer">
-                <button type="submit" class="btn bg-olive btn-block">{{ 'security.login.submit'|trans }}</button>
-
-                <p><a href="{{ path('fos_user_resetting_request') }}">Olvidé mi contraseña</a></p>
-
-                <a href="{{ path('fos_user_registration_register') }}" class="text-center">Registrarme</a>
+            
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" id="password" name="_password" required="required" placeholder="Contraseña" />
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            
+            <div class="row">
+                <div class="col-xs-8">    
+                    <label>
+                        <input name="_remember_me" type="checkbox">
+                         Recuérdame 
+                    </label>                    
+                </div><!-- /.col -->
+                
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'security.login.submit'|trans }}</button>
+                </div><!-- /.col -->
             </div>
         </form>
+        <hr>
+        <p><a href="{{ path('fos_user_resetting_request') }}">Olvidé mi contraseña</a></p>
+        <p><a href="{{ path('fos_user_registration_register') }}" class="text-center">Registrarme</a></p>
     </div>
+</div>
 {% endblock fos_user_content %}

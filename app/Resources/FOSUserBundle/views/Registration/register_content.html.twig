@@ -3,14 +3,16 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
-    <div class="form-box" id="login-box">
+<div class="register-box">
+    <div class="login-logo">
+        <a href="/"><b>Deporde</b>.com</a>
+    </div>
     
+    <div class="register-box-body" id="register-box">
         {{ form_errors(form) }}
 
-        <div class="header">Registro</div>
+        <p class="login-box-msg">Registro</p>
         <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
-            
-            <div class="body bg-gray">
             
             {{ form_row(form.email, { 'attr': {'class': 'form-control'} }) }}
             
@@ -21,12 +23,14 @@
             {{ form_row(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
             
             {{ form_rest(form) }}
-            </div>
+            
             <div class="footer">
-                <button type="submit" class="btn bg-olive btn-block">Registrarme</button>
+                <br><button type="submit" class="btn btn-primary btn-block btn-flat">Registrarme</button>
                 
+                <hr>
                 <p>Ya tengo cuenta, <a href="{{ path('fos_user_security_login') }}" class="text-center">Iniciar Sesión</a></p>
             </div>
         </form>
     </div>
+</div>
 {% endblock fos_user_content %}
