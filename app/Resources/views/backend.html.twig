@@ -1,12 +1,12 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+    <div class="wrapper">
         <!-- header logo: style can be found in header.less -->
-        <header class="header">
+        <header class="main-header">
             <a href="{% if app.user.hasRole('ROLE_ADMIN') %}{{ path('desport_admin_dashboard') }}{% else %}{{ path('desport_sales_dashboard') }}{% endif %}" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                <img src="/logo_mini_white.png" alt="logo" />
-                Deporde
+                <img src="/logo_white.png" alt="logo" style="width:130px;" />
             </a>
             
             {{ render(controller('DesportPanelBundle:Default:headerNavbar')) }}
@@ -14,7 +14,7 @@
         </header>
         
         
-        <div class="wrapper row-offcanvas row-offcanvas-left">
+        <div class="row-offcanvas row-offcanvas-left">
         
             {{ render(controller('DesportPanelBundle:Default:sidebar', {'active':active|default('')})) }}
 

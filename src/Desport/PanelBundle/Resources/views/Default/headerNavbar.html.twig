@@ -1,13 +1,13 @@
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
     <!-- Sidebar toggle button-->
-    <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </a>
-    <div class="navbar-right">
+    <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
             <!-- Messages: style can be found in dropdown.less-->
             <li class="dropdown messages-menu">
@@ -15,6 +15,7 @@
                     <i class="fa fa-envelope"></i>
                     {% if messages | length > 0 %}<span class="label label-warning">{{ messages | length }}</span>{% endif %}
                 </a>
+                
                 <ul class="dropdown-menu">
                     <li class="header">{% if messages | length > 0 %}Tienes {{ messages | length }} nuevos mensajes{% else %}No tienes nuevos mensajes{% endif %}</li>
                     {% if messages | length > 0 %}
@@ -24,7 +25,7 @@
                             <li>
                                 <a href="{{ path('desport_sales_messages_view', {message_id: message.id}) }}">
                                     <h4>
-                                        {{ message.subject }}
+                                        {{ message.userFrom ? message.userFrom[0:18] : message.emailFrom[0:18] }}
                                         <small><i class="fa fa-clock-o"></i> {{ message.date | date("d/m/Y H:i") }}</small>
                                     </h4>
                                     <p>{{ message.text[0:35] }}{{ message.text | length > 35 ? '...' : '' }}</p>
@@ -66,7 +67,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <!-- User image -->
-                    <li class="user-header bg-light-blue">
+                    <li class="user-header bg-light-green">
                         <img src="{{ app.user.avatar | default('/img/avatar_anonymous.png') }}" class="img-circle" alt="User Image" />
                         <p>
                             {{ app.user.name | default( app.user.username)  }} - Ventas
