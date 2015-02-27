@@ -95,6 +95,29 @@
             </div><!-- ./col -->
         </div>
         
-        
+        <div class="row">
+            <div class="col-md-4">
+                {% if events | length > 0 %}
+                
+                <h2>Últimos Eventos <a href="{{ path('desport_sales_events_index') }}" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Evento</a></h2>
+                <ul class="timeline">
+                    {% set lastEventDate = date() %}
+                    {% for event in events %}
+                        {% if loop.first or lastEventDate | date('Yz') != event.date | date('Yz') %}
+                            <li class="time-label">
+                                <span class="bg-aqua">
+                                    {{ event.date | date('j / m / Y') }}
+                                </span>
+                            </li>
+                            
+                            {% set lastEventDate = event.date %}
+                        {% endif %}
+                        
+                        {% include 'DesportPanelBundle:Event:EventType/' ~ event.type ~ '.html.twig' with { 'event' : event } %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
     </section>
 {% endblock %}

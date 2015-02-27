@@ -28,7 +28,9 @@ class DefaultController extends Controller
         
         $ticket = $em->createQuery("SELECT COUNT(t.id) FROM DesportPanelBundle:Ticket t WHERE t.date > :date")->setParameter('date', $date)->getSingleScalarResult();
         
-        return $this->render('DesportPanelBundle:Default:dashboard.html.twig', array('premium' => $premium, 'free' => $free, 'client' => $client, 'ticket' => $ticket ));
+        $events = $em->getRepository('DesportPanelBundle:Event')->findBy(array(), array('date'=>'DESC'), 5);
+        
+        return $this->render('DesportPanelBundle:Default:dashboard.html.twig', array('premium' => $premium, 'free' => $free, 'client' => $client, 'ticket' => $ticket, 'events' => $events ));
     }
     public function loginSuccessAction()
     {
