@@ -1,6 +1,6 @@
 <li>
     <!-- timeline icon -->
-    <i class="fa fa-life-ring bg-maroon"></i>
+    <i class="fa fa-life-ring bg-purple"></i>
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i> {{ event.date | date('g:i a') }}</span>
 
@@ -12,7 +12,7 @@
         </div>
 
         <div class='timeline-footer'>
-            <a href="{{ path('desport_sales_messages_ticket_view', {ticket_id: event.ticket.id}) }}" class="btn btn-danger btn-xs">Ver ticket</a>
+            <a href="{{ path('desport_sales_messages_ticket_view', {ticket_id: event.ticket.id}) }}" class="btn bg-purple btn-xs">Ver ticket</a>
         </div>
     </div>
 </li>
