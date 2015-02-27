@@ -51,7 +51,7 @@
                             {{ page * mpp + 1 }}-{{ page * mpp + messages | length }}/{{ total }}
                             <div class=" btn-group">
                                 <a class="btn btn-default btn-sm" href="{{ page > 0 ? path('desport_sales_messages_'~ folder ~'_page', {page:page-1}) : '#' }}"><i class="fa fa-chevron-left"></i></a>
-                                <a class="btn btn-default btn-sm" href="{{ path('desport_sales_messages_'~ folder ~'_page', {page:page+1}) }}"><i class="fa fa-chevron-right"></i></a>
+                                <a class="btn btn-default btn-sm" href="{{ messages | length == mpp ? path('desport_sales_messages_'~ folder ~'_page', {page:page+1}) : '#' }}"><i class="fa fa-chevron-right"></i></a>
                             </div><!-- /.btn-group -->
                         </div><!-- /.pull-right -->
                         {#<div class="box-tools pull-right">
