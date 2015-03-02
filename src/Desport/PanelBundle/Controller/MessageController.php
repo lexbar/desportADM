@@ -24,16 +24,15 @@ class MessageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $query = $em->createQuery(
+        $messages = $em->createQuery(
             'SELECT m
             FROM DesportPanelBundle:Message m
             WHERE m.emailTo LIKE :domain
             ORDER BY m.date DESC'
         )->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')
         ->setFirstResult($page * $this->messagesPerPage)
-        ->setMaxResults($this->messagesPerPage);
-        
-        $messages = $query->getResult();
+        ->setMaxResults($this->messagesPerPage)
+        ->getResult();
         
         $total = $em->createQuery("SELECT COUNT(m.id) FROM DesportPanelBundle:Message m WHERE m.emailTo LIKE :domain")->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')->getSingleScalarResult();
         

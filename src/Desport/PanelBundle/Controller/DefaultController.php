@@ -36,34 +36,42 @@ class DefaultController extends Controller
     }
     public function signupAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        
-        $client = new Client();
-        
-        $client->setName('(nombre sin especificar)');
-        $client->setContactName('');
-        $client->setAddressCountry('');
-        $client->setAddressState('');
-        $client->setAddressCity('');
-        $client->setAddressZip('');
-        $client->setAddressAddress('');
-        $client->setPhone('');
-        $client->setEmail($this->get('request')->request->get('client_email') ?: '');
-        $client->setWebsite('');
-        $client->setComments('');
-        $client->setStage('interest');
-        
-        $event = new ClientCreated();
-        $event->setClient($client);
-        
-        $em->persist($event);
-        $em->persist($client);
-        $em->flush();
-        
-        
         $response = new JsonResponse();
         
-        $response->setData(array('client_id'=>$client->getId()));
+        $email = $this->get('request')->request->get('client_email');
+        
+        if($email && $email != '')
+        {
+            $em = $this->getDoctrine()->getManager();
+            
+            $client = new Client();
+            
+            $client->setName('(nombre sin especificar)');
+            $client->setContactName('');
+            $client->setAddressCountry('');
+            $client->setAddressState('');
+            $client->setAddressCity('');
+            $client->setAddressZip('');
+            $client->setAddressAddress('');
+            $client->setPhone('');
+            $client->setEmail($this->get('request')->request->get('client_email') ?: '');
+            $client->setWebsite('');
+            $client->setComments('');
+            $client->setStage('interest');
+            
+            $event = new ClientCreated();
+            $event->setClient($client);
+            
+            $em->persist($event);
+            $em->persist($client);
+            $em->flush();
+            
+            $response->setData(array('client_id'=>$client->getId()));
+        }
+        else
+        {
+            $response->setData(array('client_id'=>0));
+        }
         
         return $response;
     }
