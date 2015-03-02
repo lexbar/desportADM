@@ -8,13 +8,12 @@
             </div>
             <div style="border-top: 1px solid #e8e8e8; margin-top: 5px; padding-top: 10px;">
             {{ message.textHTML | raw }}
-            <br>
-            <br>
-            <img src="{{ logo_sub }}" alt="Disfruta x Deporte"/>
             </div>
             <div style="margin: 15px 0;color:#999; padding-top: 10px; border-top: 1px solid #EEE">
                 {{ app.user.name }}<br>
-                {{ domain }}
+                {{ domain }}<br>
+                <br>
+                <div style="text-align:center"><a style="color:#AAA" href="%unsubscribe_url%">No quiero recibir más correos como éste</a></div>
             </div>
         </div>
     </body>
