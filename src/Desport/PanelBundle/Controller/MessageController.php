@@ -150,7 +150,7 @@ class MessageController extends Controller
                 $logo = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header.png'));
                 
                 $email->setSubject($response->getSubject())
-                    ->setFrom(array( $response->getEmailFrom() => $this->container->getParameter('site_name') ))
+                    ->setFrom(array( $message->getEmailFrom() => $user->getName()))
                     ->setTo($response->getSwiftEmailTo())
                     ->setBody(
                         $this->renderView(
