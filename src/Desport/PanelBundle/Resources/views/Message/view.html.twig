@@ -205,7 +205,13 @@
         }
     }
     function FillAutomessage(id, subject) {
-        if(subject != ''){$('#message_subject').val(subject);}
+        if(subject != ''){
+            replaces = ['APP_USER_NAME','CLIENT_NAME','CLIENT_CONTACT_NAME'];
+            for(var key in replaces) {
+                subject = subject.replace('%'+replaces[key]+'%', $('#AM'+replaces[key]).val());
+            }
+            $('#message_subject').val(subject);
+        }
         $.ajax( "/sales/messages/message/fill/" + id, {type:'post', data:$( "#AutoMessage" + id ).serialize()} )
         .done(function( data ) { editor.setValue(data); });
     }
