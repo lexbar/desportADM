@@ -95,9 +95,9 @@
                         {% for attachment_id,cid in message.contentIdMap %}
                             {% set replaceAttachments = replaceAttachments | merge({('cid:' ~ cid): path('desport_sales_messages_attachment', {attachment_id:attachment_id})}) %}
                         {% endfor %}
-                        {{ message.textHTML() | replace(replaceAttachments) | raw }}
+                        {{ message.textHTML() | replace(replaceAttachments) | striptags('<p><div><img><span><ul><ol><li><i><u><b><strong><em><a><br><hr>') | raw }}
                     {% else %}
-                        {{ message.textHTML() | raw }}
+                        {{ message.textHTML() | striptags('<p><div><img><span><ul><ol><li><i><u><b><strong><em><a><br><hr>') | raw }}
                     {% endif %}
                     
                     {% if message.client and message.client.stage == 'contact' %}
