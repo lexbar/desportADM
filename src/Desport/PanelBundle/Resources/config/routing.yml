@@ -29,6 +29,9 @@ desport_sales_client_page:
 desport_sales_client_self_page:
     path:     /sales/client/self/page/{page}
     defaults: { _controller: DesportPanelBundle:Client:selfPage }
+desport_sales_client_search_page:
+    path:     /sales/client/search/page/{page}
+    defaults: { _controller: DesportPanelBundle:Client:searchPage }
 desport_sales_client_new:
     path:     /sales/client/new/
     defaults: { _controller: DesportPanelBundle:Client:new }

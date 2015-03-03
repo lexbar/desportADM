@@ -64,6 +64,33 @@ class ClientController extends Controller
         return $this->render('DesportPanelBundle:Client:index.html.twig', array('tag' => '_self', 'clients'=>$clients, 'total' => $total, 'page' => $page, 'cpp' => $this->clientsPerPage));
     }
     
+    public function searchPageAction($page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $search = $this->get('request')->query->get('q');
+        
+        $clients = $em->createQuery(
+            "SELECT c
+            FROM DesportPanelBundle:Client c
+            WHERE c.name LIKE :search
+            OR c.email LIKE :search
+            OR c.contactName LIKE :search
+            OR c.phone LIKE :search
+            OR c.website LIKE :search
+            OR c.comments LIKE :search
+            ORDER BY c.date DESC"
+        )
+        ->setParameter('search', '%' . $search . '%')
+        ->setFirstResult($page * $this->clientsPerPage)
+        ->setMaxResults($this->clientsPerPage)
+        ->getResult();
+        
+        $total = $em->createQuery("SELECT COUNT(c.id) FROM DesportPanelBundle:Client c WHERE c.name LIKE :search OR c.email LIKE :search OR c.contactName LIKE :search OR c.phone LIKE :search OR c.website LIKE :search OR c.comments LIKE :search")->setParameter('search', '%' . $search . '%')->getSingleScalarResult();
+        
+        return $this->render('DesportPanelBundle:Client:index.html.twig', array('tag' => '_search', 'clients'=>$clients, 'total' => $total, 'page' => $page, 'cpp' => $this->clientsPerPage));
+    }
+    
     public function loadTableAction($page)
     {
         $em = $this->getDoctrine()->getManager();

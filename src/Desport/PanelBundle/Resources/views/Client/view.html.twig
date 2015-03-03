@@ -123,6 +123,7 @@
                 
                 <a href="{{ path('desport_sales_client_events', {client_id: client.id}) }}" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Evento</a>
                 <h3>Historial de Eventos</h3>
+                {% if events | length > 0 %}
                 <ul class="timeline">
                     {% set lastEventDate = date() %}
                     {% for event in events %}
@@ -137,11 +138,12 @@
                         {% endif %}
                         
                         {% include 'DesportPanelBundle:Event:EventType/' ~ event.type ~ '.html.twig' with { 'event' : event } %}
-                    {% else %}
-                        <p>Ningún evento por ahora</p>
+                    
                     {% endfor %}
                 </ul>
-                
+                {% else %}
+                    <p>Ningún evento por ahora</p>
+                {% endif %}
             </div>
         </div>
     </section>
