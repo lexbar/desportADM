@@ -94,6 +94,8 @@ class ClientController extends Controller
         {
             $client = $this->fillFormData($client);
             
+            $client->setSalesPerson($this->getUser());
+            
             if(!$client->getName() || !$client->getEmail())
             {
                 $this->get('session')->getFlashBag()->add('error', 'El cliente debe quedar identificado por un nombre y un correo electrónico.');
@@ -315,7 +317,6 @@ class ClientController extends Controller
         $client->setWebsite($request->get('client_website') ?: '');
         $client->setComments($request->get('client_comments') ?: '');
         $client->setStage($request->get('client_stage') ?: '');
-        $client->setSalesPerson($this->getUser());
         
         return $client;
     }
