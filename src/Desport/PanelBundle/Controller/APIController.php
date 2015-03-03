@@ -114,7 +114,7 @@ class APIController extends Controller
                 $userFrom = $em->getRepository('DesportPanelBundle:User')->findOneByEmail($clean_from);
                 if($userFrom)
                 {
-                    $message->setUserTo($userFrom);
+                    $message->setUserFrom($userFrom);
                 }
                 else
                 {
