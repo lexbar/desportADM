@@ -12,6 +12,8 @@ use Desport\PanelBundle\Entity\EventType\ClientCreated;
 
 class DefaultController extends Controller
 {
+    private $messagesPerPage = 20;
+    
     public function indexAction()
     {
         return $this->render('DesportPanelBundle:Default:index.html.twig');
@@ -32,7 +34,19 @@ class DefaultController extends Controller
         
         $events = $em->getRepository('DesportPanelBundle:Event')->findBy(array(), array('date'=>'DESC'), 5);
         
-        return $this->render('DesportPanelBundle:Default:dashboard.html.twig', array('premium' => $premium, 'free' => $free, 'client' => $client, 'ticket' => $ticket, 'events' => $events ));
+        $messages = $em->createQuery(
+            'SELECT m
+            FROM DesportPanelBundle:Message m
+            WHERE m.emailTo LIKE :domain
+            ORDER BY m.date DESC'
+        )->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')
+        ->setFirstResult(0)
+        ->setMaxResults($this->messagesPerPage)
+        ->getResult();
+        
+        $messages_total = $em->createQuery("SELECT COUNT(m.id) FROM DesportPanelBundle:Message m WHERE m.emailTo LIKE :domain")->setParameter('domain', '%' . $this->container->getParameter('mailgun_domain') . '%')->getSingleScalarResult();
+        
+        return $this->render('DesportPanelBundle:Default:dashboard.html.twig', array('premium' => $premium, 'free' => $free, 'client' => $client, 'ticket' => $ticket, 'events' => $events, 'messages' => $messages, 'messages_total' => $messages_total ));
     }
     public function signupAction()
     {
