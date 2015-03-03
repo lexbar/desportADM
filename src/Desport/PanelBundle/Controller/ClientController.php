@@ -13,13 +13,55 @@ class ClientController extends Controller
 {
     private $clientsPerPage = 20;
     
-    public function indexAction()
+    /*public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         
         $clients = $em->getRepository('DesportPanelBundle:Client')->findBy(array(), array('date'=>'DESC'), $this->clientsPerPage, 0);
                 
         return $this->render('DesportPanelBundle:Client:index.html.twig', array('clients'=>$clients));
+    }*/
+    public function indexAction()
+    {
+        return $this->indexPageAction(0);
+    }
+    
+    public function indexPageAction($page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $clients = $em->createQuery(
+            'SELECT c
+            FROM DesportPanelBundle:Client c
+            ORDER BY c.date DESC'
+        )
+        ->setFirstResult($page * $this->clientsPerPage)
+        ->setMaxResults($this->clientsPerPage)
+        ->getResult();
+        
+        $total = $em->createQuery("SELECT COUNT(c.id) FROM DesportPanelBundle:Client c")->getSingleScalarResult();
+        
+        return $this->render('DesportPanelBundle:Client:index.html.twig', array('tag' => '', 'clients'=>$clients, 'total' => $total, 'page' => $page, 'cpp' => $this->clientsPerPage));
+    }
+    
+    public function selfPageAction($page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $clients = $em->createQuery(
+            'SELECT c
+            FROM DesportPanelBundle:Client c
+            WHERE c.salesPerson = :user
+            ORDER BY c.date DESC'
+        )
+        ->setParameter('user', $this->getUser())
+        ->setFirstResult($page * $this->clientsPerPage)
+        ->setMaxResults($this->clientsPerPage)
+        ->getResult();
+        
+        $total = $em->createQuery("SELECT COUNT(c.id) FROM DesportPanelBundle:Client c WHERE c.salesPerson = :user")->setParameter('user', $this->getUser())->getSingleScalarResult();
+        
+        return $this->render('DesportPanelBundle:Client:index.html.twig', array('tag' => '_self', 'clients'=>$clients, 'total' => $total, 'page' => $page, 'cpp' => $this->clientsPerPage));
     }
     
     public function loadTableAction($page)
