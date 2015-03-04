@@ -77,6 +77,13 @@
         </div>
         
         <div class="box box-{{ message.ticket ? 'danger' : 'primary' }}">
+            {# CONVERSATION: parent messages #}
+            {% if message.parentMessage %}
+                <table class="table table-mailbox"><tbody>
+                {{ include('DesportPanelBundle:Message:mailboxRowRecursive.html.twig',{message:message.parentMessage}) }}
+                </table>
+            {% endif %}
+            
             <div class="box-header">
                 <h3 class="box-title">{% if message.ticket %}<i class="fa fa-life-ring fa-fw"></i> {% endif %}{{ message.subject }}</h3>
                 <div class="box-tools pull-right">
@@ -128,15 +135,15 @@
                         
                         <p><em>Si los archivos adjuntados son importantes no olvides pulsar en "Conservar". De lo contrario se eliminarán del sistema pasado un tiempo.</em></p>
                     {% endif %}
-                    
-                    {% if message.parentMessage %}
-                        <h3>En respuesta a:</h3>
-                        <table class="table table-mailbox"><tbody>
-                        {{ include('DesportPanelBundle:Message:mailboxRowRecursive.html.twig',{message:message.parentMessage}) }}
-                        </table>
-                    {% endif %}
                 </div>
             </div>
+            {% if message.responses | length > 0 %}
+                <table class="table table-mailbox"><tbody>
+                {% for response in message.responses %}
+                    {{ include('DesportPanelBundle:Message:mailboxRow.html.twig',{message:response}) }}
+                {% endfor %}   
+                </table>
+            {% endif %}
         </div>
         
         <div class="row">
