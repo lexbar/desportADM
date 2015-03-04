@@ -120,26 +120,52 @@ class MessageController extends Controller
             else
             {
                 $response->setEmailFrom($user->getUsernameCanonical() . '@' . $this->container->getParameter('mailgun_domain'));
+                $response->setUserFrom($user);
                 
                 $response->setEmailTo($message->getEmailFrom());
                 
-                $response->setUserFrom($user);
+                if($message->getUserFrom())
+                {
+                    $response->setUserTo($message->getUserFrom());
+                }
                 
                 if($message->getClient())
                 {
                     $response->setClient($message->getClient());
                 }
                 
-                if($message->getUserFrom())
-                {
-                    $response->setUserTo($message->getUserFrom());
-                }
-                    
-                $response->setUserFrom($user);
-                
                 if($message->getTicket())
                 {
                     $response->setTicket($message->getTicket());
+                }
+                
+                //CHECK DOUBLE RESPONSE
+                //When in a conversation I'm responding twice, it may seem I'm responding to myself
+                
+                if($response->recipientDomain($this->container->getParameter('mailgun_domain')))
+                {
+                    $updated = false;
+                    
+                    //check in conversation
+                    $parent = $message;
+                    while(($parent = $parent->getParentMessage()) !== null )
+                    {
+                        if(! $parent->senderDomain($this->container->getParameter('mailgun_domain')))
+                        {
+                            $response->setEmailTo($parent->getEmailFrom());
+                            $response->setUserTo($parent->getUserFrom());
+                            
+                            $updated = true;
+                            break;
+                        }
+                    }
+                    
+                    //if not in conversation, take the email from client
+                    if(!$updated && $response->getClient() && $response->getClient()->getEmail())
+                    {
+                        $response->setEmailTo($response->getClient()->getEmail());
+                        $response->setUserTo(null);
+                    }
                 }
                 
                 $response->setParentMessage($message);
@@ -150,7 +176,7 @@ class MessageController extends Controller
                 $logo = $email->embed(\Swift_Image::fromPath(__DIR__.'/../Resources/images/email_header.png'));
                 
                 $email->setSubject($response->getSubject())
-                    ->setFrom(array( $message->getEmailFrom() => $user->getName()))
+                    ->setFrom(array( $response->getEmailFrom() => $user->getName() ))
                     ->setTo($response->getSwiftEmailTo())
                     ->setBody(
                         $this->renderView(

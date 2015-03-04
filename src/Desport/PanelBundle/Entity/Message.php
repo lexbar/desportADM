@@ -546,6 +546,27 @@ class Message
         
     }
     
+    public function senderDomain($domain = false)
+    {
+        $emailfromClean = str_replace(array('<','>'), '', $this->getEmailFrom());
+        $address = explode('@', $emailfromClean) ;
+        
+        if(count($address) < 2)
+        {
+            return false;
+        }
+        
+        if($domain)
+        {
+            return trim($address[1]) == trim($domain);
+        }
+        else
+        {
+            return trim($address[1]);
+        }
+        
+    }
+    
     public function getSwiftEmailFrom()
     {
         $addr = $this->getEmailFrom();
