@@ -1,0 +1,2 @@
+{% if message.parentMessage %}{{ include('DesportPanelBundle:Message:mailboxRowParentRecursive.html.twig',{message:message.parentMessage}) }}{% endif %}
+{{ include('DesportPanelBundle:Message:mailboxRow.html.twig',{message:message}) }}

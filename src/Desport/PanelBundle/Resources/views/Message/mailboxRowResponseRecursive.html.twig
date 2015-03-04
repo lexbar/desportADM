@@ -1,0 +1,4 @@
+{% for response in responses %}
+    {{ include('DesportPanelBundle:Message:mailboxRow.html.twig',{message:response}) }}
+    {{ include('DesportPanelBundle:Message:mailboxRowResponseRecursive.html.twig',{responses:response.responses}) }}
+{% endfor %}

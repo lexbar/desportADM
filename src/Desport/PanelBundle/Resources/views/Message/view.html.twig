@@ -80,7 +80,7 @@
             {# CONVERSATION: parent messages #}
             {% if message.parentMessage %}
                 <table class="table table-mailbox"><tbody>
-                {{ include('DesportPanelBundle:Message:mailboxRowRecursive.html.twig',{message:message.parentMessage}) }}
+                {{ include('DesportPanelBundle:Message:mailboxRowParentRecursive.html.twig',{message:message.parentMessage}) }}
                 </table>
             {% endif %}
             
@@ -139,9 +139,7 @@
             </div>
             {% if message.responses | length > 0 %}
                 <table class="table table-mailbox"><tbody>
-                {% for response in message.responses %}
-                    {{ include('DesportPanelBundle:Message:mailboxRow.html.twig',{message:response}) }}
-                {% endfor %}   
+                {{ include('DesportPanelBundle:Message:mailboxRowResponseRecursive.html.twig',{responses:message.responses}) }}
                 </table>
             {% endif %}
         </div>
