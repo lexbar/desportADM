@@ -320,7 +320,7 @@ class InstallService
         
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
     	
-    	$response = shell_exec("(cd $root/ && git pull https://github.com/lexbar/colecta)2>&1"); // update repository from github
+    	$response = shell_exec("git --git-dir=$root/.git/ pull https://github.com/lexbar/colecta2>&1"); // update repository from github
     	shell_exec("php $root/app/console doctrine:schema:update --force"); // update database
     	
     	
