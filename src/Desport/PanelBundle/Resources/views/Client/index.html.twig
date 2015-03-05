@@ -29,12 +29,12 @@
                                 <a class="btn btn-default btn-sm" href="{{ clients | length == cpp ? path('desport_sales_client'~ tag ~'_page', {page:page+1}) : '#' }}{{ '?q=' ~ app.request.get('q') }}"><i class="fa fa-chevron-right"></i></a>
                             </div><!-- /.btn-group -->
                             
-                            <button onClick="$('#searchForm').toggle()" style="margin-left:10px" class="btn btn-default btn-sm" type="button"><i class="fa fa-search"></i></button>
+                            <button onClick="$('#searchForm').toggle();$('#searchFormInput').focus();" style="margin-left:10px" class="btn btn-default btn-sm" type="button"><i class="fa fa-search"></i></button>
                             
                         </div><!-- /.pull-right -->
                         <form action="{{ path('desport_sales_client_search_page', {page:0}) }}" method="get" style="{{ tag != '_search' ? 'display:none; ' : '' }}margin-top: 20px;" id="searchForm">
                             <div class="has-feedback pull-right">
-                                <input type="text" class="form-control input-sm" placeholder="Buscar Cliente" name="q" value="{{ app.request.get('q') }}"/>
+                                <input type="text" class="form-control input-sm" placeholder="Buscar Cliente" name="q" id="searchFormInput" value="{{ app.request.get('q') }}"/>
                                 <span class="fa fa-search form-control-feedback"></span>
                             </div>
                         </form>
