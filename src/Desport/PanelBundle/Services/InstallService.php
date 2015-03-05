@@ -324,7 +324,7 @@ class InstallService
     	shell_exec("php $root/app/console doctrine:schema:update --force"); // update database
     	
     	
-    	$this->container->get('session')->getFlashBag()->add('error', $response);
+    	$this->container->get('session')->getFlashBag()->add('success', $response);
     	
     	return true;
     }
