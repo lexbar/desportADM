@@ -204,4 +204,19 @@ class AutoMessageCategory
     {
         return $this->automessages;
     }
+    
+    public function getDepth()
+    {
+        $depth = 1;
+        
+        $cat = $this;
+        
+        while($cat->getParent())
+        {
+            $depth++;
+            $cat = $cat->gerParent();
+        }
+        
+        return $depth;
+    }
 }

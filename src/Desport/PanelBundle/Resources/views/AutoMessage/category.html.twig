@@ -1,6 +1,6 @@
 <div class="form-group">
     <label>{{ category.name | default('Selecciona una categoría') }}</label>
-    <select class="form-control" onChange="loadLevel({{ category.id | default(0) }})">
+    <select class="form-control" onChange="loadLevel({{ category.depth | default(0) }})">
         <option value="NONE">- -</option>
         {% for subcategory in subcategories %}
         <option value="C_{{ subcategory.id }}">{{ subcategory.name }}</option>
