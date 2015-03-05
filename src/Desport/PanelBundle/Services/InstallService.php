@@ -320,8 +320,10 @@ class InstallService
         
         $root = $daroot.'/'.$this->clean($name).'.'.$domain;
     	
-    	$response .= shell_exec("(git --git-dir=$root/.git/ pull https://github.com/lexbar/colecta)2>&1"); // update repository from github
+    	shell_exec("rm -rf $root/app/cache/prod/*");
+    	shell_exec("mkdir $root/app/cache/prod/images $root/app/cache/prod/files $root/app/cache/prod/images/maps"); //create required directories
     	shell_exec("(git --git-dir=$root/.git/ stash)2>&1"); // stash repository from github
+    	$response = shell_exec("(git --git-dir=$root/.git/ pull https://github.com/lexbar/colecta)2>&1"); // update repository from github
     	shell_exec("php $root/app/console doctrine:schema:update --force"); // update database
     	
     	
