@@ -21,7 +21,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Listado de Clientes</h3>
                         <div class="box-tools pull-right">
-                            <a class="btn btn-default btn-sm" href="{{ tag == '_self' ? path('desport_sales_client_page', {page:0}) : path('desport_sales_client_self_page', {page:0}) }}" style="margin-right: 10px;"><i class="fa fa-star fa-fw {{ tag == '_self' ? 'text-yellow' : '' }}"></i>Sólo míos</a> 
+                            <a class="btn btn-default btn-sm" href="{{ tag == '_self' ? path('desport_sales_client_page', {page:0}) : path('desport_sales_client_self_page', {page:0}) }}" style="margin-right: 10px;"><i class="fa fa-star fa-fw {{ tag == '_self' ? 'text-yellow' : '' }}"></i>{{ tag == '_self' ? 'Ver todos' : 'Sólo míos' }}</a> 
                             
                             {{ page * cpp + 1 }}-{{ page * cpp + clients | length }}/{{ total }}
                             <div class="btn-group">
