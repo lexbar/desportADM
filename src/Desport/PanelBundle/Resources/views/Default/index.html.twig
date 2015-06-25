@@ -11,23 +11,29 @@
         <link href="/css/animate.css" rel="stylesheet" type="text/css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         
-        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
-        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-        <link rel="manifest" href="/manifest.json">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=3">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=3">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=3">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=3">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=3">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=3">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=3">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=3">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=3">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png?v=3" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=3" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png?v=3" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png?v=3" sizes="16x16">
+        <link rel="manifest" href="/manifest.json?v=3">
+        <link rel="shortcut icon" href="/favicon.ico?v=3">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=3">
         <meta name="theme-color" content="#ffffff">
 
         <style>
+            body {
+                background-color: #F2F2F1;
+            }
             .head_logo {
                 width:100%;
                 max-width:400px;
@@ -45,7 +51,7 @@
             
             .signup {
                 margin-top: 50px;
-                background-color: #51A951;
+                background-color: #36C;
                 border: 1px solid #CCC;
                 border-width: 1px 0;
                 padding: 20px 5px 40px;
@@ -61,10 +67,11 @@
             }
             
             .features {
-                padding: 50px 0;
+                padding: 70px 0;
+                background-color: #FFF;
             }
             .features .feature {
-                margin-top: 25px;
+                margin-top: 80px;
             }
             .features img {
                 margin:0 auto;
@@ -94,7 +101,7 @@
         <div class="container text-center">
             <img src="/logo.png" class="head_logo">
             
-            <h1>Crea una web para tu grupo de <br><strong>deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
+            <h1>Crea la web para tu grupo de <br><strong>deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
         </div> 
         <div class="signup">
             <div class="container text-center">
@@ -104,7 +111,7 @@
                         <input type="text" class="form-control input-lg" placeholder="Escribe tu email..." id="signup_email" name="client_email">
                     </div>
                     <div class="col-sm-3 col-md-2">
-                        <button type="button" class="btn btn-warning btn-block btn-lg" onClick="submitEmail()">Empezar</button>
+                        <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitEmail()">Empezar</button>
                     </div>
                 </form>
                 <div id="step2" style="display:none">
@@ -114,10 +121,57 @@
         </div>
         
         <div class="features">
-            <div class="container text-center">
-                <h2>Todo lo que necesitas en un único lugar.</h2>
+            <div class="container">
+                <h2 class="text-center">Todo lo que necesitáis, en un único lugar.</h2>
                 
-                <div class="row">
+                <hr style="width:60%">
+                
+                <div class="row feature">
+                    <div class="col-sm-8 pull-right">
+                        <h3>Comunicación</h3>
+                        <p class="lead">Tanto interna como externa. Crea formularios de contacto y páginas de información totalmente personalizados.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="/img/web_comunicacion.png" class="img-responsive" />
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row feature">
+                    <div class="col-sm-8">
+                        <h3>Calendario</h3>
+                        <p class="lead">Organiza todas las actividades de forma colaborativa y gestiona la asistencia de los miembros del equipo.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="/img/web_calendario.png" class="img-responsive" />
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row feature">
+                    <div class="col-sm-8 pull-right">
+                        <h3>Tracks GPS</h3>
+                        <p class="lead">Totalmente integrado. Selecciona tu archivo de GPS y se extraerán automáticamente todos los datos y el recorrido sobre el mapa.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="/img/web_ruta.png" class="img-responsive" />
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row feature">
+                    <div class="col-sm-8">
+                        <h3>Usuarios</h3>
+                        <p class="lead">Mensajes privados, gestión de permisos, rendimiento personal y ranking de todos los usuarios.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="/img/web_usuarios.png" class="img-responsive" />
+                    </div>
+                </div>
+                {#<div class="row">
                     <div class="col-sm-3 feature">
                         <img width="228" height="228" src="/img/icon_communication.png" class="img-responsive" />
                         <h3>Comunicación</h3>
@@ -135,10 +189,10 @@
                     </div>
                     <div class="col-sm-3 feature">
                         <img width="228" height="228" src="/img/icon_user.png" class="img-responsive" />
-                        <h3>Membresía</h3>
+                        <h3>Usuarios</h3>
                         <p>Mensajes privados, gestión de permisos, rendimiento personal y ranking de todos los usuarios.</p>
                     </div>
-                </div>
+                </div>#}
             </div>
         </div>
         
