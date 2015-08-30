@@ -621,7 +621,7 @@ class InstallService
         );
     }
     
-    public function generateWebParameters($web_title, $adsense)
+    public function generateWebParameters($web_title, $adsense, $web_description = '')
     {
         return array(
             'twig'=>
@@ -629,6 +629,7 @@ class InstallService
                 'globals'=>
                 array(
                     'web_title' => $web_title,
+                    'web_description' => $web_description,
                     'adsense' => $adsense
                 )
             )
