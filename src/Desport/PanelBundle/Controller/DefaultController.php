@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Desport\PanelBundle\Entity\Client;
+use Desport\PanelBundle\Entity\Site;
 use Desport\PanelBundle\Entity\EventType\ClientCreated;
 
 class DefaultController extends Controller
@@ -54,6 +55,8 @@ class DefaultController extends Controller
         
         $email = $this->get('request')->request->get('client_email');
         
+        //SEARCH FOR THE CLIENT ON THE DATABASE
+        
         if($email && $email != '')
         {
             $em = $this->getDoctrine()->getManager();
@@ -80,11 +83,188 @@ class DefaultController extends Controller
             $em->persist($client);
             $em->flush();
             
-            $response->setData(array('client_id'=>$client->getId()));
+            $response->setData(array('client_code'=>substr( md5($client->getId()), 0, 6 )));
+            
+            //Set session data
+            $this->get('session')->set('client_id', $client->getId());
         }
         else
         {
-            $response->setData(array('client_id'=>0));
+            $response->setData(array('error'=>'empty_email'));
+        }
+        
+        return $response;
+    }
+    public function createSiteAction()
+    {
+        $response = new JsonResponse();
+        
+        $client_id = $this->get('session')->get('client_id');
+        $client_code = $this->get('request')->request->get('client_code');
+        
+        if($client_id && substr( md5($client_id), 0, 6 ) == $client_code)
+        {
+            $em = $this->getDoctrine()->getManager();
+            
+            $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
+            
+            if($client)
+            {
+                // Client exists and can proceed
+                $client_name = $this->get('request')->request->get('client_name');
+                $site_name = $this->get('request')->request->get('site_name');
+                $client_contactName = $this->get('request')->request->get('client_contactName');
+                
+                $pickedName = $em->getRepository('DesportPanelBundle:Site')->findOneByName($site_name);
+                
+                if(!$client_name or !$site_name or !$client_contactName)
+                {
+                    // Error, must fill all information required
+                    $response->setData(array('error'=>'empty_fields'));
+                }
+                elseif($pickedName)
+                {
+                    // Name is already picked
+                    $response->setData(array('error'=>'name_not_available'));
+                }
+                else
+                {
+                    //Can proceed with site creation
+                    
+                    $client->setName($client_name);
+                    $client->setContactName($client_contactName);
+                    
+                    $site = new Site();
+                    $site->setClient($client);
+                    $site->setName($site_name);
+                    
+                    $product = $em->getRepository('DesportPanelBundle:Product')->findOneById(1); // 1 - Free Trial
+                    $site->setProduct($product);
+                    
+                    //Set properties for site based on product
+                    $site->parseProductProperties($product->getProperties());
+                    $site->setActive(false);
+                    $site->setState('requested');
+                    $client->setStage('conversion');
+                    
+                    
+                    $em->persist($site); 
+                    $em->persist($client); 
+                    
+                    $em->flush();
+                    
+                    $this->get('session')->set('site_id', $site->getId());
+                }
+            }
+            else
+            {
+                // Error, client not found
+                $response->setData(array('error'=>'no_client'));
+            }
+        }
+        else
+        {
+            //Error, no session or bad client_code
+            $response->setData(array('error'=>'bad_request'));
+        } 
+        
+        return $response;
+    }
+    public function createSiteStageAction($stage_id)
+    {
+        $response = new JsonResponse();
+        
+        $client_id = $this->get('session')->get('client_id');
+        $site_id = $this->get('session')->get('site_id');
+        
+        if($client_id and $site_id)
+        {
+            $em = $this->getDoctrine()->getManager();
+            
+            $client = $em->getRepository('DesportPanelBundle:Client')->findOneById($client_id);
+            $site = $em->getRepository('DesportPanelBundle:Site')->findOneById($site_id);
+            
+            if($client and $site)
+            {
+                $install = $this->get("desport.install");
+                
+                switch($stage_id)
+                {
+                    case 0:
+                        if($install->createSubdomain($site->getName(), $site->getBandwidth(), $site->getQuota()))
+                        {
+                            // Success
+                            $response->setData(array('next_step'=>'1'));
+                        }
+                        else
+                        {
+                            // Error, client or site not found
+                            $response->setData(array('error'=>'domain_not_created'));
+                        }
+                    break;
+                    
+                    case 1:
+                        if($install->createDatabase($site->getName()))
+                        {
+                            // Success
+                            $response->setData(array('next_step'=>'2'));
+                        }
+                        else
+                        {
+                            // Error, client or site not found
+                            $response->setData(array('error'=>'database_not_created'));
+                        }
+                    break;
+                    
+                    case 2:
+                        if($install->cloneRepository($site->getName()))
+                        {
+                            if($install->fillParameters($site))
+                            {
+                                // Success
+                                $response->setData(array('next_step'=>'3'));
+                            }
+                            else
+                            {
+                                // Error, client or site not found
+                                $response->setData(array('error'=>'parameters_not_filled'));
+                            }
+                        }
+                        else
+                        {
+                            // Error, client or site not found
+                            $response->setData(array('error'=>'repository_not_cloned'));
+                        }
+                        
+                    break;
+                    
+                    case 3:
+                        if($install->loadDatabase($site->getName(), $client->getEmail(), $client->getContactName()))
+                        {
+                            // Success
+                            $response->setData(array('next_step'=>'end'));
+                        }
+                        else
+                        {
+                            // Error, client or site not found
+                            $response->setData(array('error'=>'database_not_loaded'));
+                        }
+                    break;
+                    default: 
+                        $response->setData(array('error'=>'bad_request'));
+                        
+                }
+            }
+            else
+            {
+                // Error, client or site not found
+                $response->setData(array('error'=>'no_client'));
+            }
+        }
+        else
+        {
+            //Error, no session data
+            $response->setData(array('error'=>'bad_request'));
         }
         
         return $response;

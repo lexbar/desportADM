@@ -65,6 +65,13 @@
             .signup p {
                 color: #FFF;
             }
+            .signup label {
+                color: #FFF;
+                text-align: left;
+                font-size: 22px;
+                font-weight: normal;
+                margin-top: 15px;
+            }
             
             .features {
                 padding: 70px 0;
@@ -103,6 +110,7 @@
             
             <h1>Crea la web para tu grupo de <br><strong>deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
         </div> 
+        
         <div class="signup">
             <div class="container text-center">
                 <h2>Crear ahora una cuenta gratuita</h2>
@@ -114,8 +122,52 @@
                         <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitEmail()">Empezar</button>
                     </div>
                 </form>
-                <div id="step2" style="display:none">
-                    <p class="lead">Muchas gracias. En breve nos pondremos en contacto contigo.</p>
+                <form id="step2" style="display:none">
+                    <input type="hidden" style="display:none" name="client_code" id="client_code">
+                    <div class="row">
+                        <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Nombre del club:</label>
+                        <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
+                            <input type="text" class="form-control input-lg" placeholder="" id="signup_name" name="client_name">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Elige dirección web:</label>
+                        <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
+                            <div class="input-group">
+                              <input type="text" class="form-control input-lg" aria-describedby="basic-addon2" id="signup_url" name="site_name">
+                              <span class="input-group-addon" id="basic-addon2">.deporde.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Tu nombre de usuario:</label>
+                        <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
+                            <input type="text" class="form-control input-lg" placeholder="" id="signup_contactName" name="client_contactName">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                            <hr>
+                            <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitStep2()">Crear web</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="step3" style="display:none">
+                    <p class="lead"><i class="fa fa-spinner fa-pulse"></i> Creando la página web...</p>
+                    <div class="col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+                        <div class="progress">
+                          <div id="processBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                            <span class="sr-only">0% Completado</span>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="step4" style="display:none">
+                    <p class="lead">¡Página creada!</p>
+                    <p>En breve recibirás un correo electrónico con un enlace para completar el registro.</p>
                 </div>
             </div>
         </div>
@@ -171,43 +223,118 @@
                         <img src="/img/web_usuarios.png" class="img-responsive" />
                     </div>
                 </div>
-                {#<div class="row">
-                    <div class="col-sm-3 feature">
-                        <img width="228" height="228" src="/img/icon_communication.png" class="img-responsive" />
-                        <h3>Comunicación</h3>
-                        <p>Tanto interna como externa. Crea formularios de contacto y páginas de información totalmente personalizados.</p>
-                    </div>
-                    <div class="col-sm-3 feature">
-                        <img width="228" height="228" src="/img/icon_events.png" class="img-responsive" />
-                        <h3>Calendario</h3>
-                        <p>Organiza todas las actividades de forma colaborativa y gestiona la asistencia de los miembros del equipo.</p>
-                    </div>
-                    <div class="col-sm-3 feature">
-                        <img width="228" height="228" src="/img/icon_track.png" class="img-responsive" />
-                        <h3>Tracks GPS</h3>
-                        <p>Totalmente integrado. Selecciona tu archivo de GPS y se extraerán automáticamente todos los datos y el recorrido sobre el mapa.</p>
-                    </div>
-                    <div class="col-sm-3 feature">
-                        <img width="228" height="228" src="/img/icon_user.png" class="img-responsive" />
-                        <h3>Usuarios</h3>
-                        <p>Mensajes privados, gestión de permisos, rendimiento personal y ranking de todos los usuarios.</p>
-                    </div>
-                </div>#}
             </div>
         </div>
         
         <script>
+            var client_code = false;
+            
             function submitEmail() {
                 $('#step1').addClass('animated fadeOutUp');
                 
                 $.ajax( "{{ path('desport_signup') }}", {type:'post', data:$( "#step1").serialize()} )
-                .done(function( data ) { loadStep2(data); });
+                .done(function( data ) { 
+                    if(data.error){
+                        displayError(data.error);
+                        $('#step1').removeClass('animated fadeOutUp');
+                    } else {
+                        $('#client_code').val(data.client_code);
+                        loadStep2();
+                    }
+                });
             }
             
-            function loadStep2(data) {
+            function loadStep2() {
                 $('#step1').css('display','none');
                 $('#step2').css('display','block').addClass('animated fadeInUp');
             }
+            
+            function submitStep2() {
+                $('#step2').addClass('animated fadeOutUp');
+                
+                $.ajax( "{{ path('desport_sitecreate') }}", {type:'post', data:$( "#step2").serialize()} )
+                .done(function( data ) { 
+                    if(data.error){
+                        displayError(data.error);
+                        $('#step2').removeClass('animated fadeOutUp');
+                    } else {
+                        process1();
+                    }
+                });
+            }
+            
+            function process1() {
+                $('#step2').css('display','none');
+                $('#step3').css('display','block').addClass('animated fadeInUp');
+                
+                $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:0}) }}", {} )
+                .done(function( data ) { 
+                    if(data.error){
+                        displayError(data.error);
+                        $('#processBar').removeClass('active');
+                    } else {
+                        process2();
+                    }
+                });
+            }
+            function process2() {
+                $('#processBar').width('10%');
+                
+                $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:1}) }}", {} )
+                .done(function( data ) { 
+                    if(data.error){
+                        displayError(data.error);
+                        $('#processBar').removeClass('active');
+                    } else {
+                        process3();
+                    }
+                });
+            }
+            function process3() {
+                $('#processBar').width('20%');
+                
+                $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:2}) }}", {} )
+                .done(function( data ) { 
+                    if(data.error){
+                        displayError(data.error);
+                        $('#processBar').removeClass('active');
+                    } else {
+                        process4();
+                    }
+                });
+            }
+            function process4() {
+                $('#processBar').width('70%');
+                
+                $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:3}) }}", {} )
+                .done(function( data ) { 
+                    if(data.error){
+                        displayError(data.error);
+                        $('#processBar').removeClass('active');
+                    } else {
+                        processend();
+                    }
+                });
+            }
+            function processend() {
+                $('#processBar').width('100%');
+                
+                $('#step3').css('display','none');
+                $('#step4').css('display','block');
+            }
+            
+            function displayError(error_code) {
+            
+                switch(error_code) {
+                    case 'empty_email': alert('Debes introducir un email'); break;
+                    case 'empty_fields': alert('Debes rellenar todos los campos'); break;
+                    case 'name_not_available': alert('Esa dirección web no está disponible. Prueba con otra.'); break;
+                    case 'no_client': alert('Error. No has sido registrado correctamente.'); break;
+                    case 'bad_request': alert('Error interno. Por favor vuelve a empezar o ponte en contacto con nosotros.'); break;
+                    default: alert(error_code);
+                }
+            }
+            
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>

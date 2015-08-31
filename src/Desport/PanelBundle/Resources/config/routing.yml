@@ -5,6 +5,15 @@ desport_site_index:
 desport_signup:
     path:     /signup/
     defaults: { _controller: DesportPanelBundle:Default:signup }
+desport_sitecreate:
+    path:     /sitecreate/
+    defaults: { _controller: DesportPanelBundle:Default:createSite }
+desport_sitecreate_stage:
+    path:     /sitecreate/{stage_id}
+    defaults: { _controller: DesportPanelBundle:Default:createSiteStage }
+    
+    
+
     
 desport_login_success:
     path:     /loginsuccess
