@@ -25,4 +25,7 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/sales/site/, role: [ROLE_ADMIN] }
+        - { path: ^/sales/messages/, role: [ROLE_ADMIN] }
+        - { path: ^/sales/client/contact/, role: [ROLE_ADMIN] }
         - { path: ^/sales/, role: [ROLE_ADMIN, ROLE_SALES] }
