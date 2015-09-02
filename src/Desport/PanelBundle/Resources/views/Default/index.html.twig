@@ -11,24 +11,24 @@
         <link href="/css/animate.css" rel="stylesheet" type="text/css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         
-        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=3">
-        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=3">
-        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=3">
-        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=3">
-        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=3">
-        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=3">
-        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=3">
-        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=3">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=3">
-        <link rel="icon" type="image/png" href="/favicon-32x32.png?v=3" sizes="32x32">
-        <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=3" sizes="192x192">
-        <link rel="icon" type="image/png" href="/favicon-96x96.png?v=3" sizes="96x96">
-        <link rel="icon" type="image/png" href="/favicon-16x16.png?v=3" sizes="16x16">
-        <link rel="manifest" href="/manifest.json?v=3">
-        <link rel="shortcut icon" href="/favicon.ico?v=3">
-        <meta name="msapplication-TileColor" content="#2d89ef">
-        <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=3">
-        <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 
         <style>
             body {
@@ -36,12 +36,16 @@
             }
             .head_logo {
                 width:100%;
-                max-width:400px;
+                max-width:250px;
                 margin: 70px auto 20px;
             }
             h1 {
                 font-size: 44px;
                 font-weight: 400;
+            }
+            h1 strong {
+                font-style: italic;
+                text-transform: uppercase;
             }
             h1 small {
                 font-weight: 100;
@@ -51,7 +55,7 @@
             
             .signup {
                 margin-top: 50px;
-                background-color: #36C;
+                background-color: #111;
                 border: 1px solid #CCC;
                 border-width: 1px 0;
                 padding: 20px 5px 40px;
@@ -71,6 +75,9 @@
                 font-size: 22px;
                 font-weight: normal;
                 margin-top: 15px;
+            }
+            .signup #step2 .btn.btn-lg {
+                font-size: 1.6em;
             }
             
             .features {
@@ -108,7 +115,7 @@
         <div class="container text-center">
             <img src="/logo.png" class="head_logo">
             
-            <h1>Crea la web para tu grupo de <br><strong>deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
+            <h1>Crea la web para <br><strong>tu deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
         </div> 
         
         <div class="signup">
@@ -119,7 +126,7 @@
                         <input type="text" class="form-control input-lg" placeholder="Escribe tu email..." id="signup_email" name="client_email">
                     </div>
                     <div class="col-sm-3 col-md-2">
-                        <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitEmail()">Empezar</button>
+                        <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitEmail()">Empezar <i class="fa fa-angle-double-right"></i></button>
                     </div>
                 </form>
                 <form id="step2" style="display:none">
@@ -151,7 +158,7 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                             <hr>
-                            <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitStep2()">Crear web</button>
+                            <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitStep2()">Crear web <i class="fa fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </form>
