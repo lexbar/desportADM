@@ -34,14 +34,23 @@
             body {
                 background-color: #F2F2F1;
             }
+            .headerwrap {
+                background-image: url('/javalambre.jpeg');
+                background-size: cover;
+                background-position: center;
+                padding: 30px 0 40px 0;
+                text-shadow: -2px 2px rgba(0,0,0,.5);
+                color: #FFF;
+            }
             .head_logo {
                 width:100%;
-                max-width:250px;
-                margin: 70px auto 20px;
+                max-width:400px;
+                margin: 40px auto 20px;
             }
             h1 {
                 font-size: 44px;
                 font-weight: 400;
+                line-height: 52px;
             }
             h1 strong {
                 font-style: italic;
@@ -49,28 +58,21 @@
             }
             h1 small {
                 font-weight: 100;
-                display: block;
-                margin-top:25px;
+                color: #FFF;
+                background-color: rgba(0,30,70,.8);
+                padding: 3px 10px 5px;
             }
             
             .signup {
-                margin-top: 50px;
-                background-color: #111;
-                border: 1px solid #CCC;
-                border-width: 1px 0;
+                background-color: #EEE;
                 padding: 20px 5px 40px;
             }
             .signup h2 {
-                color: #FFF;
                 margin: 10px 0 30px; 
                 font-size: 40px;
                 font-weight: 300;
             }
-            .signup p {
-                color: #FFF;
-            }
             .signup label {
-                color: #FFF;
                 text-align: left;
                 font-size: 22px;
                 font-weight: normal;
@@ -99,11 +101,11 @@
             
             @media (max-width: 767px) { /* Extra Small devices */
                 .head_logo {
-                    width: 30%;
                     margin: 30px auto 20px;    
                 }
                 h1 {
                     font-size: 32px;
+                    line-height: 38px;
                 }
                 .signup h2 {
                     font-size: 26px;
@@ -116,11 +118,13 @@
     </head>
     
     <body>
-        <div class="container text-center">
-            <img src="/logo.png" class="head_logo">
-            
-            <h1>Crea la web para <br><strong>tu deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
-        </div> 
+        <div class="headerwrap">
+            <div class="container text-center">
+                <img src="/logo.png" class="head_logo">
+                
+                <h1>Crea la web para <br><strong>tu deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
+            </div> 
+        </div>
         
         <div class="signup">
             <div class="container text-center">
@@ -185,7 +189,7 @@
         
         <div class="features">
             <div class="container">
-                <h2 class="text-center">Todo lo que necesitáis, en un único lugar.</h2>
+                <h2 class="text-center">Todo lo que tu club necesita, en un único lugar.</h2>
                 
                 <hr style="width:60%">
                 
