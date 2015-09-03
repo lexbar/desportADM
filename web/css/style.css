@@ -97,4 +97,7 @@ h1 small {
     .features, .features .text-right {
         text-align: center;    
     }
+    .features .feature {
+        margin-top: 40px;
+    }
 }
