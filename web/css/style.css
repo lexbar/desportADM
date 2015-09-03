@@ -26,6 +26,7 @@ h1 strong {
 }
 h1 small {
     font-weight: 100;
+    font-size: 22px;
     color: #FFF;
     background-color: rgba(0,30,70,.8);
     padding: 3px 10px 5px;
@@ -68,7 +69,7 @@ h1 small {
 }
 .features h2 {
     margin-bottom: 20px;
-    font-size: 50px;
+    font-size: 60px;
 }
 .features hr {
     border-width: 2px;
@@ -92,7 +93,7 @@ h1 small {
         margin-top: 6px;
     }
     .features h2 {
-        font-size: 36px;    
+        font-size: 30px;    
     }
     .features, .features .text-right {
         text-align: center;    
