@@ -12,7 +12,7 @@ body {
 }
 .head_logo {
     width:100%;
-    max-width:400px;
+    max-width:300px;
     margin: 40px auto 20px;
 }
 h1 {
@@ -57,19 +57,29 @@ h1 small {
 .features .feature {
     margin-top: 80px;
 }
+.features .feature i {
+    font-size: 200px;
+}
 .features img {
     margin:0 auto;
 }
 .features p {
-    color: #666;
+    color: #999;
 }
 .features h2 {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    font-size: 50px;
 }
-
+.features hr {
+    border-width: 2px;
+}
+.features h3 {
+    font-size: 44px;
+    color: #333;
+}
 @media (max-width: 767px) { /* Extra Small devices */
     .head_logo {
-        margin: 30px auto 20px;    
+        margin: 10px auto;    
     }
     h1 {
         font-size: 32px;
@@ -80,5 +90,11 @@ h1 small {
     }
     .signup #step1 .btn.btn-lg {
         margin-top: 6px;
+    }
+    .features h2 {
+        font-size: 36px;    
+    }
+    .features, .features .text-right {
+        text-align: center;    
     }
 }
