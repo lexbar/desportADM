@@ -59,7 +59,7 @@ h1 small {
     margin-top: 80px;
 }
 .features .feature i {
-    font-size: 200px;
+    font-size: 150px;
 }
 .features img {
     margin:0 auto;
@@ -69,7 +69,9 @@ h1 small {
 }
 .features h2 {
     margin-bottom: 20px;
-    font-size: 60px;
+    font-size: 45px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 .features hr {
     border-width: 2px;
