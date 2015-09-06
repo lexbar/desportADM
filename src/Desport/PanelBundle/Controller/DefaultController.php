@@ -239,6 +239,7 @@ class DefaultController extends Controller
                     break;
                     
                     case 3:
+                        sleep(9); //if too fast may not work
                         if($install->loadDatabase($site->getName(), $client->getEmail(), $client->getContactName()))
                         {
                             // Success
