@@ -1,7 +1,7 @@
 function submitEmail() {
     $('#step1').addClass('animated fadeOutUp');
     
-    $.ajax( "{{ path('desport_signup') }}", {type:'post', data:$( "#step1").serialize()} )
+    $.ajax( "/signup/", {type:'post', data:$( "#step1").serialize()} )
     .done(function( data ) { 
         if(data.error){
             displayError(data.error);
@@ -21,7 +21,7 @@ function loadStep2() {
 function submitStep2() {
     $('#step2').addClass('animated fadeOutUp');
     
-    $.ajax( "{{ path('desport_sitecreate') }}", {type:'post', data:$( "#step2").serialize()} )
+    $.ajax( "/sitecreate/", {type:'post', data:$( "#step2").serialize()} )
     .done(function( data ) { 
         if(data.error){
             displayError(data.error);
@@ -36,7 +36,7 @@ function process1() {
     $('#step2').css('display','none');
     $('#step3').css('display','block').addClass('animated fadeInUp');
     
-    $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:0}) }}", {} )
+    $.ajax( "/sitecreate/0", {} )
     .done(function( data ) { 
         if(data.error){
             displayError(data.error);
@@ -49,7 +49,7 @@ function process1() {
 function process2() {
     $('#processBar').width('10%');
     
-    $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:1}) }}", {} )
+    $.ajax( "/sitecreate/1", {} )
     .done(function( data ) { 
         if(data.error){
             displayError(data.error);
@@ -62,7 +62,7 @@ function process2() {
 function process3() {
     $('#processBar').width('20%');
     
-    $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:2}) }}", {} )
+    $.ajax( "/sitecreate/2", {} )
     .done(function( data ) { 
         if(data.error){
             displayError(data.error);
@@ -75,7 +75,7 @@ function process3() {
 function process4() {
     $('#processBar').width('70%');
     
-    $.ajax( "{{ path('desport_sitecreate_stage',{stage_id:3}) }}", {} )
+    $.ajax( "/sitecreate/3", {} )
     .done(function( data ) { 
         if(data.error){
             displayError(data.error);
