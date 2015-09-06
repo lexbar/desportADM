@@ -6,7 +6,7 @@
         <header class="main-header">
             <a href="{% if app.user.hasRole('ROLE_ADMIN') %}{{ path('desport_admin_dashboard') }}{% else %}{{ path('desport_sales_dashboard') }}{% endif %}" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                <img src="/logo.png" alt="logo" style="width:130px;" />
+                <img src="/logo.png" alt="logo" style="height:22px;" /> <span style="font-family:'Roboto Slab';font-size: 30px;vertical-align: middle;letter-spacing: -2px;">Deporde</span>
             </a>
             
             {{ render(controller('DesportPanelBundle:Default:headerNavbar')) }}
