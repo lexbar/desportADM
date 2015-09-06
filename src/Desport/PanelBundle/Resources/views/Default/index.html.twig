@@ -11,6 +11,7 @@
         <link href="/css/style.css" rel="stylesheet" type="text/css" />
         <link href="/css/animate.css" rel="stylesheet" type="text/css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,300' rel='stylesheet' type='text/css'>
         
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=5">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=5">
@@ -33,116 +34,117 @@
     </head>
     
     <body>
-        <div class="headerwrap">
-            <div class="container text-center">
-                <img src="/logo.png" class="head_logo">
-                
-                <h1>Crea la web para <br><strong>tu deporte en equipo.</strong> <br><small>– Rápido, fácil y personalizable – </small></h1>
-            </div> 
-        </div>
-        
-        <div class="signup">
-            <div class="container text-center">
-                <h2>Crear ahora una cuenta gratuita</h2>
-                <form class="row" id="step1">
-                    <div class="col-sm-5 col-sm-offset-2 col-md-4 col-md-offset-3">
-                        <input type="text" class="form-control input-lg" placeholder="Escribe tu email..." id="signup_email" name="client_email">
-                    </div>
-                    <div class="col-sm-3 col-md-2">
-                        <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitEmail()">Empezar <i class="fa fa-angle-double-right"></i></button>
-                    </div>
-                </form>
-                <form id="step2" style="display:none">
-                    <input type="hidden" style="display:none" name="client_code" id="client_code">
-                    <div class="row">
-                        <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Nombre del club:</label>
-                        <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
-                            <input type="text" class="form-control input-lg" placeholder="" id="signup_name" name="client_name">
+        <div class="row"><div class="container">
+            <h1 class="titlewrap">
+                <img src="/logo.png" class="head_logo"> <span>Deporde</span>
+            </h1>
+            <div class="headerwrap">
+                <div class="container text-center">
+                    <h2>Tu propia web de <br><strong>deporte en equipo.</strong><!-- <br><small>– Rápido, fácil y personalizable – </small>--></h2>
+                </div> 
+            </div>
+            
+            <div class="signup">
+                <div class="text-center">
+                    <h2>Crea ahora tu cuenta gratuita:</h2>
+                    <form class="row" id="step1">
+                        <div class="col-sm-5 col-sm-offset-2 col-md-4 col-md-offset-3">
+                            <input type="text" class="form-control input-lg" placeholder="Escribe tu email..." id="signup_email" name="client_email">
                         </div>
-                    </div>
-                    
-                    <div class="row">
-                        <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Elige dirección web:</label>
-                        <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
-                            <div class="input-group">
-                              <input type="text" class="form-control input-lg" aria-describedby="basic-addon2" id="signup_url" name="site_name">
-                              <span class="input-group-addon" id="basic-addon2">.deporde.com</span>
+                        <div class="col-sm-3 col-md-2">
+                            <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitEmail()">Empezar <i class="fa fa-angle-double-right"></i></button>
+                        </div>
+                    </form>
+                    <form id="step2" style="display:none">
+                        <input type="hidden" style="display:none" name="client_code" id="client_code">
+                        <div class="row">
+                            <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Nombre del club:</label>
+                            <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
+                                <input type="text" class="form-control input-lg" placeholder="" id="signup_name" name="client_name">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Elige dirección web:</label>
+                            <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
+                                <div class="input-group">
+                                  <input type="text" class="form-control input-lg" aria-describedby="basic-addon2" id="signup_url" name="site_name">
+                                  <span class="input-group-addon" id="basic-addon2">.deporde.com</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Tu nombre de usuario:</label>
+                            <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
+                                <input type="text" class="form-control input-lg" placeholder="" id="signup_contactName" name="client_contactName">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                                <hr>
+                                <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitStep2()">Crear web <i class="fa fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="step3" style="display:none">
+                        <p class="lead"><i class="fa fa-spinner fa-pulse"></i> Creando la página web...</p>
+                        <div class="col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+                            <div class="progress">
+                              <div id="processBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                <span class="sr-only">0% Completado</span>
+                              </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row">
-                        <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Tu nombre de usuario:</label>
-                        <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
-                            <input type="text" class="form-control input-lg" placeholder="" id="signup_contactName" name="client_contactName">
-                        </div>
+                    <div id="step4" style="display:none">
+                        <p class="lead">¡Página creada!</p>
+                        <p>En breve recibirás un correo electrónico con un enlace para completar el registro.</p>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                            <hr>
-                            <button type="button" class="btn btn-success btn-block btn-lg" onClick="submitStep2()">Crear web <i class="fa fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </form>
-                <div id="step3" style="display:none">
-                    <p class="lead"><i class="fa fa-spinner fa-pulse"></i> Creando la página web...</p>
-                    <div class="col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-                        <div class="progress">
-                          <div id="processBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                            <span class="sr-only">0% Completado</span>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="step4" style="display:none">
-                    <p class="lead">¡Página creada!</p>
-                    <p>En breve recibirás un correo electrónico con un enlace para completar el registro.</p>
                 </div>
             </div>
-        </div>
-        
-        <div class="features">
-            <div class="container">
+            
+            <div class="features">
                 <h2 class="text-center">Todo lo que necesitas. <br>un único lugar.</h2>
                 
                 <hr style="width:60%">
                 
-                <div class="row">
+                <div class="row"><div class="col-xs-12">
                     <div class="col-lg-3 col-sm-6 feature">
-                        <h3 style="border-bottom: 8px solid #1B417F">Web</h3>
+                        <h3>Web</h3>
                         <div class="text-center">
-                            <i class="fa fa-tv" style="color: #1B417F"></i>
+                            <i class="fa fa-tv"></i>
                         </div>
                         <p class="lead">Comunicación interna y externa. Formularios de contacto, páginas de información y enlaces totalmente personalizables.</p>
                     </div>
                     
                     <div class="col-lg-3 col-sm-6 feature">
-                        <h3 style="border-bottom: 8px solid #5cb85c">Red social</h3>
+                        <h3>Red social</h3>
                         <div class="text-center">
-                            <i class="fa fa-commenting-o" style="color: #5cb85c"></i>
+                            <i class="fa fa-commenting-o"></i>
                         </div>
                         <p class="lead">Mensajes privados, gestión de permisos, rendimiento personal y ranking de todos los usuarios.</p>
                     </div>
                     
                     <div class="col-lg-3 col-sm-6 feature">
-                        <h3 style="border-bottom: 8px solid #B90C11">Calendario</h3>
+                        <h3>Calendario</h3>
                         <div class="text-center">
-                            <i class="fa fa-calendar-check-o" style="color: #B90C11"></i>
+                            <i class="fa fa-calendar-check-o"></i>
                         </div>
                         <p class="lead">Organiza todas las actividades de forma colaborativa y gestiona la asistencia de los miembros del equipo.</p>
                     </div>
                     
                     <div class="col-lg-3 col-sm-6 feature">
-                        <h3 style="border-bottom: 8px solid #EAD48B">Rutas</h3>
+                        <h3>Rutas</h3>
                         <div class="text-center">
-                            <i class="fa fa-map-signs" style="color: #EAD48B"></i>
+                            <i class="fa fa-map-signs"></i>
                         </div>
                         <p class="lead">Totalmente integrado. Selecciona tu archivo de GPS y se extraerán automáticamente todos los datos y el recorrido sobre el mapa.</p>
                     </div>
-                </div>
+                </div></div>
             </div>
-        </div>
+        </div></div>
         <script src="/js/script.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
