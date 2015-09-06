@@ -98,12 +98,9 @@ body {
     text-align: center;
 }
 @media (max-width: 767px) { /* Extra Small devices */
-    .head_logo {
-        margin: 10px auto;    
-    }
-    h1 {
-        font-size: 32px;
-        line-height: 38px;
+    .headerwrap h2 {
+        font-size: 30px;
+        line-height: 42px;
     }
     .signup h2 {
         font-size: 26px;
