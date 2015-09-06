@@ -102,7 +102,7 @@ function process3() {
     });
 }
 function process4() {
-    $('#processBar').width('70%');
+    $('#processBar').width('80%');
     
     $.ajax( "/sitecreate/3", {} )
     .done(function( data ) { 
