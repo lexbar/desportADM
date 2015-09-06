@@ -3,16 +3,16 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 .titlewrap {
-    background-color: #000;
-    text-align: center;
-    color: #FFF;
+    padding: 10px 0 15px;
+}
+.titlewrap h1 {
     margin: 0;
-    padding: 0 0 15px;
-    font-size: 60px;
+    font-size: 36px;
     font-family: "Roboto Slab", serif;
+    cursor: default;
 }
 .titlewrap .head_logo {
-    width: 44px;
+    width: 26px;
     vertical-align: middle;
 }
 .titlewrap span {
@@ -98,8 +98,11 @@ body {
     text-align: center;
 }
 @media (max-width: 767px) { /* Extra Small devices */
+    .titlewrap {
+        text-align: center;
+    }
     .headerwrap {
-        padding: 30px 0;
+        padding: 10px 0;
     }
     .headerwrap h2 {
         font-size: 30px;
