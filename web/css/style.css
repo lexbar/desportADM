@@ -144,6 +144,9 @@ body {
     .signup #step1 .btn.btn-lg {
         margin-top: 6px;
     }
+    .features {
+        padding: 40px 0;
+    }
     .features h2 {
         font-size: 30px;    
     }
