@@ -191,6 +191,7 @@ class DefaultController extends Controller
                 switch($stage_id)
                 {
                     case 0:
+                        sleep(1); //if too fast it may not work
                         if($install->createSubdomain($site->getName(), $site->getBandwidth(), $site->getQuota()))
                         {
                             // Success
@@ -204,6 +205,7 @@ class DefaultController extends Controller
                     break;
                     
                     case 1:
+                        sleep(1); //if too fast it may not work
                         if($install->createDatabase($site->getName()))
                         {
                             // Success
@@ -217,6 +219,7 @@ class DefaultController extends Controller
                     break;
                     
                     case 2:
+                        sleep(6); //if too fast it may not work
                         if($install->cloneRepository($site->getName()))
                         {
                             if($install->fillParameters($site))
@@ -239,7 +242,7 @@ class DefaultController extends Controller
                     break;
                     
                     case 3:
-                        sleep(9); //if too fast may not work
+                        sleep(10); //if too fast it may not work
                         if($install->loadDatabase($site->getName(), $client->getEmail(), $client->getContactName()))
                         {
                             // Success
