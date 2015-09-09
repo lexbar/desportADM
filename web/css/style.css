@@ -8,7 +8,7 @@ body {
 }
 .titlewrap a {
     color: #FFF;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 24px;
     padding-top: 12px;
     font-family: "Roboto Slab", serif;
@@ -131,6 +131,9 @@ body {
     .titlewrap {
         text-align: center;
     }
+    .titlewrap a {
+        font-size: 12px;
+    }
     .headerwrap h2 {
         font-size: 30px;
         line-height: 42px;
@@ -144,12 +147,10 @@ body {
     .features h2 {
         font-size: 30px;    
     }
-    .features, .features .text-right {
-        text-align: center;    
-    }
     .features .feature {
         margin-top: 30px;
-        min-height: auto;
+        max-width: 500px;
+        margin: 25px auto 0;
     }
     .slogan {
         font-size: 30px;    
