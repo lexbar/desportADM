@@ -1,15 +1,24 @@
 body {
-    background-color: #F2F2F1;
+    background-color: #FFF;
     font-family: 'Roboto', sans-serif;
 }
 .titlewrap {
     padding: 10px 0 15px;
+    background-color: #000;
+}
+.titlewrap a {
+    color: #FFF;
+    font-size: 18px;
+    line-height: 24px;
+    padding-top: 12px;
+    font-family: "Roboto Slab", serif;
 }
 .titlewrap h1 {
     margin: 0;
     font-size: 36px;
     font-family: "Roboto Slab", serif;
     cursor: default;
+    color: #FFF;
 }
 .titlewrap .head_logo {
     width: 26px;
@@ -25,11 +34,11 @@ body {
     background-position: center;
     background-color: #A4B8C0;
     padding: 0;
-    text-shadow: -2px 2px rgba(0,0,0,.8);
+    text-shadow: -2px 2px rgba(0,0,0,.4);
     color: #FFF;
 }
 .headerwrap .text-center {
-    background-color: rgba(0,70,90,.5);
+    background-color: rgba(0,70,90,.3);
     padding: 25px 0;
     width: 100%;
 }
@@ -49,6 +58,11 @@ body {
     color: #FFF;
     background-color: rgba(0,30,70,.8);
     padding: 3px 10px 5px;
+}
+
+.btn-lg {
+    padding: 8px 16px;
+    border-bottom-width: 4px;
 }
 
 .signup {
@@ -76,17 +90,12 @@ body {
 }
 .features .feature {
     margin-top: 50px;
-    min-height: 400px;
-}
-.features .feature i {
-    font-size: 150px;
-    color: #1D71B8;
 }
 .features img {
     margin:0 auto;
 }
 .features p {
-    color: #999;
+    color: #777;
     margin-top: 20px;
 }
 .features h2 {
@@ -99,9 +108,8 @@ body {
     border-width: 2px;
 }
 .features h3 {
-    font-size: 44px;
+    font-size: 30px;
     color: #333;
-    text-align: center;
 }
 @media (max-width: 767px) { /* Extra Small devices */
     .titlewrap {
@@ -126,8 +134,5 @@ body {
     .features .feature {
         margin-top: 30px;
         min-height: auto;
-    }
-    .features .feature i {
-        font-size: 100px;    
     }
 }
