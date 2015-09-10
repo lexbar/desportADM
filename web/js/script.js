@@ -14,6 +14,17 @@ function submitEmail() {
 }
 
 function loadStep2() {
+    $('#signup_url').keypress(function (e) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+    
+        e.preventDefault();
+        return false;
+    });
+    
     $('#step1').css('display','none');
     $('#step2').css('display','block').addClass('animated fadeInUp');
 }
@@ -80,7 +91,7 @@ function process2() {
     });
 }
 function process3() {
-    $('#processBar').width('30%');
+    $('#processBar').width('50%');
     
     $.ajax( "/sitecreate/2", {} )
     .done(function( data ) { 
