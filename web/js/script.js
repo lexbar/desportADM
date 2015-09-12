@@ -29,6 +29,10 @@ function loadStep2() {
     $('#step2').css('display','block').addClass('animated fadeInUp');
 }
 
+function fillSignupUrl(el) {
+    $('#signup_url').val( $(el).val().replace(/[^a-zA-Z]/g,'').toLowerCase() );
+}
+
 function submitStep2() {
     $('#step2').addClass('animated fadeOutUp');
     

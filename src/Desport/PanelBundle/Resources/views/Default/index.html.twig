@@ -70,15 +70,16 @@
                     <div class="row">
                         <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Nombre del club:</label>
                         <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
-                            <input type="text" class="form-control input-lg" placeholder="" id="signup_name" name="client_name">
+                            <input type="text" class="form-control input-lg" placeholder="" id="signup_name" name="client_name" onKeyUp="fillSignupUrl(this)">
                         </div>
                     </div>
                     
                     <div class="row">
                         <label class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">Elige una dirección web:</label>
+                        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"><p class="text-left text-muted">(Más adelante podrás asignar un dominio de primer nivel.)</p></div>
                         <div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-3">
                             <div class="input-group">
-                              <input type="text" class="form-control input-lg" aria-describedby="basic-addon2" id="signup_url" name="site_name">
+                              <input style="color: blue;" type="text" class="form-control input-lg" aria-describedby="basic-addon2" id="signup_url" name="site_name" onKeyUp="document.getElementById('signup_name').onkeyup = null;">
                               <span class="input-group-addon" id="basic-addon2">.{{ domain }}</span>
                             </div>
                         </div>
