@@ -29,21 +29,21 @@ body {
     letter-spacing: -2px;
 }
 .headerwrap {
-    background-image: url('/javalambre.jpeg');
+    /*background-image: url('/javalambre.jpeg');
     background-size: cover;
     background-position: center;
-    background-color: #A4B8C0;
+    background-color: #A4B8C0;*/
     padding: 0;
     text-shadow: -2px 2px rgba(0,0,0,.4);
     color: #FFF;
 }
 .headerwrap .text-center {
-    background-color: rgba(0,70,90,.3);
+    background-color: #1D71B8;
     padding: 25px 0;
     width: 100%;
 }
 .headerwrap h2 {
-    font-size: 50px;
+    font-size: 45px;
     font-weight: 400;
     line-height: 52px;
     margin: 0;
@@ -138,8 +138,8 @@ body {
         font-size: 12px;
     }
     .headerwrap h2 {
-        font-size: 30px;
-        line-height: 42px;
+        font-size: 25px;
+        line-height: 32px;
     }
     .signup h2 {
         font-size: 26px;
