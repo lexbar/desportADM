@@ -130,6 +130,10 @@ body {
     text-align: center;
 }
 
+.placeholder {
+    color: #aaa;
+}
+
 @media (max-width: 767px) { /* Extra Small devices */
     .titlewrap {
         text-align: center;
