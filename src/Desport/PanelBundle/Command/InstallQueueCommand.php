@@ -42,19 +42,19 @@ class InstallQueueCommand extends ContainerAwareCommand
             {
                 //Mark this stage as DONE
                 $myQueue->setDone(true);
+                $em->persist($myQueue);
                 $output->writeln('Stage ' . $myQueue->getStage() . ' of site ' . $myQueue->getSite()->getName() . ' completed');
                 
                 //Set next stage
-                
-                $queue = new InstallQueue();
-                $queue->setSite($myQueue->getSite());
-                $queue->setNextStage($myQueue);
-                
-                $output->writeln('Created new stage ' . $queue->getStage() . ' for site ' . $queue->getSite()->getName());
-                
-                
-                $em->persist($myQueue);
-                $em->persist($queue);
+                if($myQueue->getStage() < $myQueue->lastStage)
+                {
+                    $queue = new InstallQueue();
+                    $queue->setSite($myQueue->getSite());
+                    $queue->setNextStage($myQueue);
+                    
+                    $output->writeln('Created new stage ' . $queue->getStage() . ' for site ' . $queue->getSite()->getName());
+                    $em->persist($queue);
+                }
                 
                 $em->flush();
             }

@@ -73,7 +73,9 @@ function submitStep2() {
             displayError(data.error);
             $('#step2').removeClass('animated fadeOutUp');
         } else {
-            alert("Gracias. En unos minutos recibirás un email.");
+            $('#step2').css('display','none');
+            $('#step4').css('display','block').addClass('animated fadeInUp');
+            
             //process1();
         }
     });
