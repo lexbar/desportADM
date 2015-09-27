@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Desport\PanelBundle\Entity\Client;
 use Desport\PanelBundle\Entity\Site;
+use Desport\PanelBundle\Entity\InstallQueue;
 use Desport\PanelBundle\Entity\EventType\ClientCreated;
 
 class DefaultController extends Controller
@@ -147,8 +148,13 @@ class DefaultController extends Controller
                     $site->setState('requested');
                     $client->setStage('conversion');
                     
+                    $queue = new InstallQueue();
+                    $queue->setSite($site);
+                    $queue->setStage(0);
+                    
                     
                     $em->persist($site); 
+                    $em->persist($queue); 
                     $em->persist($client); 
                     
                     $em->flush();

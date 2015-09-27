@@ -121,6 +121,11 @@ class Site
      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="site")
      */
      private $transactions;
+     
+    /**
+     * @ORM\OneToMany(targetEntity="InstallQueue", mappedBy="site")
+     */
+    private $installQueues;
 
     /**
      * Get id
@@ -532,5 +537,38 @@ class Site
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Add installQueues
+     *
+     * @param \Desport\PanelBundle\Entity\InstallQueue $installQueues
+     * @return Site
+     */
+    public function addInstallQueue(\Desport\PanelBundle\Entity\InstallQueue $installQueues)
+    {
+        $this->installQueues[] = $installQueues;
+
+        return $this;
+    }
+
+    /**
+     * Remove installQueues
+     *
+     * @param \Desport\PanelBundle\Entity\InstallQueue $installQueues
+     */
+    public function removeInstallQueue(\Desport\PanelBundle\Entity\InstallQueue $installQueues)
+    {
+        $this->installQueues->removeElement($installQueues);
+    }
+
+    /**
+     * Get installQueues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInstallQueues()
+    {
+        return $this->installQueues;
     }
 }
