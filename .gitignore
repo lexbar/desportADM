@@ -4,4 +4,6 @@ app/cache/dev/*
 app/logs/*
 web/avatar/
 web/avatar/*
+subdomains/
+subdomains/*
 *~
